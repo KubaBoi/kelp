@@ -2,6 +2,7 @@ section	.text
     global _start        ;must be declared for using gcc
 	
 _start:	      
+    mov [c], word 10
     mov eax, '1'
 	
 l1:
@@ -33,7 +34,7 @@ l1:
 section .data
     msg db 0xa, "END_", 0xa
     len equ $ - msg
-    count dw 9
 
 section	.bss
     num resb 1
+    c resb 1 ; tady bacha na resw... 
