@@ -1,39 +1,42 @@
 section	.text
-    global _start        ;must be declared for using gcc
+   global _start        ;must be declared for using gcc
+
+_start:	                ;tell linker entry point
+
+   mov     esi, 4       ;pointing to the rightmost digit
+   mov     ecx, 5       ;num of digits
+   clc
+add_loop:  
+   mov 	al, [num1 + esi]
+   add 	al, [num2 + esi]
 	
-_start:	      
-    mov eax, '1'
+   mov	[sum + esi], al
+   jz cont
+   mov [sum + esi], byte 0
+   
+cont:
+   sub [sum + esi], byte '0'
+   dec	esi
+   loop	add_loop
 	
-l1:
-    mov [num], eax
-    mov eax, 4
-    mov ebx, 1
-        
-    mov ecx, num        
-    mov edx, 1        
-    int 0x80
-        
-    mov eax, [num]
-    sub eax, '0'
-    inc eax
-    add eax, '0'
-    
-    dec word [count]
-    jnz l1
-        
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, msg
-    mov edx, len
-    int 0x80
+   mov	edx,len	        ;message length
+   mov	ecx,msg	        ;message to write
+   mov	ebx,1	        ;file descriptor (stdout)
+   mov	eax,4	        ;system call number (sys_write)
+   int	0x80	        ;call kernel
+	
+   mov	edx,5	        ;message length
+   mov	ecx,sum	        ;message to write
+   mov	ebx,1	        ;file descriptor (stdout)
+   mov	eax,4	        ;system call number (sys_write)
+   int	0x80	        ;call kernel
+	
+   mov	eax,1	        ;system call number (sys_exit)
+   int	0x80	        ;call kernel
 
-    mov eax,1             ;system call number (sys_exit)
-    int 0x80              ;call kernel
-
-section .data
-    msg db 0xa, "END_", 0xa
-    len equ $ - msg
-    count dw 9
-
-section	.bss
-    num resb 1
+section	.data
+msg db 'The Sum is:',0xa	
+len equ $ - msg			
+num1 db '12345'
+num2 db '23456'
+sum db '     ' ; 35801
