@@ -1,18 +1,30 @@
+; Flags
+; OF            Overflow
+; DF            Direction
+; IF            Interrupt
+; TF            Trap
+; SF            Sign
+; ZF            Zero
+; AF            Auxiliary
+; PF            Parity
+; CF            Carry
+
+
 ; signed
-; JE/JZ         Equal - Zero
-; JNE/JNZ       not Equal - not Zero
-; JG/JNLE       Greater - not Less/Equal
-; JGE/JNL       Greater/Equal - not Less
-; JL/JNGE       Less - not Greater/Equal
-; JLE/JNG       Less/Equal - not Greater
+; JE/JZ         Equal - Zero                ZF
+; JNE/JNZ       not Equal - not Zero        ZF  
+; JG/JNLE       Greater - not Less/Equal    OF, SF, ZF
+; JGE/JNL       Greater/Equal - not Less    OF, SF
+; JL/JNGE       Less - not Greater/Equal    OF, SF
+; JLE/JNG       Less/Equal - not Greater    OF, SF, ZF
 
 ; unsigned
-; JE/JZ         Equal - Zero
-; JNE/JNZ       not Equal - not Zero
-; JA/JNBE       Above - not Below/Equal
-; JAE/JNB       Above/Equal - not Below
-; JB/JNAE       Below - not Above/Equal
-; JBE/JNA       Below/Equal - not Above
+; JE/JZ         Equal - Zero                ZF
+; JNE/JNZ       not Equal - not Zero        ZF
+; JA/JNBE       Above - not Below/Equal     CF, ZF
+; JAE/JNB       Above/Equal - not Below     CF
+; JB/JNAE       Below - not Above/Equal     CF
+; JBE/JNA       Below/Equal - not Above     AF, CF
 
 ; check value of flags
 ; JXCZ          if CX is Zero               none

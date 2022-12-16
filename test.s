@@ -1,42 +1,44 @@
 section	.text
-   global _start        ;must be declared for using gcc
+   global _start         ;must be declared for using gcc
+	
+_start:                  ;tell linker entry point
 
-_start:	                ;tell linker entry point
+   mov bx, 3             ;for calculating factorial 3
+   call  proc_fact
+   add   ax, 30h
+   mov  [fact], ax
+    
+   mov	  edx,len        ;message length
+   mov	  ecx,msg        ;message to write
+   mov	  ebx,1          ;file descriptor (stdout)
+   mov	  eax,4          ;system call number (sys_write)
+   int	  0x80           ;call kernel
 
-   mov     esi, 4       ;pointing to the rightmost digit
-   mov     ecx, 5       ;num of digits
-   clc
-add_loop:  
-   mov 	al, [num1 + esi]
-   add 	al, [num2 + esi]
+   mov   edx,1            ;message length
+   mov	  ecx,fact       ;message to write
+   mov	  ebx,1          ;file descriptor (stdout)
+   mov	  eax,4          ;system call number (sys_write)
+   int	  0x80           ;call kernel
+    
+   mov	  eax,1          ;system call number (sys_exit)
+   int	  0x80           ;call kernel
 	
-   mov	[sum + esi], al
-   jz cont
-   mov [sum + esi], byte 0
-   
-cont:
-   sub [sum + esi], byte '0'
-   dec	esi
-   loop	add_loop
+proc_fact:
+   cmp   bl, 1
+   jg    do_calculation
+   mov   ax, 1
+   ret
 	
-   mov	edx,len	        ;message length
-   mov	ecx,msg	        ;message to write
-   mov	ebx,1	        ;file descriptor (stdout)
-   mov	eax,4	        ;system call number (sys_write)
-   int	0x80	        ;call kernel
-	
-   mov	edx,5	        ;message length
-   mov	ecx,sum	        ;message to write
-   mov	ebx,1	        ;file descriptor (stdout)
-   mov	eax,4	        ;system call number (sys_write)
-   int	0x80	        ;call kernel
-	
-   mov	eax,1	        ;system call number (sys_exit)
-   int	0x80	        ;call kernel
+do_calculation:
+   dec   bl
+   call  proc_fact
+   inc   bl
+   mul   bl        ;ax = al * bl
+   ret
 
 section	.data
-msg db 'The Sum is:',0xa	
+msg db 'Factorial 3 is:',0xa	
 len equ $ - msg			
-num1 db '12345'
-num2 db '23456'
-sum db '     ' ; 35801
+
+section .bss
+fact resb 1
