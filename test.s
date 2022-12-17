@@ -1,64 +1,87 @@
-%macro print 2
-mov	eax, 4
-mov	ebx, 1
-mov	ecx, %1
-mov	edx, %2
-int	80h		 ;print a message
-%endmacro
 
-%macro read 2
-mov eax, 3
-mov ebx, 2
-mov ecx, %1 
-mov edx, %2          ;5 bytes (numeric, 1 for sign) of that information
-int 80h
-%endmacro
-
-%macro isNumber 1
-cmp [%1], byte ":"
-jge error
-cmp [%1], byte "0"
-jl error
-%endmacro
+;import macros/stack.s
+;import macros/math.s
+;import macros/io.s
 
 section	.text
    global _start         ;must be declared for using gcc
 	
 _start:	                 ;tell linker entry point
-    print msg1, len1
-    read num1, 5
-    isNumber num1
+    
+    mov bx, 9
+    jmp toStringLoop
+    loadLoop:
+        print msg1, len1
+        mov dx, 0
+        mov [char], byte "0"
+        loadChar:
+            ;addCharToDecimal dx, char
+            read char, 1
+            isNumber [char]
+            cmp [char], byte 0xa
+            jne loadChar
+        add bx, dx
 
-    print msg1, len1
-    read num2, 5
-    isNumber num2
+        print msg4, len4
+        read char, 2
+        cmp [char], byte 'y'
+        je loadLoop 
 
-    mov al, [num1]
-    sub al, "0"
-    add al, [num2]
+    toStringLoop:
+        mov ax, 10
+        mov cx, bx
+        div cx
 
-    mov [sum], al
+        sub cx, ax
 
-    print sum, 1
+        mov [char], byte "0"
+        add [char], ax
+        print char, 1
+
+        mov [char], byte "0"
+        add [char], bx
+        print char, 1
+
+        mov [char], byte "0"
+        add [char], cx
+        print char, 1
+
+        sub bx, cx
+        ;div bx
+        ;cmp bx, 0
+        jg toStringLoop
 
     jmp exit
 
-error:
+numberError:
     print msg2, len2
+    jmp exit
+
+lengthError:
+    print msg3, len3
+    jmp exit
 
 exit:
-    mov	eax, 1
+    mov	rax, 1
     int	80h
 	
 section	.data
-    msg1 db "Enter number:", 0xa
+    msg1 db "Enter number: ", 0
     len1 equ $ - msg1
 
-    msg2 db "Need to be number.", 0xa
+    msg2 db "Not a number.", 0xa, 0
     len2 equ $ - msg2
 
-    sum db " ", 0
+    msg3 db "Too long.", 0xa, 0
+    len3 equ $ - msg3
+
+    msg4 db "More? [y/n] ", 0
+    len4 equ $ - msg4
+
+    char db "0"
+
+    count equ 100
+    sumStr times count db 0
 
 section .bss
-    num1 resb 5
-    num2 resb 5
+    sum resb 5

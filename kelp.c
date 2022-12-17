@@ -3,5 +3,5 @@
 #include <cstdint>
 
 int main() {
-    char a = 'a';
+    printf("Ahoj\n");
 }
