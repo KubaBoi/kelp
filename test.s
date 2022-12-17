@@ -8,7 +8,7 @@ section	.text
 	
 _start:	                 ;tell linker entry point
     
-    mov bx, 9
+    mov bx, 157
     jmp toStringLoop
     loadLoop:
         print msg1, len1
@@ -28,28 +28,26 @@ _start:	                 ;tell linker entry point
         je loadLoop 
 
     toStringLoop:
-        mov ax, 10
-        mov cx, bx
-        div cx
-
-        sub cx, ax
-
-        mov [char], byte "0"
-        add [char], ax
-        print char, 1
+        mov ax, bx
+        cwd
+        mov cx, 10
+        idiv cx
+        imul cx
+        mov dx, ax
+        sub dx, bx
 
         mov [char], byte "0"
-        add [char], bx
+        sub [char], dx
         print char, 1
 
-        mov [char], byte "0"
-        add [char], cx
-        print char, 1
-
-        sub bx, cx
-        ;div bx
-        ;cmp bx, 0
+        sub ax, dx
+        idiv cx
+        mov bx, ax
+        cmp bx, 0
         jg toStringLoop
+        ;mov [char], byte "0"
+        ;sub [char], ax
+        ;print char, 1
 
     jmp exit
 
