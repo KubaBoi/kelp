@@ -32,31 +32,28 @@ _start:	                 ;tell linker entry point
     ;print sumStr, count
 
 ex:
-    mov rax, 12;
+    mov rax, 12
+    mov rbx, sumStr
     call toString
-    print rbx, count
+    print sumStr, count
 
     jmp exit
 
 
 toString:
-    xor edi, edi
+    mov rcx, 10 ; delitel
     toStringLoop:
         ;rax ; delenec
         xor rdx, rdx  ; zbytek
-        mov rcx, 10 ; delitel
-        cqo
         idiv rcx
 
-        mov bl, byte "0"
-        mov [char], byte "0"
-        add [bl], rdx
-        add [char], rdx
-        print char, 1
-        inc edi
+        mov [rbx], byte "0"
+        add [rbx], rdx
+        inc rbx
 
         cmp rax, 0
         jg toStringLoop
+        mov [rbx], byte 0
     ret
 
 numberError:
@@ -87,7 +84,9 @@ section	.data
     char db 0
 
     count equ 20
-    sumStr times count db 0
+    sumStr db 12
+    ;sumStr times count db 0
+    
 
 section .bss
     sum resb 5

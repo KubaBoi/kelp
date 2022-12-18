@@ -76,3 +76,67 @@ Apart from the DS, CS and SS registers, there are other extra segment registers 
 In assembly programming, a program needs to access the memory locations. All memory locations within a segment are relative to the starting address of the segment. A segment begins in an address evenly divisible by 16 or hexadecimal 10. So, the rightmost hex digit in all such memory addresses is 0, which is not generally stored in the segment registers.
 
 The segment registers stores the starting addresses of a segment. To get the exact location of data or instruction within a segment, an offset value (or displacement) is required. To reference any memory location in a segment, the processor combines the segment address in the segment register with the offset value of the location.
+
+# System calls
+
+| %eax | Name | %ebx | %ecx | %edx | %esx | %edi |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | sys_exit | int | - | - | - | - |
+| 2 | sys_fork | struct pt_regs | - | - | - | - |
+| 3 | sys_read | unsigned int | char * | size_t | - | - |
+| 4 | sys_write | unsigned int | const char * | size_t | - | - |
+| 5 | sys_open | const char * | int | int | - | - |
+| 6 | sys_close | unsigned int | - | - | - | - |
+
+# Addressing
+
+- Register addressing
+- Immediate addressing
+- Memory addressing
+
+## Register addressing
+
+Register contains the operand:
+
+```
+MOV DX, TAX_RATE   ; Register in first operand
+MOV COUNT, CX	   ; Register in second operand
+MOV EAX, EBX	   ; Both the operands are in registers
+```
+
+Faster because data are stored in registers.
+
+## Direct memory addressing
+
+Data from memory. To locate the exact location of data in memory, we need the segment start address, which is typically found in the DS register and an offset value. The offset value is also called `effective address`.
+
+The offset value specified by the variable name (pointer). The assembler calculates the offset value and maintains a symbol table, which stores the offset values of all the variables.
+
+```
+ADD	BYTE_VALUE, DL	; Adds the register in the memory location
+MOV	BX, WORD_VALUE	; Operand from the memory is added to register
+```
+
+## Direct-Offset addressing
+
+```
+MOV CL, BYTE_TABLE[2]	; Gets the 3rd element of the BYTE_TABLE
+MOV CL, BYTE_TABLE + 2	; Gets the 3rd element of the BYTE_TABLE
+MOV CX, WORD_TABLE[3]	; Gets the 4th element of the WORD_TABLE
+MOV CX, WORD_TABLE + 3	; Gets the 4th element of the WORD_TABLE
+```
+
+## Indirect Memory addressing
+
+Used for variables containing several elements like arrays. Starting address of the array is stored in register.
+
+```
+MY_TABLE TIMES 10 DW 0  ; Allocates 10 words (2 bytes) each initialized to 0
+MOV EBX, [MY_TABLE]     ; Value of MY_TABLE[0] in EBX -> EBX = 0
+MOV EBX, MY_TABLE     ; Effective Address of MY_TABLE in EBX -> EBX = address
+MOV [EBX], 110          ; MY_TABLE[0] = 110
+ADD EBX, 2              ; EBX = EBX +2 , 2 because dw is 2 bytes
+MOV [EBX], 123          ; MY_TABLE[1] = 123
+```
+
+
