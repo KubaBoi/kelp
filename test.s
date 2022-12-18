@@ -40,7 +40,7 @@ ex:
 
 
 toString:
-    xor esi, esi
+    xor edi, edi
     toStringLoop:
         ;rax ; delenec
         xor rdx, rdx  ; zbytek
@@ -48,12 +48,12 @@ toString:
         cqo
         idiv rcx
 
-        movzx [rbx], "0"
+        mov bl, byte "0"
         mov [char], byte "0"
-        add [rbx], rdx
+        add [bl], rdx
         add [char], rdx
         print char, 1
-        inc esi
+        inc edi
 
         cmp rax, 0
         jg toStringLoop

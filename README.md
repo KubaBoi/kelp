@@ -57,4 +57,22 @@ Many instructions involve comparisons and mathematical calculations and change t
 | ZF | Zero flag | It indicates the result of an arithmetic or comparison operation. A nonzero result clears the zero flag to 0, and a zero result sets it to 1.
 | AF | Auxiliary carry flag | It contains the carry from bit 3 to bit 4 following an arithmetic operation; used for specialized arithmetic. The AF is set when a 1-byte arithmetic operation causes a carry from bit 3 into bit 4. 
 | PF | Parity flag | It indicates the total number of 1-bits in the result obtained from an arithmetic operation. An even number of 1-bits clears the parity flag to 0 and an odd number of 1-bits sets the parity flag to 1.
-| CF | Carry flag | t contains the carry of 0 or 1 from a high-order bit (leftmost) after an arithmetic operation. It also stores the contents of last bit of a shift or rotate operation.
+| CF | Carry flag | It contains the carry of 0 or 1 from a high-order bit (leftmost) after an arithmetic operation. It also stores the contents of last bit of a shift or rotate operation.
+
+## Segment registers
+
+Segments are specific areas defined in a program for containing data, code and stack.
+
+Segments are specific areas defined in a program for containing data, code and stack. There are three main segments −
+
+| Name | Description |
+| --- | --- |
+| Code Segment | It contains all the instructions to be executed. A 16-bit Code Segment register or CS register stores the starting address of the code segment.
+| Data Segment | It contains data, constants and work areas. A 16-bit Data Segment register or DS register stores the starting address of the data segment.
+| Stack Segment | It contains data and return addresses of procedures or subroutines. It is implemented as a 'stack' data structure. The Stack Segment register or SS register stores the starting address of the stack.
+
+Apart from the DS, CS and SS registers, there are other extra segment registers - ES (extra segment), FS and GS, which provide additional segments for storing data.
+
+In assembly programming, a program needs to access the memory locations. All memory locations within a segment are relative to the starting address of the segment. A segment begins in an address evenly divisible by 16 or hexadecimal 10. So, the rightmost hex digit in all such memory addresses is 0, which is not generally stored in the segment registers.
+
+The segment registers stores the starting addresses of a segment. To get the exact location of data or instruction within a segment, an offset value (or displacement) is required. To reference any memory location in a segment, the processor combines the segment address in the segment register with the offset value of the location.
