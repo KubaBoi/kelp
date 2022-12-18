@@ -1,3 +1,5 @@
+;import stack.s
+
 ; rdx, char
 %macro addCharToDecimal 2
 sub [%2], byte "0"              
