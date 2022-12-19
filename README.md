@@ -62,10 +62,11 @@ Many instructions involve comparisons and mathematical calculations and change t
 
 | Code | Name | Description |
 | --- | --- | --- |
-| OF | Overflow flag | It indicates the overflow of a high-order bit (leftmost bit) of data after a signed arithmetic operation.
 | DF | Direction flag | It determines left or right direction for moving or comparing string data. When the DF value is 0, the string operation takes left-to-right direction and when the value is set to 1, the string operation takes right-to-left direction.
 | IF | Interrupt flag | It determines whether the external interrupts like keyboard entry, etc., are to be ignored or processed. It disables the external interrupt when the value is 0 and enables interrupts when set to 1.
 | TF | Trap flag | It allows setting the operation of the processor in single-step mode. The DEBUG program we used sets the trap flag, so we could step through the execution one instruction at a time.
+| STATUS FLAGS | | |
+| OF | Overflow flag | It indicates the overflow of a high-order bit (leftmost bit) of data after a signed arithmetic operation.
 | SF | Sign flag | It shows the sign of the result of an arithmetic operation. This flag is set according to the sign of a data item following the arithmetic operation. The sign is indicated by the high-order of leftmost bit. A positive result clears the value of SF to 0 and negative result sets it to 1. 
 | ZF | Zero flag | It indicates the result of an arithmetic or comparison operation. A nonzero result clears the zero flag to 0, and a zero result sets it to 1.
 | AF | Auxiliary carry flag | It contains the carry from bit 3 to bit 4 following an arithmetic operation; used for specialized arithmetic. The AF is set when a 1-byte arithmetic operation causes a carry from bit 3 into bit 4. 
