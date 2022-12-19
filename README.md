@@ -16,6 +16,7 @@ https://www.tutorialspoint.com/assembly_programming/index.htm
 - [Allocation](#allocation)
 - [Constants](#constants)
 - [Arithmetic instructions](#arithmetic-instruction)
+- [Logical instructions](#logical-instructions)
 
 # Registers
 
@@ -246,3 +247,24 @@ The dividend is assumed to be 32 bits long and in the DX:AX registers. The high-
 
 The dividend is assumed to be 64 bits long and in the EDX:EAX registers. The high-order 32 bits are in EDX and the low-order 32 bits are in EAX. After division, the 32-bit quotient goes to the EAX register and the 32-bit remainder goes to the EDX register.
 
+# Logical instructions
+
+| Sr.No. | Instruction | Format |
+| --- | --- | --- |
+| 1 | AND | AND operand1, operand2 |
+| 2 | OR | OR operand1, operand2 |
+| 3 | XOR | XOR operand1, operand2 |
+| 4 | TEST | TEST operand1, operand2 |
+| 5 | NOT | NOT operand1 |
+
+First operand could be `register` or `memory`
+
+Second operand could be `register`, `memory` or `immediate (constant) value`. However, memory-to-memory operations are not possible.
+
+Sets OF, ZF, SF, PF and CF.
+
+| - | AND | OR | XOR | TEST | NOT |
+| --- | --- | --- | --- | --- | --- |
+| Op1 | 0101 | 0101 | 0101 | 0101 | 0101 | 
+| Op2 | 0011 | 0011 | 0011 | 0011 | - |
+| Product | 0001 | 0111 | 0110 | Same as AND but does not change Op1 | 1010 |
