@@ -21,6 +21,7 @@ https://www.tutorialspoint.com/assembly_programming/index.htm
 - [Conditions](#conditions)
 - [Loop](#loop)
 - [Numbers](#numbers)
+- [Strings](#strings)
 
 # Registers
 
