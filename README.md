@@ -4,6 +4,10 @@
 
 /usr/include/asm-generic/unistd.h
 
+# Source
+
+https://www.tutorialspoint.com/assembly_programming/index.htm
+
 # Contents
 
 - [Registers](#registers)
@@ -188,20 +192,20 @@ MOV [EBX], 123          ; MY_TABLE[1] = 123
 
 # Arithmetic instruction
 
-| Instruction | Syntax | Description |
-| --- | --- | --- | 
-| INC | INC destination | Increase operand by one |
-| DEC | DEC destination | Decrease operand by one |
-| ADD | ADD destination source | Add source operand to destination operand |
-| SUB | SUB destination source | Substruct source operanf from destination operand |
-| MUL | MUL multiplier | Multiplicant will be in `RAX` and result in `RAX` !! `RDX` will be set to zero |
-| IMUL | IMUL multiplier | Used for signed |
-| DIV | DIV divisor | Divide `RAX` by divisor -> result (quotient) RAX, (reminder) `RDX` !! `RDX` need to be 0|
-| IDIV | IDIV divisor | Used for signed |
+| Instruction | Syntax | Description | Flags |
+| --- | --- | --- | --- |
+| INC | INC destination | Increase operand by one | idk (probably ZF) |
+| DEC | DEC destination | Decrease operand by one | idk (probably ZF) |
+| ADD | ADD destination source | Add source operand to destination operand | OF, CF |
+| SUB | SUB destination source | Substruct source operanf from destination operand | OF, CF |
+| MUL | MUL multiplier | Multiplicant will be in `RAX` and result in `RAX` !! `RDX` will be set to zero | OF, CF |
+| IMUL | IMUL multiplier | Used for signed | OF, CF |
+| DIV | DIV divisor | Divide `RAX` by divisor -> result (quotient) RAX, (reminder) `RDX` !! `RDX` need to be 0 | OF, SF, ZF, AF, PF, CF |
+| IDIV | IDIV divisor | Used for signed | OF, SF, ZF, AF, PF, CF |
 
 ## MUL/IMUL
 
-| Multiplicand | Multiplier | Product |
+| Multiplicant | Multiplier | Product |
 | --- | --- | --- |
 | AL | 8 bit | AH AL (AX) |
 | AX | 16 bit | DX AX |
@@ -209,17 +213,17 @@ MOV [EBX], 123          ; MY_TABLE[1] = 123
 
 ### When two bytes are multiplied
 
-The multiplicand is in the `AL` register, and the multiplier is a byte in the memory or in another register. The product is in AX. High-order 8 bits of the product is stored in AH and the low-order 8 bits are stored in `AL`.
+The multiplicant is in the `AL` register, and the multiplier is a byte in the memory or in another register. The product is in AX. High-order 8 bits of the product is stored in AH and the low-order 8 bits are stored in `AL`.
 
 ### When two one-word values are multiplied
 
-The multiplicand should be in the `AX` register, and the multiplier is a word in memory or another register. For example, for an instruction like `MUL DX`, you must store the multiplier in DX and the multiplicand in `AX`.
+The multiplicand should be in the `AX` register, and the multiplier is a word in memory or another register. For example, for an instruction like `MUL DX`, you must store the multiplier in DX and the multiplicant in `AX`.
 
 The resultant product is a doubleword, which will need two registers. The high-order (leftmost) portion gets stored in DX and the lower-order (rightmost) portion gets stored in `AX`.
 
 ### When two doubleword values are multiplied
 
-When two doubleword values are multiplied, the multiplicand should be in `EAX` and the multiplier is a doubleword value stored in memory or in another register. The product generated is stored in the `EDX:EAX` registers, i.e., the high order 32 bits gets stored in the `EDX` register and the low order 32-bits are stored in the `EAX` register.
+When two doubleword values are multiplied, the multiplicant should be in `EAX` and the multiplier is a doubleword value stored in memory or in another register. The product generated is stored in the `EDX:EAX` registers, i.e., the high order 32 bits gets stored in the `EDX` register and the low order 32-bits are stored in the `EAX` register.
 
 ## DIV/IDIV
 
