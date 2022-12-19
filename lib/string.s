@@ -6,9 +6,14 @@
 ; RAX - integer
 ; RBX - pointer to char*
 ;
-; affects RCX and RDX
+; affects RAX, RCX, RDX
 toString:
     mov rcx, 10 ; delitel
+    push rax
+    call charSize
+    pop rax
+    add rbx, rsi
+    mov [rbx], byte 0
     toStringLoop:
         ;rax ; delenec
         xor rdx, rdx  ; zbytek
@@ -16,9 +21,25 @@ toString:
 
         mov [rbx], byte "0"
         add [rbx], rdx
-        inc rbx
+        dec rbx
 
         cmp rax, 0
         jg toStringLoop
-        mov [rbx], byte 0
+    ret
+
+; method counts char size of decimal number
+;
+; RAX - decimal number
+; RSI - output, count
+;
+; affects RAX, RCX, RDX
+charSize:
+    xor rsi, rsi
+    mov rcx, 10
+    charSizeLoop:
+        xor rdx, rdx
+        idiv rcx
+        inc rsi
+        cmp rax, 0
+        jg charSizeLoop
     ret

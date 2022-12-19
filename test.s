@@ -1,6 +1,4 @@
 
-;import lib/macros/stack.s
-;import lib/macros/math.s
 ;import lib/macros/io.s
 
 section	.text
@@ -13,13 +11,17 @@ _start:	                 ;tell linker entry point
     
     mov rbx, 0;12345678912345678912
     loadLoop:
+        jmp loadLoopFirst
+        loadLoopNext:
+            read char, 1
+        loadLoopFirst:
+
         print msg1, len1
         mov rax, 0
         mov [char], byte "0"
         loadChar:
             mov rcx, [char]
-            mov rax, 5
-            call addChar
+            call addCharToDecimal
             read char, 1
             isNumber [char]
             cmp [char], byte 0xa
@@ -28,9 +30,9 @@ _start:	                 ;tell linker entry point
         add rbx, rax
 
         print msg4, len4
-        read char, 2
+        read char, 1
         cmp [char], byte "y"
-        je loadLoop 
+        je loadLoopNext
 
     mov rax, rbx
     mov rbx, sumStr
@@ -67,8 +69,7 @@ section	.data
     char db 0
 
     count equ 20
-    sumStr db 12
-    ;sumStr times count db 0
+    sumStr times count db 0
     
 
 section .bss
