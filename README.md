@@ -263,8 +263,8 @@ Second operand could be `register`, `memory` or `immediate (constant) value`. Ho
 
 Sets OF, ZF, SF, PF and CF.
 
-| - | AND | OR | XOR | TEST | NOT |
+| - | AND | OR | XOR | NOT | TEST |
 | --- | --- | --- | --- | --- | --- |
 | Op1 | 0101 | 0101 | 0101 | 0101 | 0101 | 
-| Op2 | 0011 | 0011 | 0011 | 0011 | - |
-| Product | 0001 | 0111 | 0110 | Same as AND but does not change Op1 | 1010 |
+| Op2 | 0011 | 0011 | 0011 | - | 0011 |
+| Product | 0001 | 0111 | 0110 | 1010 | Same as AND but does not change Op1 | 
