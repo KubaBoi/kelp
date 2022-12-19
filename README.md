@@ -401,5 +401,5 @@ For 16-bit addresses, the SI and DI registers are used, and for 32-bit addresses
 The `REP` prefix, when set before a string instruction, causes repetition of the instraction based on a counter placed at `CX` register. `REP` executes the instruction, decrease `CX` by 1, and checks whether `CX` is zero.
 
 - `REP`: It is the unconditional repeat. It repeats the operation until `CX` is zero.
-- `REPE` or `REPZ`: It is conditional repeat. It repeats the operation while the zero flag indicates equal/zero. It stops when the ZF indicates not equal/zero or when `CX` is zero.
-- `REPNE` or `REPNZ`: It is also conditional repeat. It repeats the operation while the zero flag indicates not equal/zero. It stops when the ZF indicates equal/zero or when `CX` is decremented to zero.
+- `REPE` or `REPZ`: It is conditional repeat. It repeats the operation while the zero flag indicates equal/zero. It stops when the `ZF` indicates not equal/zero or when `CX` is zero.
+- `REPNE` or `REPNZ`: It is also conditional repeat. It repeats the operation while the zero flag indicates not equal/zero. It stops when the `ZF` indicates equal/zero or when `CX` is decremented to zero.
