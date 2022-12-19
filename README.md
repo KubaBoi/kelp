@@ -4,14 +4,23 @@
 
 /usr/include/asm-generic/unistd.h
 
+# Contents
+
+- [Registers](#registers)
+- [System calls](#system-calls)
+- [Addressing](#addressing) 
+- [Allocation](#allocation)
+- [Constants](#constants)
+- [Arithmetic instructions](#arithmetic-instruction)
+
 # Registers
 
 - General registers
-    - Data registers
-    - Pointer registers
-    - Index registers
-- Control registers
-- Segment registers
+    - [Data registers](#data-registers)
+    - [Pointer registers](#pointer-registers)
+    - [Index registers](#index-registers)
+- [Control registers](#control-register)
+- [Segment registers](#segment-registers)
 
 ## Data registers
 
