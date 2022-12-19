@@ -206,7 +206,7 @@ MOV [EBX], 123          ; MY_TABLE[1] = 123
 The multiplicand is in the `AL` register, and the multiplier is a byte in the memory or in another register. The product is in AX. High-order 8 bits of the product is stored in AH and the low-order 8 bits are stored in `AL`.
 
 ```
-AL * 8 Bit Source = AH AL (AX)
+AL * 8 bit source = AH AL (AX)
 ```
 
 ### When two one-word values are multiplied
@@ -216,9 +216,40 @@ The multiplicand should be in the `AX` register, and the multiplier is a word in
 The resultant product is a doubleword, which will need two registers. The high-order (leftmost) portion gets stored in DX and the lower-order (rightmost) portion gets stored in `AX`.
 
 ```
-AX * 16 Bit Source = DX DA
+AX * 16 bit source = DX DA
 ```
 
 ### When two doubleword values are multiplied
 
 When two doubleword values are multiplied, the multiplicand should be in `EAX` and the multiplier is a doubleword value stored in memory or in another register. The product generated is stored in the `EDX:EAX` registers, i.e., the high order 32 bits gets stored in the `EDX` register and the low order 32-bits are stored in the `EAX` register.
+
+```
+EAX * 32 bit source = EDX EAX
+```
+
+## DIV/IDIV
+
+### When the divisor is 1 byte
+
+The dividend is assumed to be in the AX register (16 bits). After division, the quotient goes to the AL register and the remainder goes to the AH register.
+
+```
+AX (16 bit divident) / 8 bit divisor = AL (quotient) AH (remainder)
+```
+
+### When the divisor is 1 word
+
+The dividend is assumed to be 32 bits long and in the DX:AX registers. The high-order 16 bits are in DX and the low-order 16 bits are in AX. After division, the 16-bit quotient goes to the AX register and the 16-bit remainder goes to the DX register.
+
+```
+DX AX (32 bit divident) / 16 bit divisor = AX (quotient) DX (remainder)
+```
+
+### When the divisor is doubleword
+
+The dividend is assumed to be 64 bits long and in the EDX:EAX registers. The high-order 32 bits are in EDX and the low-order 32 bits are in EAX. After division, the 32-bit quotient goes to the EAX register and the 32-bit remainder goes to the EDX register.
+
+```
+EDX EAX (64 bit divident) / 32 bit divisor = EAX (quotient) EDX (remainder)
+```
+
