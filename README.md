@@ -282,21 +282,28 @@ Sets OF, ZF, SF, PF and CF.
 
 | Instruction | Description | Flags tested |
 | --- | --- | --- |
-| SIGNED | | |
 | JE/JZ | Equal or Zero | ZF |
 | JNE/JNZ | not Equal or not Zero | ZF |
 | JG/JNLE | Greater or not Less/Equal | OF, SF, ZF |
 | JGE/JNL | Greater/Equal or not Less | OF, SF |
 | JL/JNGE | Less or not Greater/Equal | OF, SF |
 | JLE/JNG | Less/Equal or not Greater | OF, SF, ZF |
-| UNSIGNED| | |
+
+### Unsigned
+
+| Instruction | Description | Flags tested |
+| --- | --- | --- |
 | JE/JZ | Equal - Zero | ZF |
 | JNE/JNZ | not Equal - not Zero | ZF |
 | JA/JNBE | Above - not Below/Equal | CF, ZF |
 | JAE/JNB | Above/Equal - not Below | CF |
 | JB/JNAE | Below - not Above/Equal | CF |
 | JBE/JNA | Below/Equal - not Above | AF, CF |
-| CHECK VALUE OF FLAGS | | |
+
+### Check value of flags
+
+| Instruction | Description | Flags tested |
+| --- | --- | --- |
 | JXCZ | if CX is Zero | none |
 | JC | if Carry | CF |
 | JNC | if not Carry | CF |
