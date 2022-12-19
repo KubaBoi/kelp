@@ -268,3 +268,41 @@ Sets OF, ZF, SF, PF and CF.
 | Op1 | 0101 | 0101 | 0101 | 0101 | 0101 | 
 | Op2 | 0011 | 0011 | 0011 | - | 0011 |
 | Product | 0001 | 0111 | 0110 | 1010 | Same as AND but does not change Op1 | 
+
+# Conditions
+
+- Unconditional jump `JMP`
+- Conditional jump `J<condition>`
+
+`CMP` compares two operands. Substract second from first and decides whether operands are equal or not.
+
+## Conditional jump
+
+### Signed
+
+| Instruction | Description | Flags tested |
+| --- | --- | --- |
+| SIGNED | | |
+| JE/JZ | Equal or Zero | ZF |
+| JNE/JNZ | not Equal or not Zero | ZF |
+| JG/JNLE | Greater or not Less/Equal | OF, SF, ZF |
+| JGE/JNL | Greater/Equal or not Less | OF, SF |
+| JL/JNGE | Less or not Greater/Equal | OF, SF |
+| JLE/JNG | Less/Equal or not Greater | OF, SF, ZF |
+| UNSIGNED| | |
+| JE/JZ | Equal - Zero | ZF |
+| JNE/JNZ | not Equal - not Zero | ZF |
+| JA/JNBE | Above - not Below/Equal | CF, ZF |
+| JAE/JNB | Above/Equal - not Below | CF |
+| JB/JNAE | Below - not Above/Equal | CF |
+| JBE/JNA | Below/Equal - not Above | AF, CF |
+| CHECK VALUE OF FLAGS | | |
+| JXCZ | if CX is Zero | none |
+| JC | if Carry | CF |
+| JNC | if not Carry | CF |
+| JO | if Overflow | OF |
+| JNO | if not Overflow | OF |
+| JP/JPE | if Parity or Parity Even PF |
+| JNP/JPO | if no Parity or Parity Odd | PF |
+| JS | Sign (negative value) | SF |
+| JNS | No Sign (positive value) | SF |
