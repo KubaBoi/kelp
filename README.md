@@ -390,11 +390,11 @@ Each instuction has a byte, word and doubleword version and can be repeated by u
 | CMPS | DS:SI, ES: DI | CMPSB | CMPSW | CMPSD |
 | SCAS | ES:DI, AX | SCASB | SCASW | SCASD |
 
-These instructions use the ES:DI and DS:SI pair of registers, where DI and SI registers contain valid offset addresses that refers to bytes stored in memory. SI is normally associated with DS (data segment) and DI is always associated with ES (extra segment).
+These instructions use the `ES:DI` and `DS:SI` pair of registers, where `DI` and `SI` registers contain valid offset addresses that refers to bytes stored in memory. `SI` is normally associated with `DS` (data segment) and `DI` is always associated with `ES` (extra segment).
 
-The DS:SI (or ESI) and ES:DI (or EDI) registers point to the source and destination operands, respectively. The source operand is assumed to be at DS:SI (or ESI) and the destination operand at ES:DI (or EDI) in memory.
+The `DS:SI` (or `ESI`) and `ES:DI` (or `EDI`) registers point to the source and destination operands, respectively. The source operand is assumed to be at `DS:SI` (or `ESI`) and the destination operand at `ES:DI` (or `EDI`) in memory.
 
-For 16-bit addresses, the SI and DI registers are used, and for 32-bit addresses, the ESI and EDI registers are used.
+For 16-bit addresses, the `SI` and `DI` registers are used, and for 32-bit addresses, the `ESI` and `EDI` registers are used.
 
 ### Repetition Prefixes
 
