@@ -17,6 +17,9 @@ https://www.tutorialspoint.com/assembly_programming/index.htm
 - [Constants](#constants)
 - [Arithmetic instructions](#arithmetic-instruction)
 - [Logical instructions](#logical-instructions)
+- [Conditions](#conditions)
+- [Loop](#loop)
+- [Numbers](#numbers)
 
 # Registers
 
@@ -313,3 +316,72 @@ Sets OF, ZF, SF, PF and CF.
 | JNP/JPO | if no Parity or Parity Odd | PF |
 | JS | Sign (negative value) | SF |
 | JNS | No Sign (positive value) | SF |
+
+# Loop
+
+`LOOP` instuction jumps until `ECX` is not 0. And decrease `ECX` by one.
+
+```
+mov ECX, 10
+l1:
+loop l1
+```
+
+# Numbers 
+
+## ASCII
+
+I do not know what is this good for...
+
+- AAA - ASCII Adjust After Addition
+- AAS - ASCII Adjust After Subtraction
+- AAM - ASCII Adjust After Multiplication
+- AAD - ASCII Adjust After Division
+
+```
+sub     ah, ah
+mov     al, '9'
+sub     al, '3'
+aas
+or      al, 30h
+mov     [res], ax
+```
+
+## BCD
+
+IDK
+
+# Strings
+
+`$` symbol is location counter. It represents the current value of location counter.
+
+```
+msg db "Ahoj"
+len equ $ - msg ; gives length of msg
+```
+
+## Instructions
+
+Those instructions use `ESI` and `EDI` resp. `SI` and `DI` registers to point to the source and destination operands.
+
+| Instruction | Description |
+| --- | --- |
+| MOVS | Moves 1 byte/word/doubleword of data from memory location to another. |
+| LODS | Loads from memory. If operand is 1 byte, it is loaded into `AL`, 1 word is loaded into `AX` and 1 doubleword is loaded into `EAX`. |
+| STOS | Stores data from register (`AL`, `AX`, `EAX`) to memory |
+| CMPS | Compares two data items in memory. |
+| SCAS | Compares the contents of register (`AL`, `AX`, `EAX`) with the contents of an item memory. | 
+
+Each instuction has a byte, word and doubleword version and can be repeated by using a [repetition prefix](#repetition-prefixes).
+
+| Basic Instruction | Operands at | Byte | Word | Doubleword |
+| --- | --- | --- | --- | --- |
+| MOVS | ES:DI, DS:SI | MOVSB | MOVSW | MOVSD |
+| LODS | AX, DS:SI | LODSB | LODSW | LODSD |
+| STOS | ES:DI, AX | STOSB | STOSW | STOSD |
+| CMPS | DS:SI, ES: DI | CMPSB | CMPSW | CMPSD |
+| SCAS | ES:DI, AX | SCASB | SCASW | SCASD |
+
+### Repetition Prefixes
+
+The `REP` prefix, when set before a string instruction, causes repetition of the instraction based on a counter placed at `CX` register.

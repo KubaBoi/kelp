@@ -1,38 +1,41 @@
 section	.text
-   global _start         ;must be declared for using gcc
-	
-_start:	                 ;tell linker entry point
+   global _start        ;must be declared for using gcc
 
-   mov	eax, 45		 ;sys_brk
-   xor	ebx, ebx
-   int	80h
+_start:	                ;tell linker entry point
 
-   add	eax, 16384	 ;number of bytes to be reserved
-   mov	ebx, eax
-   mov	eax, 45		 ;sys_brk
-   int	80h
+   mov     rsi, 4       ;pointing to the rightmost digit
+   mov     rcx, 5       ;num of digits
+   clc
+add_loop:  
+   mov 	al, [num1 + rsi]
+   adc 	al, [num2 + rsi]
+   aaa
+   push
+   or 	al, 30h
+   pop
 	
-   cmp	eax, 0
-   jl	exit	;exit, if error 
-   mov	edi, eax	 ;EDI = highest available address
-   sub	edi, 4		 ;pointing to the last DWORD  
-   mov	ecx, 4096	 ;number of DWORDs allocated
-   xor	eax, eax	 ;clear eax
-   std			 ;backward
-   rep	stosd            ;repete for entire allocated area
-   cld			 ;put DF flag to normal state
+   mov	[sum + rsi], al
+   dec	rsi
+   loop	add_loop
 	
-   mov	eax, 4
-   mov	ebx, 1
-   mov	ecx, msg
-   mov	edx, len
-   int	80h		 ;print a message
+   mov	rdx,len	        ;message length
+   mov	rcx,msg	        ;message to write
+   mov	rbx,1	        ;file descriptor (stdout)
+   mov	rax,4	        ;system call number (sys_write)
+   int	0x80	        ;call kernel
+	
+   mov	rdx,5	        ;message length
+   mov	rcx,sum	        ;message to write
+   mov	rbx,1	        ;file descriptor (stdout)
+   mov	rax,4	        ;system call number (sys_write)
+   int	0x80	        ;call kernel
+	
+   mov	rax,1	        ;system call number (sys_exit)
+   int	0x80	        ;call kernel
 
-exit:
-   mov	eax, 1
-   xor	ebx, ebx
-   int	80h
-	
 section	.data
-msg    	db	"Allocated 16 kb of memory!", 10
-len     equ	$ - msg
+msg db 'The Sum is:',0xa	
+len equ $ - msg			
+num1 db '12345'
+num2 db '23456'
+sum db '     '
