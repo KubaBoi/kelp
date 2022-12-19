@@ -1,76 +1,38 @@
-
-;import lib/macros/io.s
-
 section	.text
    global _start         ;must be declared for using gcc
 	
-;import lib/string.s
-;import lib/math.s
-
 _start:	                 ;tell linker entry point
-    
-    mov rbx, 0;12345678912345678912
-    loadLoop:
-        jmp loadLoopFirst
-        loadLoopNext:
-            read char, 1
-        loadLoopFirst:
 
-        print msg1, len1
-        mov rax, 0
-        mov [char], byte "0"
-        loadChar:
-            mov rcx, [char]
-            call addCharToDecimal
-            read char, 1
-            isNumber [char]
-            cmp [char], byte 0xa
-            jne loadChar
+   mov	eax, 45		 ;sys_brk
+   xor	ebx, ebx
+   int	80h
 
-        add rbx, rax
-
-        print msg4, len4
-        read char, 1
-        cmp [char], byte "y"
-        je loadLoopNext
-
-    mov rax, rbx
-    mov rbx, sumStr
-    call toString
-    print sumStr, count
-
-    jmp exit
-
-numberError:
-    print msg2, len2
-    jmp exit
-
-lengthError:
-    print msg3, len3
-    jmp exit
+   add	eax, 16384	 ;number of bytes to be reserved
+   mov	ebx, eax
+   mov	eax, 45		 ;sys_brk
+   int	80h
+	
+   cmp	eax, 0
+   jl	exit	;exit, if error 
+   mov	edi, eax	 ;EDI = highest available address
+   sub	edi, 4		 ;pointing to the last DWORD  
+   mov	ecx, 4096	 ;number of DWORDs allocated
+   xor	eax, eax	 ;clear eax
+   std			 ;backward
+   rep	stosd            ;repete for entire allocated area
+   cld			 ;put DF flag to normal state
+	
+   mov	eax, 4
+   mov	ebx, 1
+   mov	ecx, msg
+   mov	edx, len
+   int	80h		 ;print a message
 
 exit:
-    mov	rax, 1
-    int	80h
+   mov	eax, 1
+   xor	ebx, ebx
+   int	80h
 	
 section	.data
-    msg1 db "Enter number: ", 0
-    len1 equ $ - msg1
-
-    msg2 db "Not a number.", 0xa, 0
-    len2 equ $ - msg2
-
-    msg3 db "Too long.", 0xa, 0
-    len3 equ $ - msg3
-
-    msg4 db "More? [y/n] ", 0
-    len4 equ $ - msg4
-
-    char db 0
-
-    count equ 20
-    sumStr times count db 0
-    
-
-section .bss
-    sum resb 5
+msg    	db	"Allocated 16 kb of memory!", 10
+len     equ	$ - msg

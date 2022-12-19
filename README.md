@@ -17,24 +17,24 @@
 
 | Code | Name | Description |
 | --- | --- | --- |
-| EAX | Accumulator | It is used in input/output and most arithmetic instructions. For example, in multiplication operation, one operand is stored in EAX or AX or AL register according to the size of the operand. |
+| EAX | Accumulator | It is used in input/output and most arithmetic instructions. For example, in multiplication operation, one operand is stored in `EAX` or `AX` or `AL` register according to the size of the operand. |
 | EBX | Base | It could be used in indexed addressing. |
 | ECX | Counter | Store the loop count in iterative operations. |
-| EDX | Data | It is also used in input/output operations. It is also used with AX register along with DX for multiply and divide operations involving large values. |
+| EDX | Data | It is also used in input/output operations. It is also used with `AX` register along with `DX` for multiply and divide operations involving large values. |
 
 ## Pointer registers
 
-The pointer registers are 32-bit EIP, ESP, and EBP registers and corresponding 16-bit right portions IP, SP, and BP.
+The pointer registers are 32-bit `EIP`, `ESP`, and `EBP` registers and corresponding 16-bit right portions `IP`, `SP`, and `BP`.
 
 | Code | Name | Description |
 | --- | --- | --- |
-| EIP | Instruction pointer | The 16-bit IP register stores the offset address of the next instruction to be executed. IP in association with the CS register (as CS:IP) gives the complete address of the current instruction in the code segment.
-| ESP | Stack pointer | The 16-bit SP register provides the offset value within the program stack. SP in association with the SS register (SS:SP) refers to be current position of data or address within the program stack.
-| EBP | Base pointer | The 16-bit BP register mainly helps in referencing the parameter variables passed to a subroutine. The address in SS register is combined with the offset in BP to get the location of the parameter. BP can also be combined with DI and SI as base register for special addressing.
+| EIP | Instruction pointer | The 16-bit `IP` register stores the offset address of the next instruction to be executed. `IP` in association with the `CS` register (as `CS:IP`) gives the complete address of the current instruction in the code segment.
+| ESP | Stack pointer | The 16-bit `SP` register provides the offset value within the program stack. `SP` in association with the `SS` register (`SS:SP`) refers to be current position of data or address within the program stack.
+| EBP | Base pointer | The 16-bit `BP` register mainly helps in referencing the parameter variables passed to a subroutine. The address in `SS` register is combined with the offset in `BP` to get the location of the parameter. `BP` can also be combined with DI and SI as base register for special addressing.
 
 ## Index registers
 
-The 32-bit index registers, ESI and EDI, and their 16-bit rightmost portions. SI and DI, are used for indexed addressing and sometimes used in addition and subtraction. 
+The 32-bit index registers, `ESI` and `EDI`, and their 16-bit rightmost portions. `SI` and `DI`, are used for indexed addressing and sometimes used in addition and subtraction. 
 
 | Code | Name | Description |
 | --- | --- | --- |
@@ -67,17 +67,19 @@ Segments are specific areas defined in a program for containing data, code and s
 
 | Name | Description |
 | --- | --- |
-| Code Segment | It contains all the instructions to be executed. A 16-bit Code Segment register or CS register stores the starting address of the code segment.
-| Data Segment | It contains data, constants and work areas. A 16-bit Data Segment register or DS register stores the starting address of the data segment.
+| Code Segment | It contains all the instructions to be executed. A 16-bit Code Segment register or `CS` register stores the starting address of the code segment.
+| Data Segment | It contains data, constants and work areas. A 16-bit Data Segment register or `DS` register stores the starting address of the data segment.
 | Stack Segment | It contains data and return addresses of procedures or subroutines. It is implemented as a 'stack' data structure. The Stack Segment register or SS register stores the starting address of the stack.
 
-Apart from the DS, CS and SS registers, there are other extra segment registers - ES (extra segment), FS and GS, which provide additional segments for storing data.
+Apart from the `DS`, `CS` and `SS` registers, there are other extra segment registers - `ES` (extra segment), `FS` and `GS`, which provide additional segments for storing data.
 
 In assembly programming, a program needs to access the memory locations. All memory locations within a segment are relative to the starting address of the segment. A segment begins in an address evenly divisible by 16 or hexadecimal 10. So, the rightmost hex digit in all such memory addresses is 0, which is not generally stored in the segment registers.
 
 The segment registers stores the starting addresses of a segment. To get the exact location of data or instruction within a segment, an offset value (or displacement) is required. To reference any memory location in a segment, the processor combines the segment address in the segment register with the offset value of the location.
 
 # System calls
+
+There are six registers that store the arguments of the system call used: `EBX`, `ECX`, `EDX`, `ESI`, `EDI` and `EBP`. Arguments are consecutive and starting by with the `EBX`. If there are more than six arguments, then the memory location of the first argument is stored in the EBX.
 
 | %eax | Name | %ebx | %ecx | %edx | %esx | %edi |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -139,4 +141,75 @@ ADD EBX, 2              ; EBX = EBX +2 , 2 because dw is 2 bytes
 MOV [EBX], 123          ; MY_TABLE[1] = 123
 ```
 
+# Allocation
 
+`[variable_name] define_directive initial_value [,initial_value]...`
+
+| Directive | Purpose | Storage Space |
+| --- | --- | --- |
+| DB | Define Byte | 1 byte |
+| DW | Define Word | 2 bytes |
+| DD | Define Doubleword | 4 bytes |
+| DQ | Define Quadword | 8 bytes |
+| DT | Define Ten Bytes | 10 bytes |
+
+- Each byte of character is stored as its ASCII value in hexadecimal.
+- Each decimal value is automatically converted to its 16-bit binary equivalent and stored as a hexadecimal number.
+- Processor uses the little-endian byte ordering.
+- Negative numbers are converted to its 2's complement representation.
+- Short and long floating-point numbers are represented using 32 or 64 bits, respectively.
+
+## Allocation for uninitialized data
+
+| Directive | Purpose | Storage Space |
+| --- | --- | --- |
+| RESB | Reserve a Byte | 1 byte |
+| RESW | Reserve a Word | 2 bytes |
+| RESD | Reserve a Doubleword | 4 bytes |
+| RESQ | Reserve a Quadword | 8 bytes |
+| REST | Reserve a Ten Bytes | 10 bytes |
+
+# Constants
+
+- EQU
+- %assign
+    - allows redefinition
+- %define
+    - works like #define in C
+
+# Arithmetic instruction
+
+| Instruction | Syntax | Description |
+| --- | --- | --- | 
+| INC | INC destination | Increase operand by one |
+| DEC | DEC destination | Decrease operand by one |
+| ADD | ADD destination source | Add source operand to destination operand |
+| SUB | SUB destination source | Substruct source operanf from destination operand |
+| MUL | MUL multiplier | Multiplicant will be in `RAX` and result in `RAX` !! `RDX` will be set to zero |
+| IMUL | IMUL multiplier | Used for signed |
+| DIV | DIV divisor | Divide `RAX` by divisor -> result (quotient) RAX, (reminder) `RDX` !! `RDX` need to be 0|
+| IDIV | IDIV divisor | Used for signed |
+
+## MUL/IMUL
+
+### When two bytes are multiplied
+
+The multiplicand is in the `AL` register, and the multiplier is a byte in the memory or in another register. The product is in AX. High-order 8 bits of the product is stored in AH and the low-order 8 bits are stored in `AL`.
+
+```
+AL * 8 Bit Source = AH AL (AX)
+```
+
+### When two one-word values are multiplied
+
+The multiplicand should be in the `AX` register, and the multiplier is a word in memory or another register. For example, for an instruction like `MUL DX`, you must store the multiplier in DX and the multiplicand in `AX`.
+
+The resultant product is a doubleword, which will need two registers. The high-order (leftmost) portion gets stored in DX and the lower-order (rightmost) portion gets stored in `AX`.
+
+```
+AX * 16 Bit Source = DX DA
+```
+
+### When two doubleword values are multiplied
+
+When two doubleword values are multiplied, the multiplicand should be in `EAX` and the multiplier is a doubleword value stored in memory or in another register. The product generated is stored in the `EDX:EAX` registers, i.e., the high order 32 bits gets stored in the `EDX` register and the low order 32-bits are stored in the `EAX` register.
