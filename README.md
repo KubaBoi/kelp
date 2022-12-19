@@ -11,6 +11,7 @@ https://www.tutorialspoint.com/assembly_programming/index.htm
 # Contents
 
 - [Registers](#registers)
+    - [Flags](#flags)
 - [System calls](#system-calls)
 - [Addressing](#addressing) 
 - [Allocation](#allocation)
@@ -64,6 +65,8 @@ The 32-bit instruction pointer register and the 32-bit flags register combined a
 
 Many instructions involve comparisons and mathematical calculations and change the status of the flags and some other conditional instructions test the value of these status flags to take the control flow to other location.
 
+### Flags
+
 | Code | Name | Description |
 | --- | --- | --- |
 | DF | Direction flag | It determines left or right direction for moving or comparing string data. When the DF value is 0, the string operation takes left-to-right direction and when the value is set to 1, the string operation takes right-to-left direction.
@@ -76,6 +79,10 @@ Many instructions involve comparisons and mathematical calculations and change t
 | AF | Auxiliary carry flag | It contains the carry from bit 3 to bit 4 following an arithmetic operation; used for specialized arithmetic. The AF is set when a 1-byte arithmetic operation causes a carry from bit 3 into bit 4. 
 | PF | Parity flag | It indicates the total number of 1-bits in the result obtained from an arithmetic operation. An even number of 1-bits clears the parity flag to 0 and an odd number of 1-bits sets the parity flag to 1.
 | CF | Carry flag | It contains the carry of 0 or 1 from a high-order bit (leftmost) after an arithmetic operation. It also stores the contents of last bit of a shift or rotate operation.
+
+Direction flag can be changed with:
+- `CLD` (Clear Direction Flag, `DF` = 0) make string operation left to right
+- `STD` (Set Direction Flag, `DF` = 1)  make string operation right to left
 
 ## Segment registers
 
@@ -382,6 +389,16 @@ Each instuction has a byte, word and doubleword version and can be repeated by u
 | CMPS | DS:SI, ES: DI | CMPSB | CMPSW | CMPSD |
 | SCAS | ES:DI, AX | SCASB | SCASW | SCASD |
 
+These instructions use the ES:DI and DS:SI pair of registers, where DI and SI registers contain valid offset addresses that refers to bytes stored in memory. SI is normally associated with DS (data segment) and DI is always associated with ES (extra segment).
+
+The DS:SI (or ESI) and ES:DI (or EDI) registers point to the source and destination operands, respectively. The source operand is assumed to be at DS:SI (or ESI) and the destination operand at ES:DI (or EDI) in memory.
+
+For 16-bit addresses, the SI and DI registers are used, and for 32-bit addresses, the ESI and EDI registers are used.
+
 ### Repetition Prefixes
 
-The `REP` prefix, when set before a string instruction, causes repetition of the instraction based on a counter placed at `CX` register.
+The `REP` prefix, when set before a string instruction, causes repetition of the instraction based on a counter placed at `CX` register. `REP` executes the instruction, decrease CX by 1, and checks whether CX is zero.
+
+- `REP`: It is the unconditional repeat. It repeats the operation until CX is zero.
+- `REPE` or `REPZ`: It is conditional repeat. It repeats the operation while the zero flag indicates equal/zero. It stops when the ZF indicates not equal/zero or when CX is zero.
+- `REPNE` or `REPNZ`: It is also conditional repeat. It repeats the operation while the zero flag indicates not equal/zero. It stops when the ZF indicates equal/zero or when CX is decremented to zero.
