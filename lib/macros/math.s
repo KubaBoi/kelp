@@ -1,11 +1,11 @@
 ;import stack.s
 
 ; rdx, char
-%macro addCharToDecimal 2
-sub [%2], byte "0"              
-mov al, 10
-mul %1
-add %1, %2
+%macro addCharToDecimal 0
+sub rdx, byte "0"              
+mov rcx, 10
+mul rcx
+add rax, rdx
 %endmacro
 
 %macro isNumber 1
