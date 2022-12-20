@@ -1,8 +1,8 @@
 
 ; method reads whole line and returns content adn length
 ;
-; RSI - pointer to start of string
-; RDI - length
+; RDI - pointer to start of string
+; RSI - length
 ;
 ; affects RAX, RBX, RCX
 readLine:
@@ -13,12 +13,12 @@ readLine:
     mov rsi, rax
 
     readLineloadChar:
-        read rdi, 1
-        cmp [rdi], byte 0xa
+        read rsi, 1
+        cmp [rsi], byte 0xa
         je readLineloadDone
 
-        inc rdi
-        cmp rdi, rbx
+        inc rsi
+        cmp rsi, rbx
         jl readLineloadChar
             call alloc
             mov rax, rcx
@@ -28,6 +28,6 @@ readLine:
 
         jmp readLineloadChar
     readLineloadDone:
-    mov [rdi], byte 0
-    sub rdi, rsi
+    mov [rsi], byte 0
+    sub rsi, rdi
     ret

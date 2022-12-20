@@ -11,3 +11,5 @@ addCharToDecimal:
     mul rdx
     add rax, rcx
     ret
+
+; 

@@ -10,7 +10,6 @@
 ; affects RAX, RCX, RDX, RSI
 toString:
     mov rcx, 10 ; delitel
-    cmp rsi, byte 0
     push rax
     call decCharCnt
     pop rax

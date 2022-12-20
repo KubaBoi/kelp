@@ -8,14 +8,39 @@ section	.text
 ;import lib/io.s
 
 
+sqrt:
+    mov rbx, rax
+    mov rcx, rax
+    xor rdx, rdx
+    sqrtLoop:
+        mul rbx
+        dec rcx
+        jz sqrtEndLoop
+        jmp sqrtLoop
+    sqrtEndLoop:
+    ret
+
 _start:	                 ;tell linker entry point
+
+    mov rax, 3
+    call sqrt
+
+    br:
+    push rax
+    mov rcx, 20
+    call alloc
+    mov rbx, rax
+    pop rax
+    call toString
+    mov rdi, rbx
+    print rdi, rsi
 
     mov rbx, msg
     call strLen
     print msg, rsi
 
     call readLine
-    print rsi, rdi
+    print rdi, rsi
 
 exit:
     mov	rax, 1
