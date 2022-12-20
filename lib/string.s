@@ -3,9 +3,9 @@
 ; method converts decimal value stored in RAX
 ; to string and puts it inside [RBX] 
 ; 
-; RAX - integer
-; RBX - pointer to char*
-; RSI - integer, length of string
+; RAX - input, integer
+; RBX - output, pointer to char*
+; RSI - output, integer, length of string
 ;
 ; affects RAX, RCX, RDX, RSI
 toString:
@@ -26,11 +26,13 @@ toString:
 
         cmp rax, 0
         jg toStringLoop
+    inc rbx
+    inc rsi
     ret
 
 ; method counts char size of decimal number
 ;
-; RAX - decimal number
+; RAX - input, decimal number
 ; RSI - output, count
 ;
 ; affects RAX, RCX, RDX

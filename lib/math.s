@@ -2,7 +2,7 @@
 ; method adds <0-9> number as char to decimal
 ;
 ; RAX - decimal
-; RCX - char
+; RCX - intput, char
 ; 
 ; affects RDX
 addCharToDecimal:

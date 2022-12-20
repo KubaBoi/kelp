@@ -1,8 +1,8 @@
 
 ; method reads whole line and returns content adn length
 ;
-; RDI - pointer to start of string
-; RSI - length
+; RDI - output, pointer to start of string
+; RSI - output, length
 ;
 ; affects RAX, RBX, RCX
 readLine:
@@ -31,3 +31,4 @@ readLine:
     mov [rsi], byte 0
     sub rsi, rdi
     ret
+

@@ -17,3 +17,14 @@ alloc:
 
     sub rax, rcx
     ret
+
+; method allocates bytes and return address in RBX
+;
+; RCX - size of allocation in bytes
+; RBX - output, pointer to start of memory
+allocB:
+    push rax
+    call alloc
+    mov rbx, rax
+    pop rax
+    ret
