@@ -47,9 +47,9 @@ The pointer registers are 32-bit `EIP`, `ESP`, and `EBP` registers and correspon
 
 | Code | Name | Description |
 | --- | --- | --- |
-| EIP | Instruction pointer | The 16-bit `IP` register stores the offset address of the next instruction to be executed. `IP` in association with the `CS` register (as `CS:IP`) gives the complete address of the current instruction in the code segment.
-| ESP | Stack pointer | The 16-bit `SP` register provides the offset value within the program stack. `SP` in association with the `SS` register (`SS:SP`) refers to be current position of data or address within the program stack.
-| EBP | Base pointer | The 16-bit `BP` register mainly helps in referencing the parameter variables passed to a subroutine. The address in `SS` register is combined with the offset in `BP` to get the location of the parameter. `BP` can also be combined with DI and SI as base register for special addressing.
+| EIP | Instruction pointer | The 16-bit `IP` register stores the offset address of the next instruction to be executed. `IP` in association with the `CS` register (as `CS:IP`) gives the complete address of the current instruction in the code segment. |
+| ESP | Stack pointer | The 16-bit `SP` register provides the offset value within the program stack. `SP` in association with the `SS` register (`SS:SP`) refers to be current position of data or address within the program stack. |
+| EBP | Base pointer | The 16-bit `BP` register mainly helps in referencing the parameter variables passed to a subroutine. The address in `SS` register is combined with the offset in `BP` to get the location of the parameter. `BP` can also be combined with DI and SI as base register for special addressing. |
 
 ## Index registers
 
@@ -57,8 +57,8 @@ The 32-bit index registers, `ESI` and `EDI`, and their 16-bit rightmost portions
 
 | Code | Name | Description |
 | --- | --- | --- |
-| ESI | Source index | It is used as source index for string operations.
-| EDI | Destination index | It is used as destination index for string operations.
+| ESI | Source index | It is used as source index for string operations. |
+| EDI | Destination index | It is used as destination index for string operations. |
 
 ## Control register
 
@@ -70,16 +70,16 @@ Many instructions involve comparisons and mathematical calculations and change t
 
 | Code | Name | Description |
 | --- | --- | --- |
-| DF | Direction flag | It determines left or right direction for moving or comparing string data. When the DF value is 0, the string operation takes left-to-right direction and when the value is set to 1, the string operation takes right-to-left direction.
-| IF | Interrupt flag | It determines whether the external interrupts like keyboard entry, etc., are to be ignored or processed. It disables the external interrupt when the value is 0 and enables interrupts when set to 1.
-| TF | Trap flag | It allows setting the operation of the processor in single-step mode. The DEBUG program we used sets the trap flag, so we could step through the execution one instruction at a time.
+| DF | Direction flag | It determines left or right direction for moving or comparing string data. When the DF value is 0, the string operation takes left-to-right direction and when the value is set to 1, the string operation takes right-to-left direction. |
+| IF | Interrupt flag | It determines whether the external interrupts like keyboard entry, etc., are to be ignored or processed. It disables the external interrupt when the value is 0 and enables interrupts when set to 1. |
+| TF | Trap flag | It allows setting the operation of the processor in single-step mode. The DEBUG program we used sets the trap flag, so we could step through the execution one instruction at a time. |
 | STATUS FLAGS | | |
-| OF | Overflow flag | It indicates the overflow of a high-order bit (leftmost bit) of data after a signed arithmetic operation.
-| SF | Sign flag | It shows the sign of the result of an arithmetic operation. This flag is set according to the sign of a data item following the arithmetic operation. The sign is indicated by the high-order of leftmost bit. A positive result clears the value of SF to 0 and negative result sets it to 1. 
-| ZF | Zero flag | It indicates the result of an arithmetic or comparison operation. A nonzero result clears the zero flag to 0, and a zero result sets it to 1.
-| AF | Auxiliary carry flag | It contains the carry from bit 3 to bit 4 following an arithmetic operation; used for specialized arithmetic. The AF is set when a 1-byte arithmetic operation causes a carry from bit 3 into bit 4. 
-| PF | Parity flag | It indicates the total number of 1-bits in the result obtained from an arithmetic operation. An even number of 1-bits clears the parity flag to 0 and an odd number of 1-bits sets the parity flag to 1.
-| CF | Carry flag | It contains the carry of 0 or 1 from a high-order bit (leftmost) after an arithmetic operation. It also stores the contents of last bit of a shift or rotate operation.
+| OF | Overflow flag | It indicates the overflow of a high-order bit (leftmost bit) of data after a signed arithmetic operation. |
+| SF | Sign flag | It shows the sign of the result of an arithmetic operation. This flag is set according to the sign of a data item following the arithmetic operation. The sign is indicated by the high-order of leftmost bit. A positive result clears the value of SF to 0 and negative result sets it to 1. |
+| ZF | Zero flag | It indicates the result of an arithmetic or comparison operation. A nonzero result clears the zero flag to 0, and a zero result sets it to 1. |
+| AF | Auxiliary carry flag | It contains the carry from bit 3 to bit 4 following an arithmetic operation; used for specialized arithmetic. The AF is set when a 1-byte arithmetic operation causes a carry from bit 3 into bit 4. |
+| PF | Parity flag | It indicates the total number of 1-bits in the result obtained from an arithmetic operation. An even number of 1-bits clears the parity flag to 0 and an odd number of 1-bits sets the parity flag to 1. |
+| CF | Carry flag | It contains the carry of 0 or 1 from a high-order bit (leftmost) after an arithmetic operation. It also stores the contents of last bit of a shift or rotate operation. |
 
 Direction flag can be changed with:
 - `CLD` (Clear Direction Flag, `DF` = 0) make string operation left to right
@@ -93,9 +93,9 @@ Segments are specific areas defined in a program for containing data, code and s
 
 | Name | Description |
 | --- | --- |
-| Code Segment | It contains all the instructions to be executed. A 16-bit Code Segment register or `CS` register stores the starting address of the code segment.
-| Data Segment | It contains data, constants and work areas. A 16-bit Data Segment register or `DS` register stores the starting address of the data segment.
-| Stack Segment | It contains data and return addresses of procedures or subroutines. It is implemented as a 'stack' data structure. The Stack Segment register or SS register stores the starting address of the stack.
+| Code Segment | It contains all the instructions to be executed. A 16-bit Code Segment register or `CS` register stores the starting address of the code segment. |
+| Data Segment | It contains data, constants and work areas. A 16-bit Data Segment register or `DS` register stores the starting address of the data segment. |
+| Stack Segment | It contains data and return addresses of procedures or subroutines. It is implemented as a 'stack' data structure. The Stack Segment register or SS register stores the starting address of the stack. |
 
 Apart from the `DS`, `CS` and `SS` registers, there are other extra segment registers - `ES` (extra segment), `FS` and `GS`, which provide additional segments for storing data.
 
@@ -126,7 +126,7 @@ There are six registers that store the arguments of the system call used: `EBX`,
 
 Register contains the operand:
 
-```
+```json
 MOV DX, TAX_RATE   ; Register in first operand
 MOV COUNT, CX	   ; Register in second operand
 MOV EAX, EBX	   ; Both the operands are in registers
@@ -140,14 +140,14 @@ Data from memory. To locate the exact location of data in memory, we need the se
 
 The offset value specified by the variable name (pointer). The assembler calculates the offset value and maintains a symbol table, which stores the offset values of all the variables.
 
-```
+```json
 ADD	BYTE_VALUE, DL	; Adds the register in the memory location
 MOV	BX, WORD_VALUE	; Operand from the memory is added to register
 ```
 
 ## Direct-Offset addressing
 
-```
+```json
 MOV CL, BYTE_TABLE[2]	; Gets the 3rd element of the BYTE_TABLE
 MOV CL, BYTE_TABLE + 2	; Gets the 3rd element of the BYTE_TABLE
 MOV CX, WORD_TABLE[3]	; Gets the 4th element of the WORD_TABLE
@@ -158,7 +158,7 @@ MOV CX, WORD_TABLE + 3	; Gets the 4th element of the WORD_TABLE
 
 Used for variables containing several elements like arrays. Starting address of the array is stored in register.
 
-```
+```json
 MY_TABLE TIMES 10 DW 0  ; Allocates 10 words (2 bytes) each initialized to 0
 MOV EBX, [MY_TABLE]     ; Value of MY_TABLE[0] in EBX -> EBX = 0
 MOV EBX, MY_TABLE     ; Effective Address of MY_TABLE in EBX -> EBX = address
@@ -320,7 +320,7 @@ Sets OF, ZF, SF, PF and CF.
 | JNC | if not Carry | CF |
 | JO | if Overflow | OF |
 | JNO | if not Overflow | OF |
-| JP/JPE | if Parity or Parity Even PF |
+| JP/JPE | if Parity or Parity Even PF | |
 | JNP/JPO | if no Parity or Parity Odd | PF |
 | JS | Sign (negative value) | SF |
 | JNS | No Sign (positive value) | SF |
@@ -346,7 +346,7 @@ I do not know what is this good for...
 - AAM - ASCII Adjust After Multiplication
 - AAD - ASCII Adjust After Division
 
-```
+```json
 sub     ah, ah
 mov     al, '9'
 sub     al, '3'
@@ -363,7 +363,7 @@ IDK
 
 `$` symbol is location counter. It represents the current value of location counter.
 
-```
+```json
 msg db "Ahoj"
 len equ $ - msg ; gives length of msg
 ```
@@ -387,7 +387,7 @@ Each instuction has a byte, word and doubleword version and can be repeated by u
 | MOVS | ES:DI, DS:SI | MOVSB | MOVSW | MOVSD |
 | LODS | AX, DS:SI | LODSB | LODSW | LODSD |
 | STOS | ES:DI, AX | STOSB | STOSW | STOSD |
-| CMPS | DS:SI, ES: DI | CMPSB | CMPSW | CMPSD |
+| CMPS | DS:SI, ES:DI | CMPSB | CMPSW | CMPSD |
 | SCAS | ES:DI, AX | SCASB | SCASW | SCASD |
 
 These instructions use the `ES:DI` and `DS:SI` pair of registers, where `DI` and `SI` registers contain valid offset addresses that refers to bytes stored in memory. `SI` is normally associated with `DS` (data segment) and `DI` is always associated with `ES` (extra segment).
