@@ -8,23 +8,6 @@ section	.text
 ;import lib/io.s
 ;import lib/math.s
 
-; RAX - input, integer, rooted number
-; RBX - input, integer, root number
-;
-; RAX - output, integer, result
-;
-; affects RCX, RDX
-sqrt:
-    xor rdx, rdx
-    mov rcx, rax
-    sqrtLoop:
-        dec rbx
-        jle sqrtEndLoop
-        mul rcx
-        jmp sqrtLoop
-    sqrtEndLoop:
-    ret
-
 readNumber:
     mov rax, 0
     push rax
@@ -33,7 +16,7 @@ readNumber:
     readNumberLoop:
         mov rcx, 20
         call allocB     ; rbx
-        mov rcx, [rdi]
+        mov rcx, rdi
         call addCharToDecimal ; 
         inc rdi
         mov rcx, rsi
@@ -44,7 +27,7 @@ readNumber:
 
 _start:	                 ;tell linker entry point
 
-    call readNumber
+    ;call readNumber
 
     mov rcx, 20
     call allocB
