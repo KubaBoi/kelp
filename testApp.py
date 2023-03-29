@@ -1,14 +1,12 @@
 
 from kelp import *
 
-class config:
-    name = "Test App"
-    mode = MODE_GUI
+name = "Test App"
+mode = MODE_GUI
 
-class vars:
-    uint8_a = 5
-    uint8_b = 6 # banan
-    uint8_c = 0
+uint8_a = 5
+uint8_b = 6 # banan
+uint8_c = 0
 
 class lv_objs:
     pass
