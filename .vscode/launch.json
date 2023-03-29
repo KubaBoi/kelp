@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: main.py",
+            "type": "python",
+            "request": "launch",
+            "program": "compiler/main.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "command": "ptt -s ${fileBasename}",
             "name": "Asm",
             "request": "launch",

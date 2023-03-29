@@ -1,5 +1,5 @@
 
-from kelp.kelp_help import *
+from kelp_help import *
 
 MODE_GUI = "App will be runned with lvgl"
 MODE_SHL = "App will be runned as shell"
