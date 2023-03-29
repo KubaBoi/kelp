@@ -8,9 +8,15 @@
             "name": "Python: main.py",
             "type": "python",
             "request": "launch",
-            "program": "compiler/main.py",
+            "program": "compiler_python/main.py",
             "console": "integratedTerminal",
             "justMyCode": true
+        },
+        {
+            "command": "ptt -s -q -r compiler.c",
+            "name": "C",
+            "request": "launch",
+            "type": "node-terminal"
         },
         {
             "command": "ptt -s ${fileBasename}",
