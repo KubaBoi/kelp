@@ -1,10 +1,8 @@
 
-from kelp_help import *
-
 MODE_GUI = "App will be runned with lvgl"
 MODE_SHL = "App will be runned as shell"
 
-def printf(format: str, **args):
+def printf(format, **args):
     """
     Print arguments by format into stdin
 
@@ -12,4 +10,7 @@ def printf(format: str, **args):
         `format`: string of format for print
         `return`: void
     """
+    pass
+
+def lala():
     pass

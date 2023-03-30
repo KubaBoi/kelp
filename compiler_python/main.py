@@ -1,70 +1,92 @@
 
-from vars import *
+import os
+import re
 
-class instruction:
-    def __init__(self, content: str, index: int):
-        self.content = content
-        self.index = index
-
-class object:
-    def __init__(self, name = "root", type = "file", level = -1, index = 0, parent = None) -> None:
-        self.name = name
-        self.type = type
-        self.level = level
-        self.index = index
-        self.parent = parent
-        self.objects = {}
-        self.instructions = []
-        
-    def add_object(self, obj: object):
-        self.objects[obj.name] = obj
-        
-    def print(self):
-        print(f"{self.index}: {' '*self.level}{self.name}: {self.type} - {self.level}")
-        for inst in self.instructions:
-            print(f"{inst.index}: {' '*(self.level + 4)}{inst.content}")
-        print()
-        for key in self.objects.keys():
-            obj = self.objects[key]
-            obj.print()
+from errors import *
+from objects import *
 
 class kelp_comp:
-    
-    # source data lines
-    src_dtl = ""
     
     keywords = [
         "class",
         "def"
     ]
     
-    root = None
-    
+    prog = re.compile("from ([a-zA-Z0-9\.\_]+) import ([a-zA-Z0-9\_\*]+)")
+        
     @staticmethod
     def load(path: str):
         with open(path, "r", encoding="utf-8") as f:
-            kelp_comp.src_dtl = f.readlines()
+            return f.readlines()
             
     @staticmethod
-    def compile():
-        # Start compilation
-        root = object()
+    def imports(file: str, lines: list):
+        """
+        Method recursively import file
+
+        Args:
+            `file`: file path
+            `lines`: lines of the file
+
+        Raises:
+            InvalidImport: Import syntax is odd
+            ImportNotFound: Import file was not found
+
+        Returns:
+            list: list of lines with imports
+        """
+        for i, line in enumerate(lines):
+            res = re.search(kelp_comp.prog, line)
+            if (res == None):
+                continue
+            
+            if (len(res.groups()) != 2):
+                raise InvalidImport(file, i, line)
+            
+            fl = res.group(1).split(".")
+            keys = res.group(2).split(".")
+            imp = os.path.join(os.path.dirname(file), *fl) + ".py"
+            if (not os.path.exists(imp)):
+                raise ImportNotFound(imp, file, i, line)
+            
+            tree = kelp_comp.build_tree(imp)
+            tree = tree.get_object(*keys)
+            if (tree == None):
+                raise ImportNotFound(".".join(keys), file, i, line)
+            lines[i] = tree.to_string()        
+            
+        return "\n".join(lines).split("\n")
+            
+            
+    @staticmethod
+    def build_tree(path: str):
+        src_dtl = kelp_comp.load(path)
+        src_dtl = kelp_comp.imports(path, src_dtl)
+        root = object(name=path)
         index = 0
-        length = len(kelp_comp.src_dtl)
+        length = len(src_dtl)
         
         parent = root
         while (index < length):
-            line = kelp_comp.src_dtl[index].rstrip()
+            line = src_dtl[index].rstrip()
             lline = line.lstrip()
+            if (len(lline) < 1):
+                index += 1
+                continue
             index += 1
             level = len(line) - len(lline)
             if (level % 4 != 0):
-                print(f"Invalid spaces at line: {index}")
-                return 0
-            if (len(lline) < 1):
+                raise InvalidSpaces(parent.name, index, lline)
+            if (lline.startswith("\"\"\"")):
+                index += 1
+                while (index < length):
+                    line = src_dtl[index].rstrip()
+                    index += 1
+                    if (line.endswith("\"\"\"")):
+                        break
+                index += 1    
                 continue
-            if (lline == "from kelp import *"):
-                continue
+                    
             
             tp, name = kelp_comp.get_type_name(lline, parent.name, index)
             if (name == None):
@@ -72,23 +94,29 @@ class kelp_comp:
                 continue
                 
             if (level < parent.level):
-                obj = object(name, tp, level, index, parent)
+                obj = object(name.split("(")[0], name, tp, level, index, parent)
                 parent.add_object(obj)
             elif (level == parent.level):
                 parent = parent.parent
-                obj = object(name, tp, level, index, parent)
+                obj = object(name.split("(")[0], name, tp, level, index, parent)
                 parent.add_object(obj)
                 parent = obj
             else:
                 while (level >= parent.level and parent.level >= 0):
                     parent = parent.parent
-                obj = object(name, tp, level, index, parent)
+                obj = object(name.split("(")[0], name, tp, level, index, parent)
                 parent.add_object(obj)
                 parent = obj
-        root.print()
-        
-        
+        return root
             
+    @staticmethod
+    def compile(path: str):
+        # Start compilation
+        root = kelp_comp.build_tree(path)
+        root.print()
+        with open("temp.py", "w", encoding="utf-8") as f:
+            f.write(root.to_string())
+        
     @staticmethod
     def get_type_name(line: str, key: str, index: int) -> list[2]:
         # Return type and name of class/def from line
@@ -102,5 +130,7 @@ class kelp_comp:
         return tuple(splt[:2])
         
 if __name__ == "__main__":
-    kelp_comp.load("testApp.py")
-    kelp_comp.compile()
+    #try:
+    kelp_comp.compile("testApp.py")
+    #except Exception as e:
+    #    print(e)
