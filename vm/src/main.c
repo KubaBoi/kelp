@@ -46,7 +46,8 @@ int main()
             sum(source, &iter, mem);
         else if (inst == 4)
             sub(source, &iter, mem);
-        // printMem(mem, mem_iter);
+        //printMem(mem, mem_iter);
+        //getchar();
     }
 
     free(source);
