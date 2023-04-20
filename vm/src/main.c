@@ -9,11 +9,11 @@
 
 byte_t mem[100];
 
-int main()
+byte_t *getSourceFromFile(const char *path)
 {
     FILE *src_file;
     char ch;
-    src_file = fopen("calc.bin", "r");
+    src_file = fopen(path, "r");
 
     int i = 0;
     size_t sz = 100;
@@ -28,6 +28,18 @@ int main()
         source[i++] = ch;
     } while (ch != EOF);
     fclose(src_file);
+    return source;
+}
+
+int main()
+{
+    //byte_t *source = getSourceFromFile("calc.bin");
+    byte_t source[100] = {
+        2, 2, 0, 6,
+        1, 2, 2, 0, 0,
+        0 
+    };
+
 
     uint_t mem_iter = 0;
     uint_t iter = 0;
@@ -46,9 +58,17 @@ int main()
             sum(source, &iter, mem);
         else if (inst == 4)
             sub(source, &iter, mem);
-        //printMem(mem, mem_iter);
+        else if (inst == 5)
+            cpy(source, &iter, mem);
+        else
+        {
+            printf("Invalid instruction '%d' at position: %d\n", inst, iter);
+            printf("Terminating\n");
+            break;
+        }
+        printMem(mem, mem_iter);
         //getchar();
     }
 
-    free(source);
+    //free(source);
 }

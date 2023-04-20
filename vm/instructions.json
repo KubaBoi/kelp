@@ -8,19 +8,23 @@
         },
         "OUT": {
             "args": 2,
-            "description": "Print arg2 as arg1(type: 0(str), 1(char), 2(dec))"
+            "description": "Print arg2 as arg1(type: 0(str), 1(char), 2(dec - arg2 is count of bytes))"
         },
         "SET": {
             "args": 1,
-            "description": "Set variable into memory. First arg is 1 byte of how many next bytes should be the value"
+            "description": "Set variable into memory. Arg1 is 1 byte of how many next bytes should be the value"
         },
         "SUM": {
             "args": 3,
-            "description": "Sum two numbers and last arg is destination. Args are addreses" 
+            "description": "Sum two numbers and arg1 is destination. Args are addreses" 
         },
         "SUB": {
             "args": 3,
-            "description": "Substract two numbers and last arg is destination. Args are addreses" 
+            "description": "Substract two numbers and arg1 is destination. Args are addreses" 
+        },
+        "CPY": {
+            "args": 3,
+            "description": "Copy arg1 bytes of arg3 into arg2"
         }
     }
 }

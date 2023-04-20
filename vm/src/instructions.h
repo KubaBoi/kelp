@@ -13,4 +13,6 @@ void sum(byte_t *ptr, uint_t *iter, byte_t *mem);
 
 void sub(byte_t *ptr, uint_t *iter, byte_t *mem);
 
+void cpy(byte_t *ptr, uint_t *iter, byte_t *mem);
+
 #endif
