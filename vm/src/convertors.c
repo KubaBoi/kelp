@@ -10,9 +10,7 @@ int toInt(byte_t *ptr, byte_t n)
 
 k_ptr_t toPtr(byte_t *ptr)
 {
-    k_ptr_t n = ptr[0];
-    n += ptr[1] * 256;
-    return n;
+    return (k_ptr_t)toInt(ptr, 2);
 }
 
 k_ptr_t getPtr(byte_t *ptr, uint_t *iter)

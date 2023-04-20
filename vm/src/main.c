@@ -35,8 +35,8 @@ int main()
 {
     //byte_t *source = getSourceFromFile("calc.bin");
     byte_t source[100] = {
-        2, 2, 0, 6,
-        1, 2, 2, 0, 0,
+        2, 3, 1, 1, 1,
+        1, 2, 3, 0, 0,
         0 
     };
 
