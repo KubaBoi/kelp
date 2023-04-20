@@ -3,7 +3,7 @@
 void printMem(byte_t *mem, uint_t mem_iter)
 {
     printf("MEM: ");
-    for (int i = 0; i < mem_iter; i++)
+    for (uint_t i = 0; i < mem_iter; i++)
         printf("%d ", mem[i]);
     printf("\n");
 }
@@ -26,8 +26,8 @@ void printBits(size_t const size, void const *const ptr)
     puts("");
 }
 
-void toCharArray(size_t const size, ptr_t ptr, byte_t *trg)
+void toCharArray(size_t size, ptr_t ptr, byte_t *trg)
 {
-    for (int i = 0; i < size; i++)
+    for (size_t i = 0; i < size; i++)
         trg[i] = (byte_t)(ptr >> (8 * i));
 }

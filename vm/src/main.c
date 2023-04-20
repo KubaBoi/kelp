@@ -15,7 +15,7 @@ byte_t *getSourceFromFile(const char *path)
     char ch;
     src_file = fopen(path, "r");
 
-    int i = 0;
+    size_t i = 0;
     size_t sz = 100;
     byte_t *source = (byte_t *)malloc(sz);
     
