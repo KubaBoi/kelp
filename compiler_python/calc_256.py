@@ -1,6 +1,6 @@
 BASE = 256
 
-arr = [1, 1, 1]
+arr = [0, 255]
 orig = 258
 
 res = arr[0]
