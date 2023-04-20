@@ -7,35 +7,38 @@
 #include "convertors.h"
 #include "instructions.h"
 
-byte_t source[100] = {
-    0, 0, 0, 63,                                      // first 4 bytes are size of array
-    2, 1, 5,                                          // SET 1 byte as 5
-    2, 1, 4,                                          // SET 1 byte as 4
-    2, 1, 0,                                          // SET 1 byte as 0
-    2, 9, ' ', 'i', 's', ' ', 's', 'u', 'm', '\n', 0, // SET str into mem
-    2, 9, ' ', 'i', 's', ' ', 's', 'u', 'b', '\n', 0, // SET str into mem
-    3, 0, 0, 0, 1, 0, 2,                              // SUM value at addres 0 and 1 and fill it into 2
-    1, 2, 0, 2,                                       // print addr 2 as dec
-    1, 0, 0, 3,                                       // print addr 3 as str
-    4, 0, 0, 0, 1, 0, 2,                              // SUB value at addres 0 and 1 and fill it into 2
-    1, 2, 0, 2,                                       // print addr 2 as dec
-    1, 0, 0, 12,                                      // print addr 3 as str
-};
-
 byte_t mem[100];
 
 int main()
 {
-    uint_t size = toInt(source);
+    FILE *src_file;
+    char ch;
+    src_file = fopen("calc.bin", "r");
+
+    int i = 0;
+    size_t sz = 100;
+    byte_t *source = (byte_t *)malloc(sz);
+    
+    do {
+        if (i >= sz) {
+            sz *= 2;
+            source = (byte_t *)realloc(source, sz);   
+        }
+        ch = fgetc(src_file);
+        source[i++] = ch;
+    } while (ch != EOF);
+    fclose(src_file);
 
     uint_t mem_iter = 0;
-    uint_t iter = 4;
-    while (iter < size)
+    uint_t iter = 0;
+    while (true)
     {
         byte_t inst = source[iter++];
         // printf("%u INST[%d]: %d\n", iter, source[iter], inst);
 
-        if (inst == 1)
+        if (inst == 0)
+            break;
+        else if (inst == 1)
             out(source, &iter, mem);
         else if (inst == 2)
             set(source, &iter, mem, &mem_iter);
@@ -45,4 +48,6 @@ int main()
             sub(source, &iter, mem);
         // printMem(mem, mem_iter);
     }
+
+    free(source);
 }
