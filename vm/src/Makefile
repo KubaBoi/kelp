@@ -3,7 +3,7 @@
 # https://github.com/KubaBoi/ptt
 
 NAME=main_temp
-OBJFILES=$(NAME).o 
+OBJFILES=$(NAME).o instructions.o helpers.o convertors.o
 
 CC=g++
 CFLAGS= -Wall -pedantic
