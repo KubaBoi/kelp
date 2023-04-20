@@ -1,0 +1,17 @@
+{
+    "version": "0.0.1",
+    "insts": {
+        "KIL": {
+            "args": 0,
+            "description": "End process"
+        },
+        "SET": {
+            "args": 1,
+            "description": "Set variable into memory. First arg is 1 byte of how many next bytes should be the value"
+        },
+        "SUM": {
+            "args": 2,
+            "description": "Sum two numbers. Args are addreses" 
+        }
+    }
+}
