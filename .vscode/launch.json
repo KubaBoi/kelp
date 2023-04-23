@@ -13,7 +13,7 @@
             "justMyCode": true
         },
         {
-            "command": "ptt -s -q -r compiler.c",
+            "command": "cd vm/src; ptt -s -q -r main.c",
             "name": "C",
             "request": "launch",
             "type": "node-terminal"

@@ -19,3 +19,11 @@ k_ptr_t getPtr(byte_t *ptr, uint_t *iter)
     *iter += 2;
     return addr;
 }
+
+
+byte_t getNextByte(byte_t *ptr, uint_t *iter) 
+{
+    byte_t byte = ptr[*iter];
+    *iter += 1;
+    return byte;
+}

@@ -5,10 +5,10 @@ data_calc = [
     2, 9, ' ', 'i', 's', ' ', 's', 'u', 'm', '\n', 0, # SET str into mem
     2, 9, ' ', 'i', 's', ' ', 's', 'u', 'b', '\n', 0, # SET str into mem
     3, 2, 0, 0, 0, 1, 0,                              # SUM value at addres 0 and 1 and fill it into 2
-    1, 2, 2, 0,                                       # print addr 2 as dec
+    1, 2, 1, 2, 0,                                       # print addr 2 as dec
     1, 0, 3, 0,                                       # print addr 3 as str
     4, 2, 0, 0, 0, 1, 0,                              # SUB value at addres 0 and 1 and fill it into 2
-    1, 2, 2, 0,                                       # print addr 2 as dec
+    1, 2, 1, 2, 0,                                       # print addr 2 as dec
     1, 0, 12, 0,                                      # print addr 3 as str
     0                                                 # end
 ]      

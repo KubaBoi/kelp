@@ -2,13 +2,13 @@
     "version": "0.0.1",
     "ptr_size": 2,
     "insts": {
-        "KIL": {
+        "KILL": {
             "args": 0,
             "description": "End process"
         },
         "OUT": {
-            "args": 2,
-            "description": "Print arg2 as arg1(type: 0(str), 1(char), 2(dec - arg2 is count of bytes))"
+            "args": 3,
+            "description": "Print arg3 as arg1(type: 0(str), 1(char), 2(dec), 3(list of chars), arg2 is count of bytes (no matter if type=0,1)"
         },
         "SET": {
             "args": 1,
