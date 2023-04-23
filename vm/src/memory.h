@@ -4,6 +4,7 @@
 #include <cstdlib>
 
 #include "type_defs.h"
+#include <stdio.h>
 
 /**
  * mem_addr is address in mem
@@ -28,7 +29,7 @@ public:
     byte_t get_byte(k_ptr_t addr, byte_t offset = 0);
     // Return 2 bytes from addr
     word_t get_word(k_ptr_t addr);
-    // Covnert `byte_count` of bytes into ULL
+    // Convert `byte_count` of bytes into ULL
     unsigned long long get_dec(k_ptr_t addr, byte_t byte_count);
 
     void prnt_mem();
@@ -38,7 +39,7 @@ private:
     byte_t *mem;
 
     k_ptr_t mem_map_sz;
-    k_ptr_t *mem_map = nullptr;
+    k_ptr_t *mem_map;
 };
 
 #endif

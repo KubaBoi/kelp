@@ -24,26 +24,34 @@ Addreses are 2 bytes integers of 256-decimal number system (as every number in t
 | `MUL` | 5 | 3 | Multiply `a` by `b` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
 | `DIV` | 6 | 4 | Divide `a` by `b` and save result into `dest` and modulo into `mod` | `dest`: addr | `mod`: addr | `a`: addr | `b`: addr |
 | `CPY` | 7 | 3 | Copy `n` first bytes of `targ` into `dest` | `n`: count of bytes | `dest`: addr | `targ`: addr | 
+| `ALC` | 8 | 2 | Allocate `n` count of bytes in memory at `addr`. | `addr`: addr | `n`: count of bytes (2byte) |
 
 ## Examples
 
 HelloWorld:
 
 ```c
+1, 0, // count of variables in programm
+8, 0, 0, 13, 0, // allocate 13 bytes in mem at addr 0 0
 // SET next 13 bytes into memory starting address 0 0
-2, 13, 'H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '!', 0,
+2, 0, 0, 13, 'H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '!', 0,
 1, 0, 0, 0, 0, // OUT str at address 0 0
 0 // end
 ```
 
 Sum:
 ```c
+3, 0, // count of variables in programm
+// allocate 1 byte for addresses 0 0 - 2 0
+8, 0, 0, 1, 0,
+8, 1, 0, 1, 0,
+8, 2, 0, 1, 0,
 // SET 1 byte of value 5 at address 0 0
-2, 1, 5,
+2, 0, 0, 1, 5,
 // SET 1 byte of value 10 at address 1 0
-2, 1, 10,
+2, 1, 0, 1, 10,
 // SET 1 byte at 0 address 2 0
-2, 1, 0,
+2, 2, 0, 1, 0,
 // SUM 0 0 + 1 0 and save result in 2 0
 3, 2, 0, 0, 0, 1, 0,
 // OUT dec as 1 byte at address 2 0

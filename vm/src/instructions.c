@@ -36,8 +36,7 @@ void out(byte_t *ptr, uint_t *iter, memory *mem)
 void set(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t addr = getPtr(ptr, iter);
-    byte_t sz = ptr[*iter];
-    *iter += 1;
+    byte_t sz = getNextByte(ptr, iter);
     sz += *iter;
     byte_t i = 0;
     while (*iter < sz)
@@ -88,8 +87,7 @@ void div(byte_t *ptr, uint_t *iter, memory *mem)
 
 void cpy(byte_t *ptr, uint_t *iter, memory *mem)
 {
-    byte_t sz = ptr[*iter];
-    *iter += 1;
+    byte_t sz = getNextByte(ptr, iter);
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr = getPtr(ptr, iter);
     for (byte_t i = 0; i < sz; i++)
@@ -97,4 +95,11 @@ void cpy(byte_t *ptr, uint_t *iter, memory *mem)
         byte_t bt = mem->get_byte(addr, i);
         mem->set_byte(dest, bt, i);
     }
+}
+
+void alc(byte_t *ptr, uint_t *iter, memory *mem)
+{
+    k_ptr_t addr = getPtr(ptr, iter);
+    word_t byte_count = getPtr(ptr, iter);
+    mem->alloc(addr, byte_count);
 }

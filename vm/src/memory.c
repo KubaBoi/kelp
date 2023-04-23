@@ -28,6 +28,8 @@ bool memory::is_alloc(k_ptr_t addr) { return mem_map[addr]; }
 void memory::set_byte(k_ptr_t addr, byte_t byte, byte_t offset)
 {
     k_ptr_t mem_addr = mem_map[addr];
+    if (!mem_addr)
+        printf("%d: nullptr\n", addr);
     mem[mem_addr + offset] = byte;
 }
 
@@ -53,5 +55,4 @@ unsigned long long memory::get_dec(k_ptr_t addr, byte_t byte_count)
 
 void memory::prnt_mem()
 {
-
 }

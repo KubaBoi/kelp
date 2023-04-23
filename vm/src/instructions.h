@@ -20,4 +20,6 @@ void div(byte_t *ptr, uint_t *iter, memory *mem);
 
 void cpy(byte_t *ptr, uint_t *iter, memory *mem);
 
+void alc(byte_t *ptr, uint_t *iter, memory *mem);
+
 #endif

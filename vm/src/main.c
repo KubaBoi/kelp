@@ -40,14 +40,20 @@ byte_t *getSourceFromFile(const char *path)
 int main()
 {
     // byte_t *source = getSourceFromFile("calc.bin");
-    byte_t source[100] = {
+    /*byte_t source[100] = {
         2, 0,
+        8, 0, 0, 3, 0,
         2, 0, 0, 3, 1, 1, 1,
         1, 2, 3, 0, 0,
         0
-    };
-    /*byte_t source[100] = {
+    };*/
+    byte_t source[300] = {
         5, 0,
+        8, 0, 0, 1, 0,
+        8, 1, 0, 1, 0,
+        8, 2, 0, 1, 0,
+        8, 3, 0, 9, 0,
+        8, 4, 0, 9, 0,
         2, 0, 0, 1, 5,                                          // SET 1 byte as 5
         2, 1, 0, 1, 4,                                          // SET 1 byte as 4
         2, 2, 0, 1, 0,                                          // SET 1 byte as 0
@@ -58,9 +64,8 @@ int main()
         1, 0, 0, 3, 0,                                    // print addr 3 as str
         4, 2, 0, 0, 0, 1, 0,                              // SUB value at addres 0 and 1 and fill it into 2
         1, 2, 1, 2, 0,                                    // print addr 2 as dec
-        1, 0, 0, 3, 0,                                   // print addr 3 as str
-        7, 1, 2, 0, 0, 0,
-        0};*/
+        1, 0, 0, 4, 0,                                   // print addr 3 as str
+        0};
 
     iter = 0;
     mem_map_sz = getPtr(source, &iter);
@@ -87,6 +92,8 @@ int main()
             div(source, &iter, mem);
         else if (inst == 7)
             cpy(source, &iter, mem);
+        else if (inst == 8)
+            alc(source, &iter, mem);
         else
         {
             printf("Invalid instruction '%d' at position: %d\n", inst, iter);
