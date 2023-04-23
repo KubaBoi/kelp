@@ -9,11 +9,9 @@
 
 #include "memory.h"
 
-byte_t mem[100];
-uint_t mem_iter;
 uint_t iter;
 k_ptr_t mem_map_sz;
-k_ptr_t *mem_map;
+memory *mem;
 
 byte_t *getSourceFromFile(const char *path)
 {
@@ -42,12 +40,13 @@ byte_t *getSourceFromFile(const char *path)
 int main()
 {
     // byte_t *source = getSourceFromFile("calc.bin");
-    /*byte_t source[100] = {
-        2, 3, 1, 1, 1,
+    byte_t source[100] = {
+        2, 0,
+        2, 0, 0, 3, 1, 1, 1,
         1, 2, 3, 0, 0,
         0
-    };*/
-    byte_t source[100] = {
+    };
+    /*byte_t source[100] = {
         5, 0,
         2, 0, 0, 1, 5,                                          // SET 1 byte as 5
         2, 1, 0, 1, 4,                                          // SET 1 byte as 4
@@ -61,14 +60,11 @@ int main()
         1, 2, 1, 2, 0,                                    // print addr 2 as dec
         1, 0, 0, 3, 0,                                   // print addr 3 as str
         7, 1, 2, 0, 0, 0,
-        0};
+        0};*/
 
-    mem_iter = 1;
     iter = 0;
     mem_map_sz = getPtr(source, &iter);
-    mem_map = (k_ptr_t *)malloc(sizeof(mem_map) * mem_map_sz);
-    for (k_ptr_t i = 0; i < mem_map_sz; i++)
-        mem_map[i] = 0;
+    mem = new memory(mem_map_sz);
 
     while (true)
     {
@@ -80,7 +76,7 @@ int main()
         else if (inst == 1)
             out(source, &iter, mem);
         else if (inst == 2)
-            set(source, &iter, mem, &mem_iter);
+            set(source, &iter, mem);
         else if (inst == 3)
             sum(source, &iter, mem);
         else if (inst == 4)
@@ -100,6 +96,6 @@ int main()
         //printMem(mem, mem_iter);
         // getchar();
     }
-    free(mem_map);
+    delete mem;
     // free(source);
 }
