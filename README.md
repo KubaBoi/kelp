@@ -39,7 +39,7 @@ Addreses are 2 bytes integers of 256-decimal number system (as every number in t
 HelloWorld:
 
 ```c
-1, 0, // count of variables in programm
+1, 0, // count of variables in program
 8, 0, 0, 13, 0, // allocate 13 bytes in mem at addr 0 0
 // SET next 13 bytes into memory at address 0 0
 2, 0, 0, 13, 'H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '!', 0,
@@ -49,7 +49,7 @@ HelloWorld:
 
 Sum:
 ```c
-3, 0, // count of variables in programm
+3, 0, // count of variables in program
 // allocate 1 byte for addresses 0 0 - 2 0
 8, 0, 0, 1, 0,
 8, 1, 0, 1, 0,
