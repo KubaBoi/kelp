@@ -72,7 +72,7 @@ int main()
     mem_sz = getPtr(source, &iter);
     mem = new memory(mem_sz);
 
-    uintptr_t insts[8] = {
+    uintptr_t insts[10] = {
         (uintptr_t)new OUT(),
         (uintptr_t)new SET(),
         (uintptr_t)new SUM(),
@@ -80,7 +80,9 @@ int main()
         (uintptr_t)new MUL(),
         (uintptr_t)new DIV(),
         (uintptr_t)new CPY(),
-        (uintptr_t)new ALC()
+        (uintptr_t)new ALC(),
+        (uintptr_t)new FRE(),
+        (uintptr_t)new RLC()
     };
 
     while (true)
@@ -93,7 +95,7 @@ int main()
         instruction *inst = (instruction *)insts[inst_code - 1];
         inst->run(source, &iter, mem);
         // printMem(mem, mem_iter);
-        //  getchar();
+        // getchar();
     }
     mem->prnt_mem();
     delete mem;
