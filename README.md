@@ -32,7 +32,7 @@ Addreses are 2 bytes integers of 256-decimal number system (as every number in t
 | `ALC` | 8 | 2 | Allocate `n` count of bytes in memory at `addr`. | `addr`: addr | `n`: count of bytes (2byte) |
 | `FRE` | 9 | 0 | Not implemented |
 | `OFL` | 10 | 3 | Open file at `addr` with `mode` and return `ptr` to opened file. | `ptr`: addr (4bytes space) | `addr`: addr of memory  with string path | `mode`: `0`-r, `1`-w, `2`-a, `3`-w+ |
-| `CFL` | 11 | 1 | Close file with `ptr` | `ptr`: addr |
+| `CFL` | 11 | 1 | Close file at `ptr` | `ptr`: addr |
 
 ## Examples
 
