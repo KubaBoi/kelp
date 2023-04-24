@@ -29,10 +29,11 @@ Addreses are 2 bytes integers of 256-decimal number system (as every number in t
 | `MUL` | 5 | 3 | Multiply `a` by `b` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
 | `DIV` | 6 | 4 | Divide `a` by `b` and save result into `dest` and modulo into `mod` | `dest`: addr | `mod`: addr | `a`: addr | `b`: addr |
 | `CPY` | 7 | 3 | Copy `n` first bytes of `targ` into `dest` | `n`: count of bytes | `dest`: addr | `targ`: addr | 
-| `ALC` | 8 | 2 | Allocate `n` count of bytes in memory at `addr`. | `addr`: addr | `n`: count of bytes (2byte) |
-| `FRE` | 9 | 0 | Not implemented |
-| `OFL` | 10 | 3 | Open file at `addr` with `mode` and return `ptr` to opened file. | `ptr`: addr (4bytes space) | `addr`: addr of memory  with string path | `mode`: `0`-r, `1`-w, `2`-a, `3`-w+ |
-| `CFL` | 11 | 1 | Close file at `ptr` | `ptr`: addr |
+| `ALC` | 8 | 2 | Allocate `n` count of bytes in memory at `addr`. | `addr`: addr | `n`: count of bytes (2bytes) |
+| `FRE` | 9 | 1 | Free memory at `addr` | `addr`: addr |
+| `RLC` | 10 | 2 | Realloc memory ar `addr` by `n` bytes | `addr`: addr | `n`: new bytes size (2bytes) |
+| `OFL` | 11 | 3 | Open file at `addr` with `mode` and return `ptr` to opened file. | `ptr`: addr (4bytes space) | `addr`: addr of memory  with string path | `mode`: `0`-r, `1`-w, `2`-a, `3`-w+ |
+| `CFL` | 12 | 1 | Close file at `ptr` | `ptr`: addr |
 
 ## Examples
 

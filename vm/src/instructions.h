@@ -60,4 +60,16 @@ public:
     void run(byte_t *ptr, uint_t *iter, memory *mem);
 };
 
+class FRE : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
+
+class RLC : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
+
 #endif

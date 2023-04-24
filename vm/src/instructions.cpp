@@ -105,3 +105,16 @@ void ALC::run(byte_t *ptr, uint_t *iter, memory *mem)
     word_t byte_count = getPtr(ptr, iter);
     mem->alloc(addr, byte_count);
 }
+
+void FRE::run(byte_t *ptr, uint_t *iter, memory *mem)
+{
+    k_ptr_t addr = getPtr(ptr, iter);
+    mem->free_mem(addr);
+}
+
+void RLC::run(byte_t *ptr, uint_t *iter, memory *mem)
+{
+    k_ptr_t addr = getPtr(ptr, iter);
+    word_t byte_count = getPtr(ptr, iter);
+    mem->reallc(addr, byte_count);
+}

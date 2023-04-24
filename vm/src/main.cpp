@@ -11,7 +11,7 @@
 #include "memory.h"
 
 uint_t iter;
-k_ptr_t mem_map_sz;
+k_ptr_t mem_sz;
 memory *mem;
 
 byte_t *getSourceFromFile(const char *path)
@@ -69,8 +69,8 @@ int main()
         0};
 
     iter = 0;
-    mem_map_sz = getPtr(source, &iter);
-    mem = new memory(mem_map_sz);
+    mem_sz = getPtr(source, &iter);
+    mem = new memory(mem_sz);
 
     uintptr_t insts[8] = {
         (uintptr_t)new OUT(),
