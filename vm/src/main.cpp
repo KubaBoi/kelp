@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <cstdlib>
+#include <stdint.h>
 
 #include "type_defs.h"
 #include "helpers.h"
@@ -59,50 +60,42 @@ int main()
         2, 2, 0, 1, 0,                                          // SET 1 byte as 0
         2, 3, 0, 9, ' ', 'i', 's', ' ', 'm', 'u', 'l', '\n', 0, // SET str into mem
         2, 4, 0, 9, ' ', 'i', 's', ' ', 's', 'u', 'b', '\n', 0, // SET str into mem
-        5, 2, 0, 0, 0, 1, 0,                              // SUM value at addres 0 and 1 and fill it into 2
-        1, 2, 1, 2, 0,                                    // print addr 2 as dec
-        1, 0, 0, 3, 0,                                    // print addr 3 as str
-        4, 2, 0, 0, 0, 1, 0,                              // SUB value at addres 0 and 1 and fill it into 2
-        1, 2, 1, 2, 0,                                    // print addr 2 as dec
-        1, 0, 0, 4, 0,                                   // print addr 3 as str
+        5, 2, 0, 0, 0, 1, 0,                                    // SUM value at addres 0 and 1 and fill it into 2
+        1, 2, 1, 2, 0,                                          // print addr 2 as dec
+        1, 0, 0, 3, 0,                                          // print addr 3 as str
+        4, 2, 0, 0, 0, 1, 0,                                    // SUB value at addres 0 and 1 and fill it into 2
+        1, 2, 1, 2, 0,                                          // print addr 2 as dec
+        1, 0, 0, 4, 0,                                          // print addr 3 as str
         0};
 
     iter = 0;
     mem_map_sz = getPtr(source, &iter);
     mem = new memory(mem_map_sz);
 
+    uintptr_t insts[8] = {
+        (uintptr_t)new OUT(),
+        (uintptr_t)new SET(),
+        (uintptr_t)new SUM(),
+        (uintptr_t)new SUB(),
+        (uintptr_t)new MUL(),
+        (uintptr_t)new DIV(),
+        (uintptr_t)new CPY(),
+        (uintptr_t)new ALC()
+    };
+
     while (true)
     {
-        byte_t inst = source[iter++];
-        // printf("%u INST[%d]: %d\n", iter, source[iter], inst);
+        byte_t inst_code = source[iter++];
+        //printf("%u INST[%d]: %d\n", iter, source[iter], inst_code);
 
-        if (inst == 0)
+        if (!inst_code)
             break;
-        else if (inst == 1)
-            out(source, &iter, mem);
-        else if (inst == 2)
-            set(source, &iter, mem);
-        else if (inst == 3)
-            sum(source, &iter, mem);
-        else if (inst == 4)
-            sub(source, &iter, mem);
-        else if (inst == 5)
-            mul(source, &iter, mem);
-        else if (inst == 6)
-            div(source, &iter, mem);
-        else if (inst == 7)
-            cpy(source, &iter, mem);
-        else if (inst == 8)
-            alc(source, &iter, mem);
-        else
-        {
-            printf("Invalid instruction '%d' at position: %d\n", inst, iter);
-            printf("Terminating\n");
-            break;
-        }
-        //printMem(mem, mem_iter);
-        // getchar();
+        instruction *inst = (instruction *)insts[inst_code - 1];
+        inst->run(source, &iter, mem);
+        // printMem(mem, mem_iter);
+        //  getchar();
     }
+    mem->prnt_mem();
     delete mem;
-    // free(source);
+    //delete source;
 }

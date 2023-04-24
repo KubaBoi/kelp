@@ -13,8 +13,8 @@ memory::memory(k_ptr_t mem_map_sz)
 
 memory::~memory()
 {
-    free(mem);
-    free(mem_map);
+    delete mem;
+    delete mem_map;
 }
 
 void memory::alloc(k_ptr_t addr, word_t bytes)
@@ -23,9 +23,14 @@ void memory::alloc(k_ptr_t addr, word_t bytes)
     mem_iter += bytes;
 }
 
+void memory::free_mem(k_ptr_t addr, word_t bytes)
+{
+    printf("free_mem: Not implemented yet\n");
+}
+
 bool memory::is_alloc(k_ptr_t addr) { return mem_map[addr]; }
 
-void memory::set_byte(k_ptr_t addr, byte_t byte, byte_t offset)
+void memory::set_byte(k_ptr_t addr, byte_t byte, word_t offset)
 {
     k_ptr_t mem_addr = mem_map[addr];
     if (!mem_addr)
@@ -33,15 +38,10 @@ void memory::set_byte(k_ptr_t addr, byte_t byte, byte_t offset)
     mem[mem_addr + offset] = byte;
 }
 
-byte_t memory::get_byte(k_ptr_t addr, byte_t offset)
+byte_t memory::get_byte(k_ptr_t addr, word_t offset)
 {
     k_ptr_t mem_addr = mem_map[addr];
     return mem[mem_addr + offset];
-}
-
-word_t memory::get_word(k_ptr_t addr)
-{
-    return 0;
 }
 
 unsigned long long memory::get_dec(k_ptr_t addr, byte_t byte_count)
@@ -55,4 +55,15 @@ unsigned long long memory::get_dec(k_ptr_t addr, byte_t byte_count)
 
 void memory::prnt_mem()
 {
+    for (word_t addr = 0; addr < mem_map_sz; addr++)
+    {
+        k_ptr_t mem_addr = mem_map[addr];
+        k_ptr_t mx = mem_iter;
+        if (addr < mem_map_sz - 1)
+            mx = mem_map[addr + 1];
+        printf("%d (%d b): ", addr, mx - mem_addr);
+        while (mem_addr < mx)
+            printf("%d ", mem[mem_addr++]);
+        printf("\n");
+    }
 }

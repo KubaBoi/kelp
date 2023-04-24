@@ -1,6 +1,8 @@
 #include "instructions.h"
 
-void out(byte_t *ptr, uint_t *iter, memory *mem)
+void instruction::run(byte_t *ptr, uint_t *iter, memory *mem){};
+
+void OUT::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     byte_t type = getNextByte(ptr, iter);
     byte_t byte_count = getNextByte(ptr, iter);
@@ -33,7 +35,7 @@ void out(byte_t *ptr, uint_t *iter, memory *mem)
     }
 }
 
-void set(byte_t *ptr, uint_t *iter, memory *mem)
+void SET::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t addr = getPtr(ptr, iter);
     byte_t sz = getNextByte(ptr, iter);
@@ -46,7 +48,7 @@ void set(byte_t *ptr, uint_t *iter, memory *mem)
     }
 }
 
-void sum(byte_t *ptr, uint_t *iter, memory *mem)
+void SUM::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr1 = getPtr(ptr, iter);
@@ -55,7 +57,7 @@ void sum(byte_t *ptr, uint_t *iter, memory *mem)
     mem->set_byte(dest, res);
 }
 
-void sub(byte_t *ptr, uint_t *iter, memory *mem)
+void SUB::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr1 = getPtr(ptr, iter);
@@ -64,7 +66,7 @@ void sub(byte_t *ptr, uint_t *iter, memory *mem)
     mem->set_byte(dest, res);
 }
 
-void mul(byte_t *ptr, uint_t *iter, memory *mem)
+void MUL::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr1 = getPtr(ptr, iter);
@@ -73,7 +75,7 @@ void mul(byte_t *ptr, uint_t *iter, memory *mem)
     mem->set_byte(dest, res);
 }
 
-void div(byte_t *ptr, uint_t *iter, memory *mem)
+void DIV::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t mod = getPtr(ptr, iter);
@@ -85,7 +87,7 @@ void div(byte_t *ptr, uint_t *iter, memory *mem)
     mem->set_byte(mod, md);
 }
 
-void cpy(byte_t *ptr, uint_t *iter, memory *mem)
+void CPY::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     byte_t sz = getNextByte(ptr, iter);
     k_ptr_t dest = getPtr(ptr, iter);
@@ -97,7 +99,7 @@ void cpy(byte_t *ptr, uint_t *iter, memory *mem)
     }
 }
 
-void alc(byte_t *ptr, uint_t *iter, memory *mem)
+void ALC::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t addr = getPtr(ptr, iter);
     word_t byte_count = getPtr(ptr, iter);

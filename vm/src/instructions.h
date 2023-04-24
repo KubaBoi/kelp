@@ -6,20 +6,58 @@
 #include "convertors.h"
 #include "memory.h"
 
-void out(byte_t *ptr, uint_t *iter, memory *mem);
+class instruction
+{
+public:
+    virtual void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
 
-void set(byte_t *ptr, uint_t *iter, memory *mem);
+class OUT : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
 
-void sum(byte_t *ptr, uint_t *iter, memory *mem);
+class SET : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
 
-void sub(byte_t *ptr, uint_t *iter, memory *mem);
+class SUM : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
 
-void mul(byte_t *ptr, uint_t *iter, memory *mem);
+class SUB : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
 
-void div(byte_t *ptr, uint_t *iter, memory *mem);
+class MUL : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
 
-void cpy(byte_t *ptr, uint_t *iter, memory *mem);
+class DIV : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
 
-void alc(byte_t *ptr, uint_t *iter, memory *mem);
+class CPY : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
+
+class ALC : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
 
 #endif
