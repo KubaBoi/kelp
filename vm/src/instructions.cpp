@@ -108,19 +108,63 @@ void RLC::run(byte_t *ptr, uint_t *iter, memory *mem)
     mem->reallc(addr, byte_count);
 }
 
-void MB::run(byte_t *ptr, uint_t *iter, memory *mem)
-{
-    word_t bytes = getPtr(ptr, iter);
-    *iter -= bytes;
-}
-
-void FB::run(byte_t *ptr, uint_t *iter, memory *mem)
-{
-    word_t bytes = getPtr(ptr, iter);
-    *iter += bytes;
-}
-
 void JMP::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t addr = getPtr(ptr, iter);
+    *iter = addr;
+}
+
+void JEQ::run(byte_t *ptr, uint_t *iter, memory *mem)
+{
+    k_ptr_t arg0 = getPtr(ptr, iter);
+    k_ptr_t arg1 = getPtr(ptr, iter);
+    k_ptr_t addr = getPtr(ptr, iter);
+    uint128_t v0 = mem->get_dec(arg0, mem->get_size(arg0));
+    uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
+    if (v0 == v1)
+        *iter = addr;
+}
+
+void JGE::run(byte_t *ptr, uint_t *iter, memory *mem)
+{
+    k_ptr_t arg0 = getPtr(ptr, iter);
+    k_ptr_t arg1 = getPtr(ptr, iter);
+    k_ptr_t addr = getPtr(ptr, iter);
+    uint128_t v0 = mem->get_dec(arg0, mem->get_size(arg0));
+    uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
+    if (v0 >= v1)
+        *iter = addr;
+}
+
+void JLE::run(byte_t *ptr, uint_t *iter, memory *mem)
+{
+    k_ptr_t arg0 = getPtr(ptr, iter);
+    k_ptr_t arg1 = getPtr(ptr, iter);
+    k_ptr_t addr = getPtr(ptr, iter);
+    uint128_t v0 = mem->get_dec(arg0, mem->get_size(arg0));
+    uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
+    if (v0 <= v1)
+        *iter = addr;
+}
+
+void JG::run(byte_t *ptr, uint_t *iter, memory *mem)
+{
+    k_ptr_t arg0 = getPtr(ptr, iter);
+    k_ptr_t arg1 = getPtr(ptr, iter);
+    k_ptr_t addr = getPtr(ptr, iter);
+    uint128_t v0 = mem->get_dec(arg0, mem->get_size(arg0));
+    uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
+    if (v0 > v1)
+        *iter = addr;
+}
+
+void JL::run(byte_t *ptr, uint_t *iter, memory *mem)
+{
+    k_ptr_t arg0 = getPtr(ptr, iter);
+    k_ptr_t arg1 = getPtr(ptr, iter);
+    k_ptr_t addr = getPtr(ptr, iter);
+    uint128_t v0 = mem->get_dec(arg0, mem->get_size(arg0));
+    uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
+    if (v0 < v1)
+        *iter = addr;
 }

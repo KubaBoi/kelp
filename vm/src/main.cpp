@@ -42,31 +42,26 @@ int main()
 {
     // byte_t *source = getSourceFromFile("calc.bin");
     byte_t source[300] = {
-        5, 0,
+        4, 0,
         8, 0, 0, 1, 0,
         8, 1, 0, 1, 0,
         8, 2, 0, 1, 0,
-        8, 3, 0, 9, 0,
-        8, 4, 0, 9, 0,
-        2, 0, 0, 0, 0, 1, 0, 5,
-        2, 1, 0, 0, 0, 1, 0, 4,
-        2, 2, 0, 0, 0, 1, 0, 0,
-        2, 3, 0, 0, 0, 9, 0, ' ', 'i', 's', ' ', 'm', 'u', 'l', '\n', 0,
-        2, 4, 0, 0, 0, 9, 0, ' ', 'i', 's', ' ', 's', 'u', 'b', '\n', 0,
-        5, 2, 0, 0, 0, 1, 0,
-        1, 2, 1, 2, 0,
-        1, 0, 0, 3, 0,
-        4, 2, 0, 0, 0, 1, 0,
-        1, 2, 1, 2, 0,
-        1, 0, 0, 4, 0,
-        11, 13, 0,
+        8, 3, 0, 1, 0, // 21
+        2, 0, 0, 0, 0, 1, 0, 0,
+        2, 1, 0, 0, 0, 1, 0, 10,
+        2, 2, 0, 0, 0, 1, 0, 1, // 45
+        2, 3, 0, 0, 0, 1, 0, '\n', // 53
+        3, 0, 0, 0, 0, 2, 0, // 60
+        1, 2, 1, 0, 0,
+        1, 1, 0, 3, 0,
+        16, 0, 0, 1, 0, 54, 0,
         0};
 
     iter = 0;
     mem_sz = getPtr(source, &iter);
     mem = new memory(mem_sz);
 
-    uintptr_t insts[13] = {
+    uintptr_t insts[16] = {
         (uintptr_t) new OUT(),
         (uintptr_t) new SET(),
         (uintptr_t) new SUM(),
@@ -77,21 +72,24 @@ int main()
         (uintptr_t) new ALC(),
         (uintptr_t) new FRE(),
         (uintptr_t) new RLC(),
-        (uintptr_t) new MB(),
-        (uintptr_t) new FB(),
-        (uintptr_t) new JMP()};
+        (uintptr_t) new JMP(),
+        (uintptr_t) new JEQ(),
+        (uintptr_t) new JGE(),
+        (uintptr_t) new JLE(),
+        (uintptr_t) new JG(),
+        (uintptr_t) new JL()};
 
     while (true)
     {
         byte_t inst_code = source[iter++];
-        // printf("%u INST[%d]: %d\n", iter, source[iter], inst_code);
+        //printf("%u INST[%d]: %d\n", iter, source[iter], inst_code);
 
         if (!inst_code)
             break;
         instruction *inst = (instruction *)insts[inst_code - 1];
         inst->run(source, &iter, mem);
-        // printMem(mem, mem_iter);
-        // getchar();
+        //mem->prnt_mem();
+        //getchar();
     }
     // mem->prnt_mem();
     delete mem;

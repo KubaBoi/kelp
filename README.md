@@ -4,6 +4,8 @@ First two bytes are count of needed variables inside program. Those two bytes de
 
 This array (`mem_map`) will be filled with 0s for signalization that addresses are not allocated yet and those addresses will be as `nullptr`.
 
+Next two bytes are count of gates and its addresses. Every gate is just address to position in bytecode. Program can jump at some gate with `JMP` instructions.
+
 ## Addreses
 
 Addreses are 2 bytes integers of 256-decimal number system (as every number in this system) as little endian.
@@ -32,12 +34,15 @@ Addreses are 2 bytes integers of 256-decimal number system (as every number in t
 | `ALC` | 8 | 2 | Allocate `n` count of bytes in memory at `addr`. | `addr`: addr | `n`: count of bytes (2bytes) |
 | `FRE` | 9 | 1 | Free memory at `addr` | `addr`: addr |
 | `RLC` | 10 | 2 | Realloc memory ar `addr` by `n` bytes | `addr`: addr | `n`: new bytes size (2bytes) |
-| `MB` | 11 | 1 | Move instruction iterator back by `bytes`. | `bytes`: count of jump in bytes (2bytes) |
-| `FB` | 12 | 1 | Move instruction iterator forward by `bytes`. | `bytes`: count of jump in bytes (2bytes) |
-| `JMP` | 13 | 1 | Move instruction iterator at `addr`. | `addr`: addr | 
+| `JMP` | 11 | 1 | Jump at `addr`. | `addr`: addr | 
+| `JEQ` | 12 | 3 | Jump at `addr` if `agr0` == `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
+| `JGE` | 13 | 3 | Jump at `addr` if `agr0` >= `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
+| `JLE` | 14 | 3 | Jump at `addr` if `agr0` <= `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
+| `JG` | 15 | 3 | Jump at `addr` if `agr0` > `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
+| `JL` | 16 | 3 | Jump at `addr` if `agr0` < `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
 | `OFL` | - | 3 | Open file at `addr` with `mode` and return `ptr` to opened file. | `ptr`: addr (4bytes space) | `addr`: addr of memory  with string path | `mode`: `0`-r, `1`-w, `2`-a, `3`-w+ |
 | `CFL` | - | 1 | Close file at `ptr` | `ptr`: addr |
-
+ 
 ## Examples
 
 HelloWorld:

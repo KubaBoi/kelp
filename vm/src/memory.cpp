@@ -65,10 +65,12 @@ byte_t *memory::get_bytes(k_ptr_t addr, word_t *size)
     return (byte_t *)mem[addr];
 }
 
-unsigned long long memory::get_dec(k_ptr_t addr, byte_t byte_count)
+word_t memory::get_size(k_ptr_t addr) { return sizes[addr]; }
+
+uint128_t memory::get_dec(k_ptr_t addr, byte_t byte_count)
 {
     byte_t *mem_addr = (byte_t *)mem[addr];
-    unsigned long long nm = mem_addr[0];
+    uint128_t nm = mem_addr[0];
     for (byte_t i = 0; i < byte_count; i++)
         nm += mem_addr[i] * (256 * i);
     return nm;

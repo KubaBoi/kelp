@@ -45,8 +45,10 @@ public:
     byte_t *get_bytes(k_ptr_t addr);
     // Return byte_t pointer and size of memory part in size
     byte_t *get_bytes(k_ptr_t addr, word_t *size);
+    // Return size of segment
+    word_t get_size(k_ptr_t addr);
     // Convert `byte_count` of bytes into ULL
-    unsigned long long get_dec(k_ptr_t addr, byte_t byte_count);
+    uint128_t get_dec(k_ptr_t addr, byte_t byte_count);
 
     void prnt_mem();
     void prnt_mem_adv();
