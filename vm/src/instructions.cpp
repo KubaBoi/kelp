@@ -38,12 +38,12 @@ void OUT::run(byte_t *ptr, uint_t *iter, memory *mem)
 void SET::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t addr = getPtr(ptr, iter);
-    byte_t sz = getNextByte(ptr, iter);
+    word_t offset = getPtr(ptr, iter);
+    word_t sz = getPtr(ptr, iter);
     sz += *iter;
-    byte_t i = 0;
     while (*iter < sz)
     {
-        mem->set_byte(addr, ptr[*iter], i++);
+        mem->set_byte(addr, ptr[*iter], offset++);
         *iter += 1;
     }
 }
