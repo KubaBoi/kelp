@@ -72,4 +72,24 @@ public:
     void run(byte_t *ptr, uint_t *iter, memory *mem);
 };
 
+class MB : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
+
+
+class FB : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
+
+
+class JMP : instruction
+{
+public:
+    void run(byte_t *ptr, uint_t *iter, memory *mem);
+};
+
 #endif

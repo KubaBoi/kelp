@@ -32,8 +32,11 @@ Addreses are 2 bytes integers of 256-decimal number system (as every number in t
 | `ALC` | 8 | 2 | Allocate `n` count of bytes in memory at `addr`. | `addr`: addr | `n`: count of bytes (2bytes) |
 | `FRE` | 9 | 1 | Free memory at `addr` | `addr`: addr |
 | `RLC` | 10 | 2 | Realloc memory ar `addr` by `n` bytes | `addr`: addr | `n`: new bytes size (2bytes) |
-| `OFL` | 11 | 3 | Open file at `addr` with `mode` and return `ptr` to opened file. | `ptr`: addr (4bytes space) | `addr`: addr of memory  with string path | `mode`: `0`-r, `1`-w, `2`-a, `3`-w+ |
-| `CFL` | 12 | 1 | Close file at `ptr` | `ptr`: addr |
+| `MB` | 11 | 1 | Move instruction iterator back by `bytes`. | `bytes`: count of jump in bytes (2bytes) |
+| `FB` | 12 | 1 | Move instruction iterator forward by `bytes`. | `bytes`: count of jump in bytes (2bytes) |
+| `JMP` | 13 | 1 | Move instruction iterator at `addr`. | `addr`: addr | 
+| `OFL` | - | 3 | Open file at `addr` with `mode` and return `ptr` to opened file. | `ptr`: addr (4bytes space) | `addr`: addr of memory  with string path | `mode`: `0`-r, `1`-w, `2`-a, `3`-w+ |
+| `CFL` | - | 1 | Close file at `ptr` | `ptr`: addr |
 
 ## Examples
 

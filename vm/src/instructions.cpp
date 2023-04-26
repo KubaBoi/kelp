@@ -107,3 +107,20 @@ void RLC::run(byte_t *ptr, uint_t *iter, memory *mem)
     word_t byte_count = getPtr(ptr, iter);
     mem->reallc(addr, byte_count);
 }
+
+void MB::run(byte_t *ptr, uint_t *iter, memory *mem)
+{
+    word_t bytes = getPtr(ptr, iter);
+    *iter -= bytes;
+}
+
+void FB::run(byte_t *ptr, uint_t *iter, memory *mem)
+{
+    word_t bytes = getPtr(ptr, iter);
+    *iter += bytes;
+}
+
+void JMP::run(byte_t *ptr, uint_t *iter, memory *mem)
+{
+    k_ptr_t addr = getPtr(ptr, iter);
+}

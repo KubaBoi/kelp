@@ -59,13 +59,14 @@ int main()
         4, 2, 0, 0, 0, 1, 0,
         1, 2, 1, 2, 0,
         1, 0, 0, 4, 0,
+        11, 13, 0,
         0};
 
     iter = 0;
     mem_sz = getPtr(source, &iter);
     mem = new memory(mem_sz);
 
-    uintptr_t insts[10] = {
+    uintptr_t insts[13] = {
         (uintptr_t) new OUT(),
         (uintptr_t) new SET(),
         (uintptr_t) new SUM(),
@@ -75,7 +76,10 @@ int main()
         (uintptr_t) new CPY(),
         (uintptr_t) new ALC(),
         (uintptr_t) new FRE(),
-        (uintptr_t) new RLC()};
+        (uintptr_t) new RLC(),
+        (uintptr_t) new MB(),
+        (uintptr_t) new FB(),
+        (uintptr_t) new JMP()};
 
     while (true)
     {
