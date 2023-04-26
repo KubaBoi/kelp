@@ -43,6 +43,8 @@ void memory::reallc(k_ptr_t addr, word_t bytes)
 
 bool memory::is_alloc(k_ptr_t addr) { return mem[addr]; }
 
+byte_t *memory::get_mem(k_ptr_t addr) { return (byte_t *)mem[addr]; }
+
 void memory::set_byte(k_ptr_t addr, byte_t byte, word_t offset)
 {
     byte_t *mem_addr = (byte_t *)mem[addr];
@@ -74,6 +76,23 @@ unsigned long long memory::get_dec(k_ptr_t addr, byte_t byte_count)
 
 void memory::prnt_mem()
 {
+    printf("\nMEM:\n");
+    for (word_t addr = 0; addr < mem_sz; addr++)
+    {
+        byte_t *mem_addr = (byte_t *)mem[addr];
+        printf("%d (%d b): ", addr, sizes[addr]);
+        if (mem_addr)
+        {
+            for (word_t bt = 0; bt < sizes[addr]; bt++)
+                printf("%d ", mem_addr[bt]);
+        }
+        printf("\n");
+    }
+}
+
+void memory::prnt_mem_adv() 
+{
+    printf("\nMEM:\n");
     for (word_t addr = 0; addr < mem_sz; addr++)
     {
         byte_t *mem_addr = (byte_t *)mem[addr];

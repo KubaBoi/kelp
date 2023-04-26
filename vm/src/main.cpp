@@ -41,13 +41,6 @@ byte_t *getSourceFromFile(const char *path)
 int main()
 {
     // byte_t *source = getSourceFromFile("calc.bin");
-    /*byte_t source[100] = {
-        2, 0,
-        8, 0, 0, 3, 0,
-        2, 0, 0, 3, 1, 1, 1,
-        1, 2, 3, 0, 0,
-        0
-    };*/
     byte_t source[300] = {
         5, 0,
         8, 0, 0, 1, 0,
@@ -55,17 +48,17 @@ int main()
         8, 2, 0, 1, 0,
         8, 3, 0, 9, 0,
         8, 4, 0, 9, 0,
-        2, 0, 0, 0, 0, 1, 0, 5,                                          // SET 1 byte as 5
-        2, 1, 0, 0, 0, 1, 0, 4,                                          // SET 1 byte as 4
-        2, 2, 0, 0, 0, 1, 0, 0,                                          // SET 1 byte as 0
-        2, 3, 0, 0, 0, 9, 0, ' ', 'i', 's', ' ', 'm', 'u', 'l', '\n', 0, // SET str into mem
-        2, 4, 0, 0, 0, 9, 0, ' ', 'i', 's', ' ', 's', 'u', 'b', '\n', 0, // SET str into mem
-        5, 2, 0, 0, 0, 1, 0,                                    // SUM value at addres 0 and 1 and fill it into 2
-        1, 2, 1, 2, 0,                                          // print addr 2 as dec
-        1, 0, 0, 3, 0,                                          // print addr 3 as str
-        4, 2, 0, 0, 0, 1, 0,                                    // SUB value at addres 0 and 1 and fill it into 2
-        1, 2, 1, 2, 0,                                          // print addr 2 as dec
-        1, 0, 0, 4, 0,                                          // print addr 3 as str
+        2, 0, 0, 0, 0, 1, 0, 5,
+        2, 1, 0, 0, 0, 1, 0, 4,
+        2, 2, 0, 0, 0, 1, 0, 0,
+        2, 3, 0, 0, 0, 9, 0, ' ', 'i', 's', ' ', 'm', 'u', 'l', '\n', 0,
+        2, 4, 0, 0, 0, 9, 0, ' ', 'i', 's', ' ', 's', 'u', 'b', '\n', 0,
+        5, 2, 0, 0, 0, 1, 0,
+        1, 2, 1, 2, 0,
+        1, 0, 0, 3, 0,
+        4, 2, 0, 0, 0, 1, 0,
+        1, 2, 1, 2, 0,
+        1, 0, 0, 4, 0,
         0};
 
     iter = 0;
@@ -73,22 +66,21 @@ int main()
     mem = new memory(mem_sz);
 
     uintptr_t insts[10] = {
-        (uintptr_t)new OUT(),
-        (uintptr_t)new SET(),
-        (uintptr_t)new SUM(),
-        (uintptr_t)new SUB(),
-        (uintptr_t)new MUL(),
-        (uintptr_t)new DIV(),
-        (uintptr_t)new CPY(),
-        (uintptr_t)new ALC(),
-        (uintptr_t)new FRE(),
-        (uintptr_t)new RLC()
-    };
+        (uintptr_t) new OUT(),
+        (uintptr_t) new SET(),
+        (uintptr_t) new SUM(),
+        (uintptr_t) new SUB(),
+        (uintptr_t) new MUL(),
+        (uintptr_t) new DIV(),
+        (uintptr_t) new CPY(),
+        (uintptr_t) new ALC(),
+        (uintptr_t) new FRE(),
+        (uintptr_t) new RLC()};
 
     while (true)
     {
         byte_t inst_code = source[iter++];
-        //printf("%u INST[%d]: %d\n", iter, source[iter], inst_code);
+        // printf("%u INST[%d]: %d\n", iter, source[iter], inst_code);
 
         if (!inst_code)
             break;
@@ -97,7 +89,7 @@ int main()
         // printMem(mem, mem_iter);
         // getchar();
     }
-    mem->prnt_mem();
+    // mem->prnt_mem();
     delete mem;
-    //delete source;
+    // delete source;
 }

@@ -10,28 +10,17 @@ void OUT::run(byte_t *ptr, uint_t *iter, memory *mem)
     switch (type)
     {
     case 0: // str
-    {
-        byte_t offset = 0;
-        while (mem->get_byte(addr, offset) != 0)
-            printf("%c", mem->get_byte(addr, offset++));
+        printf("%s", mem->get_mem(addr));
         break;
-    }
     case 1: // char
-    {
         printf("%c", mem->get_byte(addr));
         break;
-    }
     case 2: // dec
-    {
         printf("%lld", mem->get_dec(addr, byte_count));
         break;
-    }
     case 3: // list of char
-    {
-        for (byte_t i = 0; i < byte_count; i++)
-            printf("%c", mem->get_byte(addr, i));
+        printf("%.*s", byte_count, mem->get_mem(addr));
         break;
-    }
     }
 }
 

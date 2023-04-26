@@ -34,6 +34,9 @@ public:
     // Return true if mem_addr at addr is not 0
     bool is_alloc(k_ptr_t addr);
 
+    // Return mem pointer
+    byte_t *get_mem(k_ptr_t addr);
+
     // Set byte into memory address with offset
     void set_byte(k_ptr_t addr, byte_t byte, word_t offset = 0);
     // Return 1 byte from addr
@@ -46,6 +49,7 @@ public:
     unsigned long long get_dec(k_ptr_t addr, byte_t byte_count);
 
     void prnt_mem();
+    void prnt_mem_adv();
 
 private:
     k_ptr_t mem_sz;

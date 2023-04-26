@@ -43,7 +43,7 @@ HelloWorld:
 1, 0, // count of variables in program
 8, 0, 0, 13, 0, // allocate 13 bytes in mem at addr 0 0
 // SET next 13 bytes into memory at address 0 0
-2, 0, 0, 13, 'H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '!', 0,
+2, 0, 0, 0, 0, 13, 0, 'H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '!', 0,
 1, 0, 0, 0, 0, // OUT str at address 0 0
 0 // end
 ```
@@ -56,11 +56,11 @@ Sum:
 8, 1, 0, 1, 0,
 8, 2, 0, 1, 0,
 // SET 1 byte of value 5 at address 0 0
-2, 0, 0, 1, 5,
+2, 0, 0, 0, 0, 1, 0, 5,
 // SET 1 byte of value 10 at address 1 0
-2, 1, 0, 1, 10,
+2, 1, 0, 0, 0, 1, 0, 10,
 // SET 1 byte at 0 address 2 0
-2, 2, 0, 1, 0,
+2, 2, 0, 0, 0, 1, 0, 0,
 // SUM 0 0 + 1 0 and save result in 2 0
 3, 2, 0, 0, 0, 1, 0,
 // OUT dec as 1 byte at address 2 0
