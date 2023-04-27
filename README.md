@@ -4,8 +4,6 @@ First two bytes are count of needed variables inside program. Those two bytes de
 
 This array (`mem_map`) will be filled with 0s for signalization that addresses are not allocated yet and those addresses will be as `nullptr`.
 
-Next two bytes are count of gates and its addresses. Every gate is just address to position in bytecode. Program can jump at some gate with `JMP` instructions.
-
 ## Addreses
 
 Addreses are 2 bytes integers of 256-decimal number system (as every number in this system) as little endian.
