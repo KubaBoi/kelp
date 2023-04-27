@@ -2,7 +2,7 @@
 
 First two bytes are count of needed variables inside program. Those two bytes describes how many addresses would be needed and at the start of the program there would be created an array with values of addresses in memory.
 
-This array (`mem_map`) will be filled with 0s for signalization that addresses are not allocated yet and those addresses will be as `nullptr`.
+This array will be filled with 0s for signalization that addresses are not allocated yet and those addresses will be as `nullptr`.
 
 ## Addreses
 
