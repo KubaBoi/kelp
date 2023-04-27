@@ -14,10 +14,9 @@ Addreses are 2 bytes integers of 256-decimal number system (as every number in t
 - `6` = 6 0
 - `258` = 2 1
 
-## TODO
+## Math operations
 
-- `SUM`, `SUB`, `MUL` and `DIV` byte range
-- memory fractions + `FRE`
+All math operations (`SUM`, `SUB`, `MUL` and `DIV`) are able to operate with different data types (4 bytes + 2 bytes = 4 bytes), but result memory need to respect the size of the result. It means that if the result would be size of 4 bytes and result memory would be allocated for less than 4 bytes (for example 2 bytes) then some information will be probably lost. Because saved would be only first (for example) 2 bytes of the result. 
 
 ## Instructions
 
