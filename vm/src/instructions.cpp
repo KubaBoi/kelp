@@ -38,8 +38,12 @@ void SUM::run(byte_t *ptr, uint_t *iter, memory *mem)
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr1 = getPtr(ptr, iter);
     k_ptr_t addr2 = getPtr(ptr, iter);
-    byte_t res = mem->get_byte(addr1) + mem->get_byte(addr2);
-    mem->set_byte(dest, res);
+    uint128_t val1 = mem->get_dec(addr1, mem->get_size(addr1));
+    uint128_t val2 = mem->get_dec(addr2, mem->get_size(addr2));
+    uint128_t res = val1 + val2;
+    word_t sz;
+    byte_t *bt_arr = mem->get_bytes(dest, &sz);
+    toCharArray(sz, res, bt_arr);
 }
 
 void SUB::run(byte_t *ptr, uint_t *iter, memory *mem)
@@ -47,8 +51,12 @@ void SUB::run(byte_t *ptr, uint_t *iter, memory *mem)
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr1 = getPtr(ptr, iter);
     k_ptr_t addr2 = getPtr(ptr, iter);
-    byte_t res = mem->get_byte(addr1) - mem->get_byte(addr2);
-    mem->set_byte(dest, res);
+    uint128_t val1 = mem->get_dec(addr1, mem->get_size(addr1));
+    uint128_t val2 = mem->get_dec(addr2, mem->get_size(addr2));
+    uint128_t res = val1 - val2;
+    word_t sz;
+    byte_t *bt_arr = mem->get_bytes(dest, &sz);
+    toCharArray(sz, res, bt_arr);
 }
 
 void MUL::run(byte_t *ptr, uint_t *iter, memory *mem)
@@ -56,8 +64,12 @@ void MUL::run(byte_t *ptr, uint_t *iter, memory *mem)
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr1 = getPtr(ptr, iter);
     k_ptr_t addr2 = getPtr(ptr, iter);
-    byte_t res = mem->get_byte(addr1) * mem->get_byte(addr2);
-    mem->set_byte(dest, res);
+    uint128_t val1 = mem->get_dec(addr1, mem->get_size(addr1));
+    uint128_t val2 = mem->get_dec(addr2, mem->get_size(addr2));
+    uint128_t res = val1 * val2;
+    word_t sz;
+    byte_t *bt_arr = mem->get_bytes(dest, &sz);
+    toCharArray(sz, res, bt_arr);
 }
 
 void DIV::run(byte_t *ptr, uint_t *iter, memory *mem)
@@ -66,10 +78,15 @@ void DIV::run(byte_t *ptr, uint_t *iter, memory *mem)
     k_ptr_t mod = getPtr(ptr, iter);
     k_ptr_t addr1 = getPtr(ptr, iter);
     k_ptr_t addr2 = getPtr(ptr, iter);
-    byte_t res = mem->get_byte(addr1) / mem->get_byte(addr2);
-    byte_t md = mem->get_byte(addr1) - (res * mem->get_byte(addr2));
-    mem->set_byte(dest, res);
-    mem->set_byte(mod, md);
+    uint128_t val1 = mem->get_dec(addr1, mem->get_size(addr1));
+    uint128_t val2 = mem->get_dec(addr2, mem->get_size(addr2));
+    uint128_t res = val1 / val2;
+    uint128_t mod_res = val1 - (res * val2);
+    word_t sz;
+    byte_t *bt_arr = mem->get_bytes(dest, &sz);
+    toCharArray(sz, res, bt_arr);
+    bt_arr = mem->get_bytes(mod, &sz);
+    toCharArray(sz, mod_res, bt_arr);
 }
 
 void CPY::run(byte_t *ptr, uint_t *iter, memory *mem)
@@ -78,10 +95,7 @@ void CPY::run(byte_t *ptr, uint_t *iter, memory *mem)
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr = getPtr(ptr, iter);
     for (byte_t i = 0; i < sz; i++)
-    {
-        byte_t bt = mem->get_byte(addr, i);
-        mem->set_byte(dest, bt, i);
-    }
+        mem->set_byte(dest, mem->get_byte(addr, i), i);
 }
 
 void ALC::run(byte_t *ptr, uint_t *iter, memory *mem)
