@@ -5,7 +5,6 @@ void instruction::run(byte_t *ptr, uint_t *iter, memory *mem){};
 void OUT::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     byte_t type = getNextByte(ptr, iter);
-    byte_t byte_count = getNextByte(ptr, iter);
     k_ptr_t addr = getPtr(ptr, iter);
     switch (type)
     {
@@ -16,10 +15,7 @@ void OUT::run(byte_t *ptr, uint_t *iter, memory *mem)
         printf("%c", mem->get_byte(addr));
         break;
     case 2: // dec
-        printf("%lld", mem->get_dec(addr, byte_count));
-        break;
-    case 3: // list of char
-        printf("%.*s", byte_count, mem->get_mem(addr));
+        printf("%lld", mem->get_dec(addr, mem->get_size(addr)));
         break;
     }
 }

@@ -24,7 +24,7 @@ Addreses are 2 bytes integers of 256-decimal number system (as every number in t
 | Name | Code | Arg count | Description | arg0 | arg1 | arg2 | arg3 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `KILL` | 0 | 0 | End process - should be at the end of source | 
-| `OUT` | 1 | 3 | Print `n` count of bytes from `addr` as `type` | `type`: `0`-str, `1`-char, `2`-dec, `3`-n_bytes | `n`: count of bytes to be printed (no matter if `type`=0,1. In `type`=2 case that means how many bytes should be converted into decimal.) | `addr`: addr |
+| `OUT` | 1 | 3 | Print bytes from `addr` as `type` | `type`: `0`-str, `1`-char, `2`-dec | `addr`: addr |
 | `SET` | 2 | 3... | Set `n` bytes at `addr` with `offset`. | `addr`: symbolic address in memory map. | `offset`: (2bytes) | `n`: (2bytes) | There would be `n` args/bytes which would be saved into memory. | 
 | `SUM` | 3 | 3 | Sum `a` with `b` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
 | `SUB` | 4 | 3 | Substract `b` from `a` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
