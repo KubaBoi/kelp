@@ -1,8 +1,8 @@
 #include "instructions.h"
 
-void instruction::run(byte_t *ptr, uint_t *iter, memory *mem){};
+uint_t instruction::run(byte_t *ptr, uint_t *iter, memory *mem) { return 1; };
 
-void OUT::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t OUT::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     byte_t type = getNextByte(ptr, iter);
     k_ptr_t addr = getPtr(ptr, iter);
@@ -18,9 +18,10 @@ void OUT::run(byte_t *ptr, uint_t *iter, memory *mem)
         printf("%lld", mem->get_dec(addr, mem->get_size(addr)));
         break;
     }
+    return 1;
 }
 
-void SET::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t SET::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t addr = getPtr(ptr, iter);
     word_t offset = getPtr(ptr, iter);
@@ -31,9 +32,10 @@ void SET::run(byte_t *ptr, uint_t *iter, memory *mem)
         mem->set_byte(addr, ptr[*iter], offset++);
         *iter += 1;
     }
+    return 1;
 }
 
-void SUM::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t SUM::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr1 = getPtr(ptr, iter);
@@ -44,9 +46,10 @@ void SUM::run(byte_t *ptr, uint_t *iter, memory *mem)
     word_t sz;
     byte_t *bt_arr = mem->get_bytes(dest, &sz);
     toCharArray(sz, res, bt_arr);
+    return 1;
 }
 
-void SUB::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t SUB::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr1 = getPtr(ptr, iter);
@@ -57,9 +60,10 @@ void SUB::run(byte_t *ptr, uint_t *iter, memory *mem)
     word_t sz;
     byte_t *bt_arr = mem->get_bytes(dest, &sz);
     toCharArray(sz, res, bt_arr);
+    return 1;
 }
 
-void MUL::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t MUL::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr1 = getPtr(ptr, iter);
@@ -70,9 +74,10 @@ void MUL::run(byte_t *ptr, uint_t *iter, memory *mem)
     word_t sz;
     byte_t *bt_arr = mem->get_bytes(dest, &sz);
     toCharArray(sz, res, bt_arr);
+    return 1;
 }
 
-void DIV::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t DIV::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t mod = getPtr(ptr, iter);
@@ -87,44 +92,50 @@ void DIV::run(byte_t *ptr, uint_t *iter, memory *mem)
     toCharArray(sz, res, bt_arr);
     bt_arr = mem->get_bytes(mod, &sz);
     toCharArray(sz, mod_res, bt_arr);
+    return 1;
 }
 
-void CPY::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t CPY::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     byte_t sz = getNextByte(ptr, iter);
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr = getPtr(ptr, iter);
     for (byte_t i = 0; i < sz; i++)
         mem->set_byte(dest, mem->get_byte(addr, i), i);
+    return 1;
 }
 
-void ALC::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t ALC::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t addr = getPtr(ptr, iter);
     word_t byte_count = getPtr(ptr, iter);
     mem->alloc(addr, byte_count);
+    return 1;
 }
 
-void FRE::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t FRE::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t addr = getPtr(ptr, iter);
     mem->free_mem(addr);
+    return 1;
 }
 
-void RLC::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t RLC::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t addr = getPtr(ptr, iter);
     word_t byte_count = getPtr(ptr, iter);
     mem->reallc(addr, byte_count);
+    return 1;
 }
 
-void JMP::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t JMP::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t addr = getPtr(ptr, iter);
     *iter = addr;
+    return 1;
 }
 
-void JEQ::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t JEQ::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t arg0 = getPtr(ptr, iter);
     k_ptr_t arg1 = getPtr(ptr, iter);
@@ -133,9 +144,10 @@ void JEQ::run(byte_t *ptr, uint_t *iter, memory *mem)
     uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
     if (v0 == v1)
         *iter = addr;
+    return 1;
 }
 
-void JGE::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t JGE::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t arg0 = getPtr(ptr, iter);
     k_ptr_t arg1 = getPtr(ptr, iter);
@@ -144,9 +156,10 @@ void JGE::run(byte_t *ptr, uint_t *iter, memory *mem)
     uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
     if (v0 >= v1)
         *iter = addr;
+    return 1;
 }
 
-void JLE::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t JLE::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t arg0 = getPtr(ptr, iter);
     k_ptr_t arg1 = getPtr(ptr, iter);
@@ -155,9 +168,10 @@ void JLE::run(byte_t *ptr, uint_t *iter, memory *mem)
     uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
     if (v0 <= v1)
         *iter = addr;
+    return 1;
 }
 
-void JG::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t JG::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t arg0 = getPtr(ptr, iter);
     k_ptr_t arg1 = getPtr(ptr, iter);
@@ -166,9 +180,10 @@ void JG::run(byte_t *ptr, uint_t *iter, memory *mem)
     uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
     if (v0 > v1)
         *iter = addr;
+    return 1;
 }
 
-void JL::run(byte_t *ptr, uint_t *iter, memory *mem)
+uint_t JL::run(byte_t *ptr, uint_t *iter, memory *mem)
 {
     k_ptr_t arg0 = getPtr(ptr, iter);
     k_ptr_t arg1 = getPtr(ptr, iter);
@@ -177,4 +192,12 @@ void JL::run(byte_t *ptr, uint_t *iter, memory *mem)
     uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
     if (v0 < v1)
         *iter = addr;
+    return 1;
 }
+
+uint_t CALL::run(byte_t *ptr, uint_t *iter, memory *mem)
+{
+    return 1;
+}
+
+uint_t RET::run(byte_t *ptr, uint_t *iter, memory *mem) { return 0; }
