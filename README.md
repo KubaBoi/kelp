@@ -17,7 +17,7 @@ Addreses are 2 bytes integers of 256-decimal number system (as every number in t
 There is an array of pointers `mem` where every item has only one relation item in `memory`. But items in `memory` could have more relation items from `mem`.
 
 - `mem` is a array of indexes for `memory`.
-- `memory` is an actual memory of program, but this array if only abstruct.
+- `memory` is an actual memory of program, but this array if only abstract.
 
 ## Math operations
 
@@ -51,6 +51,8 @@ All math operations (`SUM`, `SUB`, `MUL` and `DIV`) are able to operate with dif
 | `CFL` | - | 1 | Close file at `ptr` | `ptr`: addr |
  
 ## Examples
+
+DEPRACATED
 
 HelloWorld:
 
