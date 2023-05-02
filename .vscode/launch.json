@@ -8,7 +8,7 @@
             "name": "Python: main.py",
             "type": "python",
             "request": "launch",
-            "program": "compiler_python/main.py",
+            "program": "compiler/main.py",
             "console": "integratedTerminal",
             "justMyCode": true
         },
@@ -17,13 +17,7 @@
             "name": "C",
             "request": "launch",
             "type": "node-terminal"
-        },
-        {
-            "command": "cd compiler; ptt -s -q -r main.cpp",
-            "name": "C - compiler",
-            "request": "launch",
-            "type": "node-terminal"
-        },
+        }
         {
             "command": "ptt -s ${fileBasename}",
             "name": "Asm",
