@@ -205,11 +205,11 @@ k_ptr_t JL::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 
 k_ptr_t CALL::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 {
-    k_ptr_t call_addr = getPtr(ptr, iter); // address of method
-    word_t args = getWord(ptr, &call_addr);      // count of args in method header
-    for (k_ptr_t i = 0; i < args; i++)     // fill method vars with in args
+    k_ptr_t call_addr = getPtr(ptr, iter);  // address of method
+    word_t args = getWord(ptr, &call_addr); // count of args in method header
+    for (k_ptr_t i = 0; i < args; i++)      // fill method vars with in args
     {
-        k_ptr_t in_arg = getPtr(ptr, iter); // input vars
+        k_ptr_t in_arg = getPtr(ptr, iter);       // input vars
         k_ptr_t me_arg = getPtr(ptr, &call_addr); // method vars
         mem->set_addr(me_arg, in_arg);
     }

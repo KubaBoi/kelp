@@ -16,14 +16,20 @@ k_ptr_t iter;
 k_ptr_t mem_sz;
 memory *mem;
 
-byte_t source[300] = {
-    7, 0,
-    12, 21, 0, // jump
+byte_t byte_code[300] = {
+    10, 0,
+    12, 39, 0, // jump
     // method
     3, 0, // count of args
     4, 0, 5, 0, 6, 0, // args
-    8, 4, 0, 5, 0, 6, 0, // sum 5 0 + 6 0 -> 4 0
+    18, 23, 0, 4, 0, 5, 0, 6, 0, 
     19,
+    // method 2
+    3, 0,
+    7, 0, 8, 0, 9, 0,
+    8, 7, 0, 8, 0, 9, 0,
+    19,
+
     // allocs
     5, 0, 0, 1, 0,
     5, 1, 0, 1, 0,
@@ -39,22 +45,22 @@ byte_t source[300] = {
     1, 1, 3, 0,
     0};
 
-byte_t pipe(byte_t *source, k_ptr_t iter, memory *mem)
+byte_t pipe(byte_t *byte_code, k_ptr_t iter, memory *mem)
 {
-    byte_t inst_code = source[iter++];
+    byte_t inst_code = byte_code[iter++];
     while (inst_code < INST_SET_SIZE)
     {
-        //printf("%u INST[%d]: %d\n", iter, source[iter], inst_code);
+        //printf("%u INST[%d]: %d\n", iter, byte_code[iter], inst_code);
         instruction *inst = (instruction *)inst_set[inst_code - 1];
-        k_ptr_t ret = inst->run(source, &iter, mem);
+        k_ptr_t ret = inst->run(byte_code, &iter, mem);
         if (!ret) // ret = 0 so this pipe would be ended
             break;
         // instruction CALL return address of its start
         else if (ret > 1)
-            if (!pipe(source, ret, mem))
+            if (!pipe(byte_code, ret, mem))
                 return 0; // pipe ended with 0 -> exit
 
-        inst_code = source[iter++];
+        inst_code = byte_code[iter++];
         //mem->prnt_mem();
         //getchar();
     }
@@ -71,15 +77,15 @@ byte_t pipe(byte_t *source, k_ptr_t iter, memory *mem)
 
 int main()
 {
-    // byte_t *source = getSourceFromFile("calc.bin");
+    // byte_t *byte_code = getbyte_codeFromFile("calc.bin");
 
     iter = 0;
-    mem_sz = getPtr(source, &iter);
+    mem_sz = getPtr(byte_code, &iter);
     mem = new memory(mem_sz);
 
-    pipe(source, iter, mem);
+    pipe(byte_code, iter, mem);
 
     // mem->prnt_mem();
     delete mem;
-    // delete source;
+    // delete byte_code;
 }

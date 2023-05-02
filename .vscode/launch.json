@@ -19,6 +19,12 @@
             "type": "node-terminal"
         },
         {
+            "command": "cd compiler; ptt -s -q -r main.cpp",
+            "name": "C - compiler",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
             "command": "ptt -s ${fileBasename}",
             "name": "Asm",
             "request": "launch",
