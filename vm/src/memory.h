@@ -56,6 +56,7 @@ public:
 private:
     k_ptr_t mem_sz;
     uintptr_t *mem;
+    k_ptr_t *mem_ptrs;
     word_t *sizes;
 };
 

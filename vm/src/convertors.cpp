@@ -1,8 +1,8 @@
 #include "convertors.h"
 
-int toInt(byte_t *ptr, byte_t n)
+uint128_t toInt(byte_t *ptr, byte_t n)
 {
-    int nm = ptr[0];
+    uint128_t nm = ptr[0];
     for (byte_t i = 1; i < n; i++)
         nm += ptr[i] * (256 * i);
     return nm;

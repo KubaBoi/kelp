@@ -4,10 +4,12 @@ memory::memory(k_ptr_t mem_sz)
 {
     this->mem_sz = mem_sz;
     mem = (uintptr_t *)malloc(sizeof(mem) * mem_sz);
+    mem_ptrs = (k_ptr_t *)malloc(sizeof(mem_ptrs) * mem_sz);
     sizes = (word_t *)malloc(sizeof(sizes) * mem_sz);
     for (k_ptr_t i = 0; i < mem_sz; i++)
     {
         mem[i] = 0;
+        mem_ptrs[i] = 0;
         sizes[i] = 0;
     }
 }

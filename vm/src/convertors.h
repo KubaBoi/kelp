@@ -4,7 +4,7 @@
 #include "type_defs.h"
 
 // convert n bytes into integer
-int toInt(byte_t *ptr, byte_t n);
+uint128_t toInt(byte_t *ptr, byte_t n);
 
 // convert 2 bytes into pointer/short
 k_ptr_t toPtr(byte_t *ptr);
