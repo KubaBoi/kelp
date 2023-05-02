@@ -4,12 +4,10 @@ memory::memory(k_ptr_t mem_sz)
 {
     this->mem_sz = mem_sz;
     mem = (uintptr_t *)malloc(sizeof(mem) * mem_sz);
-    mem_ptrs = (k_ptr_t *)malloc(sizeof(mem_ptrs) * mem_sz);
     sizes = (word_t *)malloc(sizeof(sizes) * mem_sz);
     for (k_ptr_t i = 0; i < mem_sz; i++)
     {
         mem[i] = 0;
-        mem_ptrs[i] = 0;
         sizes[i] = 0;
     }
 }
@@ -53,6 +51,12 @@ void memory::set_byte(k_ptr_t addr, byte_t byte, word_t offset)
     mem_addr[offset] = byte;
 }
 
+void memory::set_addr(k_ptr_t dest, k_ptr_t targ)
+{
+    mem[dest] = mem[targ];
+    sizes[dest] = sizes[targ];
+}
+
 byte_t memory::get_byte(k_ptr_t addr, word_t offset)
 {
     byte_t *mem_addr = (byte_t *)mem[addr];
@@ -94,7 +98,7 @@ void memory::prnt_mem()
     }
 }
 
-void memory::prnt_mem_adv() 
+void memory::prnt_mem_adv()
 {
     printf("\nMEM:\n");
     for (word_t addr = 0; addr < mem_sz; addr++)

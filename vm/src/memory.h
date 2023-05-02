@@ -39,6 +39,10 @@ public:
 
     // Set byte into memory address with offset
     void set_byte(k_ptr_t addr, byte_t byte, word_t offset = 0);
+    // Copy address from targ to dest
+    void set_addr(k_ptr_t dest, k_ptr_t targ);
+
+
     // Return 1 byte from addr
     byte_t get_byte(k_ptr_t addr, word_t offset = 0);
     // return byte_t pointer
@@ -54,9 +58,8 @@ public:
     void prnt_mem_adv();
 
 private:
-    k_ptr_t mem_sz;
+    k_ptr_t mem_sz; // count of used pointers
     uintptr_t *mem;
-    k_ptr_t *mem_ptrs;
     word_t *sizes;
 };
 

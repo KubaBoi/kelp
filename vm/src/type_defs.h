@@ -1,6 +1,8 @@
 #ifndef TYPE_DEFS_H
 #define TYPE_DEFS_H
 
+#define K_PTR_SIZE 2
+
 typedef unsigned long ptr_t;
 typedef unsigned short k_ptr_t; // pointer in kelp lang
 typedef unsigned char byte_t; // 1 byte

@@ -14,11 +14,10 @@ Addreses are 2 bytes integers of 256-decimal number system (as every number in t
 
 ## Pointers
 
-There is an array of pointers `mem_ptrs` where every item has only one relation item in `mem`. But items in `mem` could have more relation items from `mem_ptrs`.
+There is an array of pointers `mem` where every item has only one relation item in `memory`. But items in `memory` could have more relation items from `mem`.
 
-`mem_ptrs` is a array of indexes for `mem`.
-
-`mem` is an actual memory of program.
+- `mem` is a array of indexes for `memory`.
+- `memory` is an actual memory of program, but this array if only abstruct.
 
 ## Math operations
 
@@ -31,22 +30,23 @@ All math operations (`SUM`, `SUB`, `MUL` and `DIV`) are able to operate with dif
 | `KILL` | 0 | 0 | End process - should be at the end of source | 
 | `OUT` | 1 | 2 | Print bytes from `addr` as `type` | `type`: `0`-str, `1`-char, `2`-dec | `addr`: addr |
 | `SET` | 2 | 3... | Set `n` bytes at `addr` with `offset`. | `addr`: symbolic address in memory map. | `offset`: (2bytes) | `n`: (2bytes) | There would be `n` args/bytes which would be saved into memory. | 
-| `SUM` | 3 | 3 | Sum `a` with `b` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
-| `SUB` | 4 | 3 | Substract `b` from `a` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
-| `MUL` | 5 | 3 | Multiply `a` by `b` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
-| `DIV` | 6 | 4 | Divide `a` by `b` and save result into `dest` and modulo into `mod` | `dest`: addr | `mod`: addr | `a`: addr | `b`: addr |
-| `CPY` | 7 | 3 | Copy `n` first bytes of `targ` into `dest` | `n`: count of bytes | `dest`: addr | `targ`: addr | 
-| `ALC` | 8 | 2 | Allocate `n` count of bytes in memory at `addr`. | `addr`: addr | `n`: count of bytes (2bytes) |
-| `FRE` | 9 | 1 | Free memory at `addr` | `addr`: addr |
-| `RLC` | 10 | 2 | Realloc memory ar `addr` by `n` bytes | `addr`: addr | `n`: new bytes size (2bytes) |
-| `JMP` | 11 | 1 | Jump at `addr`. | `addr`: addr | 
-| `JEQ` | 12 | 3 | Jump at `addr` if `agr0` == `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `JGE` | 13 | 3 | Jump at `addr` if `agr0` >= `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `JLE` | 14 | 3 | Jump at `addr` if `agr0` <= `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `JG` | 15 | 3 | Jump at `addr` if `agr0` > `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `JL` | 16 | 3 | Jump at `addr` if `agr0` < `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `CALL` | 17 | 1... | Call method at `addr` with `args` and return back from where method was called. | `addr`: addr | `args`: addresses of arguments of method |
-| `RET` | 18 | 0 | Return from method back where it was called |
+| `CPT` | 3 | 2 | Copy address of `targ` to `dest` | `dest`: addr | `targ`: addr | 
+| `CPY` | 4 | 3 | Copy `n` first bytes of `targ` into `dest` | `n`: count of bytes | `dest`: addr | `targ`: addr | 
+| `ALC` | 5 | 2 | Allocate `n` count of bytes in memory at `addr`. | `addr`: addr | `n`: count of bytes (2bytes) |
+| `FRE` | 6 | 1 | Free memory at `addr` | `addr`: addr |
+| `RLC` | 7 | 2 | Realloc memory ar `addr` by `n` bytes | `addr`: addr | `n`: new bytes size (2bytes) |
+| `SUM` | 8 | 3 | Sum `a` with `b` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
+| `SUB` | 9 | 3 | Substract `b` from `a` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
+| `MUL` | 10 | 3 | Multiply `a` by `b` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
+| `DIV` | 11 | 4 | Divide `a` by `b` and save result into `dest` and modulo into `mod` | `dest`: addr | `mod`: addr | `a`: addr | `b`: addr |
+| `JMP` | 12 | 1 | Jump at `addr`. | `addr`: addr | 
+| `JEQ` | 13 | 3 | Jump at `addr` if `agr0` == `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
+| `JGE` | 14 | 3 | Jump at `addr` if `agr0` >= `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
+| `JLE` | 15 | 3 | Jump at `addr` if `agr0` <= `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
+| `JG` | 16 | 3 | Jump at `addr` if `agr0` > `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
+| `JL` | 17 | 3 | Jump at `addr` if `agr0` < `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
+| `CALL` | 18 | 1... | Call method at `addr` with `args` and return back from where method was called. | `addr`: addr | `args`: addresses of arguments of method |
+| `RET` | 19 | 1 | Return from method back where it was called |
 | `OFL` | - | 3 | Open file at `addr` with `mode` and return `ptr` to opened file. | `ptr`: addr (4bytes space) | `addr`: addr of memory  with string path | `mode`: `0`-r, `1`-w, `2`-a, `3`-w+ |
 | `CFL` | - | 1 | Close file at `ptr` | `ptr`: addr |
  
