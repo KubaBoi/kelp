@@ -1,0 +1,21 @@
+INSTRUCTION_SET = [
+    "OUT",
+    "SET",
+    "CPT",
+    "CPY",
+    "ALC",
+    "FRE",
+    "RLC",
+    "SUM",
+    "SUB",
+    "MUL",
+    "DIV",
+    "JMP",
+    "JEQ",
+    "JGE",
+    "JLE",
+    "JG",
+    "JL",
+    "CALL",
+    "RET"
+]
