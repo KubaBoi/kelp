@@ -23,3 +23,4 @@ SET_CHAR_REG = re.compile(r"(?P<var_name>[a-zA-Z0-9_]+)\s*=\s*'(?P<value>\\[a-z]
 SET_STR_REG = re.compile(r"(?P<var_name>[a-zA-Z0-9_]+)\s*=\s*\"(?P<value>[\s\w\W]*)\"$")
 SET_BYTES_REG = re.compile(r"(?P<var_name>[a-zA-Z0-9_]+)\s*=\s*\[(?P<value>[\s\w\W]*)\]$")
 CALL_REG = re.compile(r"(?P<method>[a-zA-Z0-9_]+)\((?P<args_str>[a-zA-Z0-9_,\s]+)\)")
+RTRN_REG = re.compile(r"^return$")

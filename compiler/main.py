@@ -76,6 +76,7 @@ for key in methods.keys():
     method["commands"] = [i.strip() for i in method["code"].split(";")]
     while("" in method["commands"]):
         method["commands"].remove("")
+    method["commands"].append("return")
     build_method_args(method, sym_map)
 
     print(f"{key} ({method['args_str']}):")

@@ -69,3 +69,6 @@ def build_call(method_key: str, args: list, method: dict, sym_map: dict) -> list
         var_name = create_name({"var_name": arg}, method)
         bytes += get_variable_addr(var_name, sym_map)
     return bytes
+
+def build_return() -> list:
+    return [INSTRUCTION_SET.index("RET")]

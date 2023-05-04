@@ -148,7 +148,17 @@ class call(cmd_regex):
         args = data["args_str"].split(",")
         method["asm_code"] += build_call(called_method["key"], args, method, sym_map)
         
+class rtrn(cmd_regex):
+    def __init__(self) -> None:
+        super().__init__(RTRN_REG)
 
+    def find(self, cmd: str, method: dict, sym_map: dict) -> None:
+        data = self.find_match(cmd)
+        if (data == None):
+            return
+        
+        method["asm_code"] += build_return()
+    
 
 CMD_REGEXES = {
     "raw_inst": raw_inst(),
@@ -157,6 +167,7 @@ CMD_REGEXES = {
     "set_char": set_char(),
     "set_str": set_str(),
     "set_bytes": set_bytes(),
-    "call": call()
+    "call": call(),
+    "return": rtrn()
 }
 """Dict of functions which are able to decode commands"""
