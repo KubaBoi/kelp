@@ -48,10 +48,11 @@ memory *mem;
 
 byte_t pipe(byte_t *byte_code, k_ptr_t iter, memory *mem)
 {
+    k_ptr_t start_addr = iter;
     byte_t inst_code = byte_code[iter++];
     while (inst_code < INST_SET_SIZE)
     {
-        printf("%u INST[%d]: %d\n", iter, byte_code[iter], inst_code);
+        //printf("%i-> %u INST[%d]: %d\n", start_addr, iter, byte_code[iter], inst_code);
         if (!inst_code)
             break;
         instruction *inst = (instruction *)inst_set[inst_code - 1];
@@ -78,18 +79,21 @@ byte_t pipe(byte_t *byte_code, k_ptr_t iter, memory *mem)
     return 1;
 }
 
-int main()
+int main(int argc, char *args[])
 {
-    byte_t *byte_code = binloader().getSourceFromFile("test");
+    char *path = "./../../test";
+    if (argc >= 2) 
+        path = args[1];
+    byte_t *byte_code = binloader().getSourceFromFile(path);
 
     iter = 0;
     mem_sz = getPtr(byte_code, &iter);
-    printf("mem size: %d\n", mem_sz);
+    //printf("mem size: %d\n", mem_sz);
     mem = new memory(mem_sz);
 
     pipe(byte_code, iter, mem);
 
-    mem->prnt_mem();
-    delete mem;
+    //mem->prnt_mem();
+    //delete mem;
     delete byte_code;
 }
