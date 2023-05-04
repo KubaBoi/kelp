@@ -1,3 +1,4 @@
+
 BASE = 256
 
 def from_256(arr: list) -> int:

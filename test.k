@@ -19,7 +19,8 @@ method main(byte args)
     byte1 num2 = 4; //d asdasd
     byte1 result;
     byte1 break = '\n'; //dasaf
-    //byte string = "ahoj jak se dneska mas?";
+    byte string = "ahoj jak se dneska mas?\n";
+    byte arr = [0, 5, 45, '\n', 'n'];
     sum(result, num1, num2);
     print_dec(result);
     print_char(break);
