@@ -53,5 +53,4 @@ def assemble(sym_map: dict) -> bytes:
     byte_code = b""
     for byte in asm_code:
         byte_code += byte.to_bytes(1, "little")
-    print(byte_code)
     return byte_code
