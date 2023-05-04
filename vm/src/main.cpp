@@ -52,6 +52,8 @@ byte_t pipe(byte_t *byte_code, k_ptr_t iter, memory *mem)
     while (inst_code < INST_SET_SIZE)
     {
         printf("%u INST[%d]: %d\n", iter, byte_code[iter], inst_code);
+        if (!inst_code)
+            break;
         instruction *inst = (instruction *)inst_set[inst_code - 1];
         k_ptr_t ret = inst->run(byte_code, &iter, mem);
         if (!ret) // ret = 0 so this pipe would be ended
