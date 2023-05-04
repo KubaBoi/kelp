@@ -5,7 +5,7 @@ method print_dec(byte message){ $OUT 2 message; }
 
 method sum2(byte1 dest, byte1 a1, byte1 a2)
 {
-    dest = a1 + a2;
+    $SUM dest a1 a2;
 }
 // ahoj
 method sum(byte1 dest, byte1 a1, byte1 a2)
