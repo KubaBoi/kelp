@@ -40,11 +40,13 @@ class raw_inst(cmd_regex):
         data = self.find_match(cmd)
         if (data == None):
             return
-        return
-        # TODO
+    
         method["asm_code"].append(INSTRUCTION_SET.index(data["inst_name"].upper()))
         for arg in data["args"].split(" "):
-            method["asm_code"].append(arg)    
+            if (arg.isnumeric()):
+                method["asm_code"] += to_256(int(arg))
+            else:
+                method["asm_code"] += get_variable_by_obj({"var_name": arg}, method, sym_map)["addr"]   
         
     
 class alloc(cmd_regex):
