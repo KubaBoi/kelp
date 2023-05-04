@@ -1,4 +1,5 @@
 INSTRUCTION_SET = [
+    "KILL",
     "OUT",
     "SET",
     "CPT",
