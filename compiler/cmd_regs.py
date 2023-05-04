@@ -23,7 +23,6 @@ from methods import *
 from chars import *
 
 class cmd_regex:
-    
     def __init__(self, reg: str) -> None:
         self.reg = re.compile(reg)
 
@@ -50,7 +49,6 @@ class raw_inst(cmd_regex):
         
     
 class alloc(cmd_regex):
-
     def __init__(self) -> None:
         super().__init__(ALLOC_REG)
 
@@ -67,7 +65,6 @@ class alloc(cmd_regex):
         method["asm_code"] += build_alloc(var_name, int(data["size"]), sym_map)
 
 class set_dec(cmd_regex):
-
     def __init__(self) -> None:
         super().__init__(SET_DEC_REG)
 
@@ -82,7 +79,6 @@ class set_dec(cmd_regex):
         method["asm_code"] += build_set(var_name, asm_bytes, sym_map)
 
 class set_char(cmd_regex):
-
     def __init__(self) -> None:
         super().__init__(SET_CHAR_REG)
 
@@ -96,7 +92,6 @@ class set_char(cmd_regex):
         method["asm_code"] += build_set(var_name, asm_bytes, sym_map)
 
 class set_str(cmd_regex):
-
     def __init__(self) -> None:
         super().__init__(SET_STR_REG)
 
@@ -115,7 +110,6 @@ class set_str(cmd_regex):
         method["asm_code"] += build_set(var_name, asm_bytes, sym_map)
         
 class set_bytes(cmd_regex):
-
     def __init__(self) -> None:
         super().__init__(SET_BYTES_REG)
 
@@ -134,7 +128,6 @@ class set_bytes(cmd_regex):
         method["asm_code"] += build_set(var_name, asm_bytes, sym_map)
 
 class call(cmd_regex):
-
     def __init__(self) -> None:
         super().__init__(CALL_REG)
 
