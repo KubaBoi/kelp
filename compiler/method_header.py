@@ -20,7 +20,7 @@ def build_method_args(method: dict, sym_map: dict) -> None:
     if (method["name"] == "main"):
         method["asm_code"] += to_256(0, ADDR_RANGE)
         var_name = create_input_ptr(method, sym_map)
-        method["asm_code"] += sym_map["variables"][var_name]["addr"]
+        return
 
     for var in vars:
         data = CMD_REGEXES["alloc"].find_match(var.strip())

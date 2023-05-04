@@ -48,7 +48,8 @@ def assemble(sym_map: dict) -> bytes:
     """
     asm_code = join_asm_code(sym_map)
     asm_code = replace_place_holders(asm_code, sym_map)
-    print(asm_code)
+    for i, byte in enumerate(asm_code):
+        print(i, byte)
 
     byte_code = b""
     for byte in asm_code:

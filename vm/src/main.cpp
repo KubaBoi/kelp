@@ -18,7 +18,8 @@ memory *mem;
 
 /*byte_t byte_code[300] = {
     10, 0,
-    12, 39, 0, // jump
+    18, 39, 0, // jump
+    0,
     // method
     3, 0, // count of args
     4, 0, 5, 0, 6, 0, // args
