@@ -16,7 +16,7 @@ k_ptr_t iter;
 k_ptr_t mem_sz;
 memory *mem;
 
-byte_t byte_code[300] = {
+/*byte_t byte_code[300] = {
     10, 0,
     12, 39, 0, // jump
     // method
@@ -43,14 +43,14 @@ byte_t byte_code[300] = {
     18, 5, 0, 2, 0, 0, 0, 1, 0,
     1, 2, 2, 0,
     1, 1, 3, 0,
-    0};
+    0};*/
 
 byte_t pipe(byte_t *byte_code, k_ptr_t iter, memory *mem)
 {
     byte_t inst_code = byte_code[iter++];
     while (inst_code < INST_SET_SIZE)
     {
-        //printf("%u INST[%d]: %d\n", iter, byte_code[iter], inst_code);
+        printf("%u INST[%d]: %d\n", iter, byte_code[iter], inst_code);
         instruction *inst = (instruction *)inst_set[inst_code - 1];
         k_ptr_t ret = inst->run(byte_code, &iter, mem);
         if (!ret) // ret = 0 so this pipe would be ended
@@ -77,15 +77,16 @@ byte_t pipe(byte_t *byte_code, k_ptr_t iter, memory *mem)
 
 int main()
 {
-    // byte_t *byte_code = getbyte_codeFromFile("calc.bin");
+    byte_t *byte_code = binloader().getSourceFromFile("test");
 
     iter = 0;
     mem_sz = getPtr(byte_code, &iter);
+    printf("mem size: %d\n", mem_sz);
     mem = new memory(mem_sz);
 
     pipe(byte_code, iter, mem);
 
-    // mem->prnt_mem();
+    mem->prnt_mem();
     delete mem;
-    // delete byte_code;
+    delete byte_code;
 }
