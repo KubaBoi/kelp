@@ -13,6 +13,21 @@ for this variable but it could not be even allocated.
 from config import *
 from calc_256 import *
 
+def create_input_ptr(method: dict, sym_map: dict) -> str:
+    split_args = method["args_str"].split(",")
+    if (len(split_args) != 1):
+        raise SyntaxError("There need to be exactly 1 argument in 'main' function.")
+    type_name = split_args[0].split(" ")
+    if (len(type_name) != 2):
+        raise SyntaxError("Syntax in main header.")
+    name = type_name[1]
+    # compiler does not care about users data type
+    # it will always be `byte`
+    sym_map["variables"][name] = {}
+    sym_map["variables"][name]["addr"] = to_256(0, ADDR_RANGE)
+    sym_map["variables"][name]["size"] = 0
+    return name
+
 def create_name(data: dict, method: dict) -> str:
     return f"{method['name']}.{data['var_name']}"
 

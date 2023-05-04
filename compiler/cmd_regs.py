@@ -141,7 +141,8 @@ class call(cmd_regex):
         if (data == None):
             return
         
-        called_method = get_method(data, method, sym_map)
+        # TODO different types warning
+        called_method = get_method(data, sym_map)
         args = data["args_str"].split(",")
         method["asm_code"] += build_call(called_method["key"], args, method, sym_map)
         

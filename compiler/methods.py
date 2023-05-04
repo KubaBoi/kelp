@@ -48,7 +48,7 @@ def get_method_key_formatted(data: dict) -> dict:
     args = data["args_str"].split(",")
     return f"{name}({len(args)} arguments)"
 
-def get_method(data: dict, method: dict, sym_map: dict) -> dict:
+def get_method(data: dict, sym_map: dict) -> dict:
     """
     Find method from sym_map
 
@@ -58,4 +58,15 @@ def get_method(data: dict, method: dict, sym_map: dict) -> dict:
     key = get_method_key(data)
     if (key not in sym_map["methods"].keys()):
         raise SyntaxError(f"Method {get_method_key_formatted(data)} was not defined")
+    return sym_map["methods"][key]
+
+def get_method_by_key(key: str, sym_map: dict) -> dict:
+    """
+    Find method from sym_map by `key`
+
+    Raise:
+        SyntaxError if method does not exist
+    """
+    if (key not in sym_map["methods"].keys()):
+        raise SyntaxError(f"Method '{key}' was not defined")
     return sym_map["methods"][key]

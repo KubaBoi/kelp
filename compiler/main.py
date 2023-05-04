@@ -5,9 +5,12 @@ from regexes import *
 from method_header import *
 from methods import *
 from cmd_regs import *
+from assembly import *
 
+script_path = "test.k"
+byte_code_path = ".".join(script_path.split(".")[:-1])
 
-with open("test.k", "r", encoding="utf-8") as f:
+with open(script_path, "r", encoding="utf-8") as f:
     source = f.read()
 
 source = re.sub(ONE_LINE_COM_REG, "\n", source)
@@ -25,10 +28,11 @@ methods has `key`,
     instruction names(1byte) and name of addresses(2byte)
     - every address for method will be 2 items in this list, first item is name
         and second one will be just 0 (it will help with calculating addresses) 
+- `addr` value of address calculated during assembling
 """
 
 sym_map = {
-    "variable_count": 0,
+    "variable_count": 1, # because addr 0 is reserved for programm input
     "variables": {},
     "methods": methods
 }
@@ -81,8 +85,18 @@ for key in methods.keys():
             inst_obj.find(cmd, method, sym_map)
     print(f"ASM: {method['asm_code']}")
 
+print()
+byte_code = assemble(sym_map)
+print()
 
-for key in sym_map["variables"].keys():
+for method_key in sym_map["methods"].keys():
+    mth = sym_map["methods"][method_key]
+    print(f"{mth['addr']} - {mth['name']}")
+
+"""for key in sym_map["variables"].keys():
     var = sym_map["variables"][key]
     print(f"{var['addr']} - {var['size']}B: {key}")
+"""
 
+with open(byte_code_path, "wb") as f:
+    f.write(byte_code)   
