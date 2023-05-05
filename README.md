@@ -142,6 +142,6 @@ byte1 num2 = *num1;
 
 ### Warning!!
 
-If copying address remember to use `byte` data type or `FRE` instruction as in first example. Otherwise `num2` would allocate some memory, but after `CPT` instruction, this allocated memory will be unreachable.
+If copying address remember to use `byte` data type or `FRE` instruction as in first example. Otherwise `num2` would allocate some memory, but after `CPT` instruction, this allocated memory would be unreachable and that would cause memory leaks.
 
 In the second example there is no need to `FRE` instruction because allocated memory will be filled with values;
