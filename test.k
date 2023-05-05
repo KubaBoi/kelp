@@ -18,11 +18,11 @@ method main(byte args)
 {
     byte string = "Hello fakin world!!!!!!!!\n";
     print_str(string);
-    
+
     byte1 num1 = 2; // jj
     byte1 num2 = 4; //d asdasd
     byte2 num3 = 16;
-    
+
     byte1 result;
     byte1 break = '\n'; //dasaf
     byte plus = " + ";
@@ -45,4 +45,10 @@ method main(byte args)
     print_str(eq);
     print_dec(result);
     print_char(break);
+
+    /*for (byte1 i = 0; i < 5; i++)
+    {
+        print_dec(i);
+        print_char(break);
+    }*/
 }

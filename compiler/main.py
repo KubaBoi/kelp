@@ -4,6 +4,7 @@ import re
 from config import *
 from printer import *
 from regexes import *
+from source import *
 from method_header import *
 from methods import *
 from cmd_regs import *
@@ -15,7 +16,7 @@ byte_code_path = ".".join(script_path.split(".")[:-1])
 with open(script_path, "r", encoding="utf-8") as f:
     source = f.read()
 
-source = re.sub(ONE_LINE_COM_REG, "\n", source)
+source = remove_comments(source)
 methods = {}
 """
 methods has `key`, 
@@ -44,57 +45,10 @@ variables has `method_name.name` (key)
 - `size` integer
 """
 
-"""
-def iter(txt, itr = 0):
-    code = "{"
-    blocks = []
-    while itr < len(txt) and txt[itr] != "}":
-        if (txt[itr] == "{"):
-            itr, new_code, new_blocks = iter(txt, itr + 1)
-            blocks.append({
-                "code": new_code,
-                "blocks": new_blocks
-            })
-        code += txt[itr]
-        itr += 1
-    return itr, code + "}", blocks
-    
-i, code, blocks = iter(source)
-print(i, code, blocks)
-"""
-
-
-matches = re.finditer(METHOD_REG, source)
 try:
-    for match in matches:
-        grp_dict = match.groupdict()
-        key = generate_method_key(grp_dict)
-        if (key in methods.keys()):
-            raise SyntaxError(f"Duplicate method definition {key}({grp_dict['args_str']})")
-        methods[key] = grp_dict
-        methods[key]["key"] = key
-
-    for key in methods.keys():
-        method = methods[key]
-        method["commands"] = [i.strip() for i in method["code"].split(";")]
-        while("" in method["commands"]):
-            method["commands"].remove("")
-        method["commands"].append("return")
-        build_method_args(method, sym_map)
-
-        debug(f"{key} ({method['args_str']}):")
-        for cmd in method["commands"]:
-            found = False
-            for key in CMD_REGEXES.keys():
-                inst_obj = CMD_REGEXES[key]
-                if (inst_obj.find(cmd, method, sym_map)):
-                    found = True
-                    if (key != "alloc"):
-                        break
-            if (not found):
-                raise SyntaxError(f"Cannot translate command: '{cmd}'")
-
-        debug(f"ASM: {method['asm_code']}")
+    prepare_methods(source, methods)
+    prepare_commands(sym_map)
+    translate_methods(sym_map)
 
     debug()
     byte_code = assemble(sym_map)
