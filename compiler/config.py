@@ -1,5 +1,5 @@
 
-DEBUG = False
+DEBUG = True
 
 ADDR_RANGE = 2
 # Byte size of pointers in byte_code

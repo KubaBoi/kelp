@@ -11,6 +11,8 @@ ESCAPE_CHARS = {
     "\\": ord("\\"),
     "\'": ord("'"),
     "\"": ord("\""),
+    "{": ord("{"),
+    "}": ord("}"),
     "n": ord("\n"),
     "r": ord("\r"),
     "t": ord("\t"),
@@ -30,7 +32,7 @@ def get_ord(char: str) -> int:
         raise SyntaxError(f"Escape character {char} does not exists or is not allowed")
     return ESCAPE_CHARS[char[1]]
 
-def str_to_asm_bytes(value: str, add_end = True) -> list:
+def str_to_asm_bytes(value: str) -> list:
     """Convert string into asm_byte array"""
     chars = re.findall(SPLIT_TO_CHARS_REG, value)
     bytes = [get_ord(c) for c in chars]

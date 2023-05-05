@@ -3,7 +3,7 @@ method print_str(byte message){ $OUT 0 message; }
 method print_char(byte message){ $OUT 1 message; }
 method print_dec(byte message){ $OUT 2 message; }
 method free(byte var) { $FRE var; }
-
+/*
 method sum(byte1 dest, byte1 a1, byte1 a2)
 {
     $SUM dest a1 a2;
@@ -12,11 +12,11 @@ method sum(byte1 dest, byte1 a1, byte1 a2)
 method sumis(byte1 dest, byte1 a1, byte1 a2)
 {
     sum(dest, a1, a2);
-}
+}*/
 
 method main(byte args)
 {
-    byte string = "Hello fakin world!!!!!!!!\n";
+    /*byte string = "Hello fakin world!!!!!!!!\n";
     print_str(string);
 
     byte1 num1 = 2; // jj
@@ -44,11 +44,14 @@ method main(byte args)
     print_dec(num2);
     print_str(eq);
     print_dec(result);
-    print_char(break);
+    print_char(break);*/
 
-    /*for (byte1 i = 0; i < 5; i++)
-    {
-        print_dec(i);
-        print_char(break);
-    }*/
+    byte1 break = '\n';
+    byte1 one = 1;
+    byte1 five = 5;
+    // for cyklus
+    for (byte1 i = 0, i < 5, i++);
+    print_dec(i);
+    print_char(break);
+    block_end;
 }

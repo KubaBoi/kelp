@@ -44,7 +44,7 @@ def get_method_key_formatted(data: dict) -> dict:
 
     "method_name(<count_of_args> arguments)"
     """
-    name = data["method"] + "("
+    name = data["method"]
     args = data["args_str"].split(",")
     return f"{name}({len(args)} arguments)"
 
@@ -57,7 +57,7 @@ def get_method(data: dict, sym_map: dict) -> dict:
     """
     key = get_method_key(data)
     if (key not in sym_map["methods"].keys()):
-        raise SyntaxError(f"Method {get_method_key_formatted(data)} was not defined")
+        raise SyntaxError(f"Method '{get_method_key_formatted(data)}' was not defined")
     return sym_map["methods"][key]
 
 def get_method_by_key(key: str, sym_map: dict) -> dict:
