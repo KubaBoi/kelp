@@ -1,86 +1,99 @@
 # Kelp
 
-First two bytes are count of needed variables inside program. Those two bytes describes how many addresses would be needed and at the start of the program there would be created an array with values of addresses in memory.
+Kelp is language specially for LilyGo TWatch 2020 environment. Programs run via virtual machine.
 
-This array will be filled with 0s for signalization that addresses are not allocated yet and those addresses will be considered as `nullptr`.
+Virtual machine documentation is ./VM_README.md .
 
-## Addreses
+## Methods
 
-Addreses are 2 bytes integers of 256-decimal number system (as every number in this system) as little endian.
+Methods are define as `method name(args) {code}`. To return use the `return` keyword without any arguments (this is not necessary at the end of method).
 
-- `1` = 1 0
-- `6` = 6 0
-- `258` = 2 1
-
-## Pointers
-
-There is an array of pointers `mem` where every item has only one relation item in `memory`. But items in `memory` could have more relation items from `mem`.
-
-- `mem` is a array of indexes for `memory`.
-- `memory` is an actual memory of program, but this array if only abstract.
-
-## Math operations
-
-All math operations (`SUM`, `SUB`, `MUL` and `DIV`) are able to operate with different data types (4 bytes + 2 bytes = 4 bytes), but result memory need to respect the size of the result. It means that if the result would be size of 4 bytes and result memory would be allocated for less than 4 bytes (for example 2 bytes) then some information will be probably lost. Because saved would be only first (for example) 2 bytes of the result. 
-
-## Instructions
-
-| Name | Code | Arg count | Description | arg0 | arg1 | arg2 | arg3 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `KILL` | 0 | 0 | End process - should be at the end of source | 
-| `OUT` | 1 | 2 | Print bytes from `addr` as `type` | `type`: `0`-str, `1`-char, `2`-dec | `addr`: addr |
-| `SET` | 2 | 3... | Set `n` bytes at `addr` with `offset`. | `addr`: symbolic address in memory map. | `offset`: (2bytes) | `n`: (2bytes) | There would be `n` args/bytes which would be saved into memory. | 
-| `CPT` | 3 | 2 | Copy address of `targ` to `dest` | `dest`: addr | `targ`: addr | 
-| `CPY` | 4 | 3 | Copy `n` first bytes of `targ` into `dest` | `n`: count of bytes | `dest`: addr | `targ`: addr | 
-| `ALC` | 5 | 2 | Allocate `n` count of bytes in memory at `addr`. | `addr`: addr | `n`: count of bytes (2bytes) |
-| `FRE` | 6 | 1 | Free memory at `addr` | `addr`: addr |
-| `RLC` | 7 | 2 | Realloc memory ar `addr` by `n` bytes | `addr`: addr | `n`: new bytes size (2bytes) |
-| `SUM` | 8 | 3 | Sum `a` with `b` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
-| `SUB` | 9 | 3 | Substract `b` from `a` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
-| `MUL` | 10 | 3 | Multiply `a` by `b` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
-| `DIV` | 11 | 4 | Divide `a` by `b` and save result into `dest` and modulo into `mod` | `dest`: addr | `mod`: addr | `a`: addr | `b`: addr |
-| `JMP` | 12 | 1 | Jump at `addr`. | `addr`: addr | 
-| `JEQ` | 13 | 3 | Jump at `addr` if `agr0` == `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `JGE` | 14 | 3 | Jump at `addr` if `agr0` >= `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `JLE` | 15 | 3 | Jump at `addr` if `agr0` <= `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `JG` | 16 | 3 | Jump at `addr` if `agr0` > `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `JL` | 17 | 3 | Jump at `addr` if `agr0` < `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `CALL` | 18 | 1... | Call method at `addr` with `args` and return back from where method was called. | `addr`: addr | `args`: addresses of arguments of method |
-| `RET` | 19 | 1 | Return from method back where it was called |
-| `OFL` | - | 3 | Open file at `addr` with `mode` and return `ptr` to opened file. | `ptr`: addr (4bytes space) | `addr`: addr of memory  with string path | `mode`: `0`-r, `1`-w, `2`-a, `3`-w+ |
-| `CFL` | - | 1 | Close file at `ptr` | `ptr`: addr |
- 
-## Examples
-
-DEPRACATED
-
-HelloWorld:
+Example:
 
 ```c
-1, 0, // count of variables in program
-8, 0, 0, 13, 0, // allocate 13 bytes in mem at addr 0 0
-// SET next 13 bytes into memory at address 0 0
-2, 0, 0, 0, 0, 13, 0, 'H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '!', 0,
-1, 0, 0, 0, 0, // OUT str at address 0 0
-0 // end
+method example_method(byte1 argument)
+{
+    byte1 a = 0;
+}
 ```
 
-Sum:
+## Data types
+
+There are not static data types. Every variable is just "array" of bytes and the size of this array is defined in data type specification:
+
 ```c
-3, 0, // count of variables in program
-// allocate 1 byte for addresses 0 0 - 2 0
-8, 0, 0, 1, 0,
-8, 1, 0, 1, 0,
-8, 2, 0, 1, 0,
-// SET 1 byte of value 5 at address 0 0
-2, 0, 0, 0, 0, 1, 0, 5,
-// SET 1 byte of value 10 at address 1 0
-2, 1, 0, 0, 0, 1, 0, 10,
-// SET 1 byte at 0 address 2 0
-2, 2, 0, 0, 0, 1, 0, 0,
-// SUM 0 0 + 1 0 and save result in 2 0
-3, 2, 0, 0, 0, 1, 0,
-// OUT dec as 1 byte at address 2 0
-1, 2, 1, 2, 0,
-0
+byte1 char = 10; // 1 byte will be allocated and set value to 10
+byte2 short = 258; // 2 bytes will be allocated and set values to 2 1
+byte3 something = 23; // 3 bytes will be allocated and set values to 23 0 0
+byte4 int = 5; // 4 bytes will be allocated and set values to 5 0 0 0
+.
+.
+.
+```
+
+But there is also option to not specify size:
+
+```c
+byte string1; // variable string1 will be defined but no allocations are done
+// allocation for 17 bytes will be done
+// and also set instruction will be done
+// 17 bytes because "Hello world! :)\n" is 16 chars long plus ending 0
+string1 = "Hello world! :)\n"; 
+
+byte string2 = "Hello :)\n"; // allocation and set of 10 bytes
+
+// arrays are defined as []
+// there will be allocation and set for 3 bytes done
+byte array = [12, 5, 'a'];
+
+// this approach is not the best practice, better use simple `byte` annotation
+// and let the compiler do the job
+byte12 string3 = "Hello :)\n"; // allocation of 12 bytes and set of 10 bytes
+
+// errors because allocation byte counts are less than set byte counts
+byte2 array_err = [23, 7, 1];
+byte2 string_err = "HeeHee\n";
+```
+
+## Start of the program
+
+Every program need to have its own `main` method which is than considered as starting point. This `main` method should have exactly 1 argument (this argument will always be `byte` no matter what user define).
+
+The one argument is program input and always will be at address 0.
+
+```c
+// arg will be type `byte` even if user defined it as `byte1`
+method main(byte1 arg)
+{
+    // code
+}
+```
+
+## Raw instructions
+
+Sometimes it would be necessary to use raw instructions. Those structures are something like assembly code. 
+
+Raw instructions are defined with `$` at the start of command and and with `;` at the end.
+
+```c
+// print
+byte message = "Hello world!\n";
+$OUT 0 message;
+
+// sum
+byte1 num1 = 5;
+byte1 num2 = 4;
+byte1 dest;
+$SUM dest num1 num2;
+```
+
+List of instructions and its usages are in Virtual machine documentation.
+
+Most of default library methods would contains raw instructions. For example simple decimal print:
+
+```c
+method print_dec(byte message)
+{ 
+    $OUT 2 message; 
+}
 ```
