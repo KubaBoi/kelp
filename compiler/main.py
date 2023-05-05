@@ -1,6 +1,8 @@
 
 import re
 
+from config import *
+from printer import *
 from regexes import *
 from method_header import *
 from methods import *
@@ -63,48 +65,57 @@ print(i, code, blocks)
 
 
 matches = re.finditer(METHOD_REG, source)
-for match in matches:
-    grp_dict = match.groupdict()
-    key = generate_method_key(grp_dict)
-    if (key in methods.keys()):
-        raise SyntaxError(f"Duplicate method definition {key}({grp_dict['args_str']})")
-    methods[key] = grp_dict
-    methods[key]["key"] = key
+try:
+    for match in matches:
+        grp_dict = match.groupdict()
+        key = generate_method_key(grp_dict)
+        if (key in methods.keys()):
+            raise SyntaxError(f"Duplicate method definition {key}({grp_dict['args_str']})")
+        methods[key] = grp_dict
+        methods[key]["key"] = key
 
-for key in methods.keys():
-    method = methods[key]
-    method["commands"] = [i.strip() for i in method["code"].split(";")]
-    while("" in method["commands"]):
-        method["commands"].remove("")
-    method["commands"].append("return")
-    build_method_args(method, sym_map)
+    for key in methods.keys():
+        method = methods[key]
+        method["commands"] = [i.strip() for i in method["code"].split(";")]
+        while("" in method["commands"]):
+            method["commands"].remove("")
+        method["commands"].append("return")
+        build_method_args(method, sym_map)
 
-    print(f"{key} ({method['args_str']}):")
-    for cmd in method["commands"]:
-        found = False
-        for key in CMD_REGEXES.keys():
-            inst_obj = CMD_REGEXES[key]
-            if (inst_obj.find(cmd, method, sym_map)):
-                found = True
-                if (key != "alloc"):
-                    break
-        if (not found):
-            raise SyntaxError(f"Cannot translate command: '{cmd}'")
+        debug(f"{key} ({method['args_str']}):")
+        for cmd in method["commands"]:
+            found = False
+            for key in CMD_REGEXES.keys():
+                inst_obj = CMD_REGEXES[key]
+                if (inst_obj.find(cmd, method, sym_map)):
+                    found = True
+                    if (key != "alloc"):
+                        break
+            if (not found):
+                raise SyntaxError(f"Cannot translate command: '{cmd}'")
 
-    print(f"ASM: {method['asm_code']}")
+        debug(f"ASM: {method['asm_code']}")
 
-print()
-byte_code = assemble(sym_map)
-print()
+    debug()
+    byte_code = assemble(sym_map)
+    debug()
+except Exception as e:
+    error(e)
+    log("Aborting compilation.")
+    exit(0)
 
-for method_key in sym_map["methods"].keys():
-    mth = sym_map["methods"][method_key]
-    print(f"[{mth['addr']} - {mth['name']}], ")
-print()
-for key in sym_map["variables"].keys():
-    var = sym_map["variables"][key]
-    print(f"{var['addr']} - {var['size']}B: {key}")
+if (DEBUG):
+    for method_key in sym_map["methods"].keys():
+        mth = sym_map["methods"][method_key]
+        debug(f"[{mth['addr']} - {mth['name']}], ")
+    debug()
+    for key in sym_map["variables"].keys():
+        var = sym_map["variables"][key]
+        debug(f"{var['addr']} - {var['size']}B: {key}")
 
-
+log()
+log("Compilation successful :)")
+log(f"Warning count: {len(printer_warns)}")
 with open(byte_code_path, "wb") as f:
     f.write(byte_code)   
+log(f"Bytecode generated into '{byte_code_path}'")

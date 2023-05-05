@@ -85,9 +85,7 @@ def build_call(method_key: str, args: list, method: dict, sym_map: dict) -> list
     asm_code.append(INSTRUCTION_SET.index("CALL"))
     asm_code.append(method_key)
     asm_code += [0 for i in range(1, ADDR_RANGE)] 
-    for arg in args:
-        arg = arg.strip()
-        var_name = create_name({"var_name": arg}, method)
+    for var_name in args:
         asm_code += get_variable_addr(var_name, sym_map)
     return asm_code
 

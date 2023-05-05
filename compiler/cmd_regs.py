@@ -15,6 +15,7 @@ and every method would have set address.
 
 import re
 
+from printer import *
 from instruction_set import *
 from regexes import *
 from calc_256 import *
@@ -166,8 +167,7 @@ class cpy(cmd_regex):
 
         byte_count = dest["size"]
         if (dest["size"] != targ["size"]):
-            print(f"WARN: destination '{dest_name}' ({dest['size']}B) and target '{targ_name}' ({targ['size']}B) are not the same.\n" +
-                  "May loss precision.")
+            warn(f"Destination '{dest_name}' ({dest['size']}B) and target '{targ_name}' ({targ['size']}B) are not the same size. May loss precision.")
             if byte_count > targ["size"]:
                 byte_count = targ["size"] 
         method["asm_code"] += build_cpy(dest_name, targ_name, byte_count, sym_map)
@@ -182,9 +182,15 @@ class call(cmd_regex):
         if (data == None):
             return False
         
-        # TODO different types warning
         called_method = get_method(data, sym_map)
-        args = data["args_str"].split(",")
+        args = [create_name_by_name(arg.strip(), method) for arg in data["args_str"].split(",")]
+        
+        for i, (arg, size) in enumerate(zip(args, called_method["args"])):
+            var = get_variable(arg, sym_map)
+            if (var["size"] != size and size != 0):
+                warn(f"Call of method '{get_method_key_formatted(data)}' has different var size of {i}. arg - '{arg}':" +
+                      f" Expected size is {size}B but provided is {var['size']}B")
+
         method["asm_code"] += build_call(called_method["key"], args, method, sym_map)
         return True
 

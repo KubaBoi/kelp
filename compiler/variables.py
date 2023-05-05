@@ -31,6 +31,9 @@ def create_input_ptr(method: dict, sym_map: dict) -> str:
 def create_name(data: dict, method: dict) -> str:
     return f"{method['name']}.{data['var_name']}"
 
+def create_name_by_name(var_name: dict, method: dict) -> str:
+    return f"{method['name']}.{var_name}"
+
 def create_variable(data: dict, method: dict, sym_map: dict) -> str:
     """
     Build name for sym_map in "method_name.var_name" format
@@ -82,5 +85,5 @@ def get_variable(var_name: str, sym_map: dict) -> dict:
         variable object
     """
     if (var_name not in sym_map["variables"].keys()):
-        raise SyntaxError(f"Variable {var_name} was not defined")
+        raise SyntaxError(f"Variable '{var_name}' was not defined")
     return sym_map["variables"][var_name]

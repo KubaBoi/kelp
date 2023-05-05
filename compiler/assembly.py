@@ -3,6 +3,7 @@ Methods for convertion from `asm_code` to `byte_code`
 """
 
 from config import *
+from printer import *
 from calc_256 import *
 from methods import *
 from instruction_set import INSTRUCTION_SET
@@ -31,7 +32,7 @@ def replace_place_holders(asm_code: list, sym_map: dict) -> list:
     """
     Replace place holders to addresses of methods
     """
-    print(len(asm_code))
+    debug(len(asm_code))
     for i, byte in enumerate(asm_code):
         if (not isinstance(byte, str)):
             continue
@@ -49,10 +50,10 @@ def assemble(sym_map: dict) -> bytes:
     asm_code = join_asm_code(sym_map)
     asm_code = replace_place_holders(asm_code, sym_map)
     for i, byte in enumerate(asm_code):
-        print(f"[{i}, {byte}] ", end="")
-    print()
+        debug(f"[{i}, {byte}] ", end="")
+    debug()
 
     byte_code = b""
     for byte in asm_code:
-        byte_code += byte.to_bytes(1, "little")
+        byte_code += byte.to_bytes(1, ENDIAN)
     return byte_code
