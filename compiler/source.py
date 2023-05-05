@@ -61,13 +61,17 @@ def prepare_commands(sym_map: dict) -> None:
     for key in methods.keys():
         method = methods[key]
         method["commands"] = [i.strip() for i in method["code"].split(";")]
-        while("" in method["commands"]):
+        while ("" in method["commands"]):
             method["commands"].remove("")
         method["commands"].append("return")
         # build method header
         build_method_args(method, sym_map)
 
 def translate_methods(sym_map: dict) -> None:
+    """
+    Go throught all commands of every method and translate
+    it to asm_code
+    """
     methods = sym_map["methods"]
     for key in methods.keys():
         method = methods[key]

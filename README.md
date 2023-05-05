@@ -138,10 +138,10 @@ byte1 num1 = 5;
 byte1 num2 = *num1;
 ```
 
-`num1` and `num2` will have same value but different memory address.
+`num1` and `num2` will have same value but different memory address. In case that `num1` and `num2` do not have same sizes, compilator will print a warning about precision and copied would be the lower count of bytes. 
 
 ### Warning!!
 
-If copying address remember to use `byte` data type or `FRE` instruction as in first example. Otherwise `num2` would allocate some memory, but after copy pointer instruction, this allocated memory will be unreachable.
+If copying address remember to use `byte` data type or `FRE` instruction as in first example. Otherwise `num2` would allocate some memory, but after `CPT` instruction, this allocated memory will be unreachable.
 
 In the second example there is no need to `FRE` instruction because allocated memory will be filled with values;
