@@ -2,7 +2,7 @@
 
 Kelp is language specially for LilyGo TWatch 2020 environment. Programs run via virtual machine.
 
-Virtual machine documentation is ./VM_README.md .
+Virtual machine documentation is ./VM_README.md or https://github.com/KubaBoi/kelp/blob/main/VM_README.md.
 
 ## Methods
 
