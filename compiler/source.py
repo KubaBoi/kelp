@@ -21,9 +21,7 @@ def get_code_of_method(name: str, source: str, source_len: int, endpos: int) -> 
     for i in range(endpos, source_len):
         c = source[i]
         if (c == "{"): depth += 1
-        elif (c == "}"): 
-            depth -= 1
-
+        elif (c == "}"): depth -= 1
         if (depth > 0): code += c
         else: break
     if (depth > 0):
