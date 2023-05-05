@@ -17,6 +17,21 @@ method example_method(byte1 argument)
 }
 ```
 
+Methods can have an overload, but every definition need to has different count of arguments.
+
+```c
+method create(byte arg)
+{
+    arg = "ahoj";
+}
+
+method create(byte arg0, byte arg1)
+{
+    arg0 = "ahoj";
+    arg1 = [52];
+}
+```
+
 ## Data types
 
 There are not static data types. Every variable is just "array" of bytes and the size of this array is defined in data type specification:
@@ -97,3 +112,36 @@ method print_dec(byte message)
     $OUT 2 message; 
 }
 ```
+
+## Copying
+
+Every variable is considered to be pointer. So after this procedure:
+
+```c
+// case 1
+byte1 num1 = 5;
+byte num2 = num1;
+
+// case 2
+byte1 num1 = 5;
+byte1 num2;
+$FRE num2;
+num2 = num1;
+```
+
+will `num1` and `num2` be pointing to same memory address.
+
+To copy value use this syntax:
+
+```c
+byte1 num1 = 5;
+byte1 num2 = *num1;
+```
+
+`num1` and `num2` will have same value but different memory address.
+
+### Warning!!
+
+If copying address remember to use `byte` data type or `FRE` instruction as in first example. Otherwise `num2` would allocate some memory, but after copy pointer instruction, this allocated memory will be unreachable.
+
+In the second example there is no need to `FRE` instruction because allocated memory will be filled with values;

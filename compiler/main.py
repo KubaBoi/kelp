@@ -81,9 +81,16 @@ for key in methods.keys():
 
     print(f"{key} ({method['args_str']}):")
     for cmd in method["commands"]:
+        found = False
         for key in CMD_REGEXES.keys():
             inst_obj = CMD_REGEXES[key]
-            inst_obj.find(cmd, method, sym_map)
+            if (inst_obj.find(cmd, method, sym_map)):
+                found = True
+                if (key != "alloc"):
+                    break
+        if (not found):
+            raise SyntaxError(f"Cannot translate command: '{cmd}'")
+
     print(f"ASM: {method['asm_code']}")
 
 print()
@@ -92,12 +99,12 @@ print()
 
 for method_key in sym_map["methods"].keys():
     mth = sym_map["methods"][method_key]
-    print(f"{mth['addr']} - {mth['name']}")
-
-"""for key in sym_map["variables"].keys():
+    print(f"[{mth['addr']} - {mth['name']}], ")
+print()
+for key in sym_map["variables"].keys():
     var = sym_map["variables"][key]
     print(f"{var['addr']} - {var['size']}B: {key}")
-"""
+
 
 with open(byte_code_path, "wb") as f:
     f.write(byte_code)   

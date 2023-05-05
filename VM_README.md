@@ -31,7 +31,7 @@ All math operations (`SUM`, `SUB`, `MUL` and `DIV`) are able to operate with dif
 | `OUT` | 1 | 2 | Print bytes from `addr` as `type` | `type`: `0`-str, `1`-char, `2`-dec | `addr`: addr |
 | `SET` | 2 | 3... | Set `n` bytes at `addr` with `offset`. | `addr`: symbolic address in memory map. | `offset`: (2bytes) | `n`: (2bytes) | There would be `n` args/bytes which would be saved into memory. | 
 | `CPT` | 3 | 2 | Copy address of `targ` to `dest` | `dest`: addr | `targ`: addr | 
-| `CPY` | 4 | 3 | Copy `n` first bytes of `targ` into `dest` | `n`: count of bytes | `dest`: addr | `targ`: addr | 
+| `CPY` | 4 | 3 | Copy `n` first bytes of `targ` into `dest` | `n`: count of bytes (2bytes) | `dest`: addr | `targ`: addr | 
 | `ALC` | 5 | 2 | Allocate `n` count of bytes in memory at `addr`. | `addr`: addr | `n`: count of bytes (2bytes) |
 | `FRE` | 6 | 1 | Free memory at `addr` | `addr`: addr |
 | `RLC` | 7 | 2 | Realloc memory ar `addr` by `n` bytes | `addr`: addr | `n`: new bytes size (2bytes) |

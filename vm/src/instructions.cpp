@@ -45,10 +45,10 @@ k_ptr_t CPT::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 
 k_ptr_t CPY::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 {
-    byte_t sz = getByte(ptr, iter);
+    word_t sz = getWord(ptr, iter);
     k_ptr_t dest = getPtr(ptr, iter);
     k_ptr_t addr = getPtr(ptr, iter);
-    for (byte_t i = 0; i < sz; i++)
+    for (word_t i = 0; i < sz; i++)
         mem->set_byte(dest, mem->get_byte(addr, i), i);
     return 1;
 }
