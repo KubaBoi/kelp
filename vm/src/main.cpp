@@ -52,7 +52,7 @@ byte_t pipe(byte_t *byte_code, k_ptr_t iter, memory *mem)
     byte_t inst_code = byte_code[iter++];
     while (inst_code < INST_SET_SIZE)
     {
-        //printf("%i-> %u INST[%d]: %d\n", start_addr, iter, byte_code[iter], inst_code);
+        printf("%i-> %u INST[%d]: %d\n", start_addr, iter, byte_code[iter], inst_code);
         if (!inst_code)
             break;
         instruction *inst = (instruction *)inst_set[inst_code - 1];
