@@ -138,7 +138,7 @@ def custom_command(command: dict, method: dict, sym_map: dict) -> list:
         before_size = len(asm_code)
         asm_code += translate_commands(command["commands"], method, sym_map) # code inside
         asm_code += translate_cmd(args[2], method, sym_map) # iterator change
-        asm_code += build_jump(1, len(asm_code) - before_size + 4)
+        asm_code += build_jump(1, len(asm_code) - before_size + 3)
     return asm_code
 
 
