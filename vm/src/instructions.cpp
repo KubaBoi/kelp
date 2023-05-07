@@ -138,68 +138,34 @@ k_ptr_t DIV::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 
 k_ptr_t JMP::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 {
-    k_ptr_t addr = getPtr(ptr, iter);
-    *iter = addr;
+    byte_t direction = getByte(ptr, iter) << 7;
+    int jump_size = getWord(ptr, iter) * (-1 * direction);
+    *iter += jump_size;
     return 1;
 }
 
-k_ptr_t JEQ::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
+k_ptr_t JMC::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 {
-    k_ptr_t arg0 = getPtr(ptr, iter);
-    k_ptr_t arg1 = getPtr(ptr, iter);
-    k_ptr_t addr = getPtr(ptr, iter);
-    uint128_t v0 = mem->get_dec(arg0, mem->get_size(arg0));
-    uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
-    if (v0 == v1)
-        *iter = addr;
-    return 1;
-}
+    byte_t condition = getByte(ptr, iter);
+    byte_t direction = condition << 7;
+    condition = condition >> 1;
 
-k_ptr_t JGE::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
-{
     k_ptr_t arg0 = getPtr(ptr, iter);
     k_ptr_t arg1 = getPtr(ptr, iter);
-    k_ptr_t addr = getPtr(ptr, iter);
+    int jump_size = getWord(ptr, iter) * (-1 * direction); // 0 forwards, 1 backwards 
     uint128_t v0 = mem->get_dec(arg0, mem->get_size(arg0));
     uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
-    if (v0 >= v1)
-        *iter = addr;
-    return 1;
-}
-
-k_ptr_t JLE::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
-{
-    k_ptr_t arg0 = getPtr(ptr, iter);
-    k_ptr_t arg1 = getPtr(ptr, iter);
-    k_ptr_t addr = getPtr(ptr, iter);
-    uint128_t v0 = mem->get_dec(arg0, mem->get_size(arg0));
-    uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
-    if (v0 <= v1)
-        *iter = addr;
-    return 1;
-}
-
-k_ptr_t JG::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
-{
-    k_ptr_t arg0 = getPtr(ptr, iter);
-    k_ptr_t arg1 = getPtr(ptr, iter);
-    k_ptr_t addr = getPtr(ptr, iter);
-    uint128_t v0 = mem->get_dec(arg0, mem->get_size(arg0));
-    uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
-    if (v0 > v1)
-        *iter = addr;
-    return 1;
-}
-
-k_ptr_t JL::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
-{
-    k_ptr_t arg0 = getPtr(ptr, iter);
-    k_ptr_t arg1 = getPtr(ptr, iter);
-    k_ptr_t addr = getPtr(ptr, iter);
-    uint128_t v0 = mem->get_dec(arg0, mem->get_size(arg0));
-    uint128_t v1 = mem->get_dec(arg1, mem->get_size(arg1));
-    if (v0 < v1)
-        *iter = addr;
+    
+    byte_t truth = 0;
+    truth = truth || (condition == 0 && v0 == v1);
+    truth = truth || (condition == 1 && v0 != v1);
+    truth = truth || (condition == 2 && v0 >= v1);
+    truth = truth || (condition == 3 && v0 <= v1);  
+    truth = truth || (condition == 4 && v0 > v1);
+    truth = truth || (condition == 5 && v0 < v1);
+    
+    *iter += jump_size * truth;
+        
     return 1;
 }
 

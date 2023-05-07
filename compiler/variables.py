@@ -50,7 +50,7 @@ def create_variable(data: dict, method: dict, sym_map: dict) -> str:
 
     name = create_name(data, method)
     if (name in sym_map["variables"].keys()):
-        raise SyntaxError(f"Duplicated variable definition {name}")
+        raise SyntaxError(f"Duplicated variable definition '{name}'")
     sym_map["variables"][name] = {}
     sym_map["variables"][name]["addr"] = to_256(sym_map["variable_count"], ADDR_RANGE)
     sym_map["variables"][name]["size"] = int(data["size"])

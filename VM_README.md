@@ -23,6 +23,25 @@ There is an array of pointers `mem` where every item has only one relation item 
 
 All math operations (`SUM`, `SUB`, `MUL` and `DIV`) are able to operate with different data types (4 bytes + 2 bytes = 4 bytes), but result memory need to respect the size of the result. It means that if the result would be size of 4 bytes and result memory would be allocated for less than 4 bytes (for example 2 bytes) then some information will be probably lost. Because saved would be only first (for example) 2 bytes of the result. 
 
+## Condition type
+
+Condition type is one byte, first 1 bit is direction and the other 7 bits are type of condition:
+
+| Code | Bits | Name | Description |
+| --- | --- | --- | --- |
+| 0 | 0000000 0 | `FEQ` | forwards if equal `==` |
+| 1 | 0000000 1 | `BEQ` | backwards if equal `==` |
+| 2 | 0000001 0 | `FNQ` | forwards if NOT equal `!=` |
+| 3 | 0000001 1 | `BNQ` | backwards if NOT equal `!=` |
+| 4 | 0000010 0 | `FGE` | forwards if equal `>=` |
+| 5 | 0000010 1 | `BGE` | backwards if equal `>=` |
+| 6 | 0000011 0 | `FLE` | forwards if equal `<=` |
+| 7 | 0000011 1 | `BLE` | backwards if equal `<=` |
+| 8 | 0000100 0 | `FG` | forwards if equal `>` |
+| 9 | 0000100 1 | `BG` | backwards if equal `>` |
+| 10 | 0000101 0 | `FL` | forwards if equal `<` |
+| 11 | 0000101 1 | `BL` | backwards if equal `<` |
+
 ## Instructions
 
 | Name | Code | Arg count | Description | arg0 | arg1 | arg2 | arg3 |
@@ -39,17 +58,11 @@ All math operations (`SUM`, `SUB`, `MUL` and `DIV`) are able to operate with dif
 | `SUB` | 9 | 3 | Substract `b` from `a` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
 | `MUL` | 10 | 3 | Multiply `a` by `b` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
 | `DIV` | 11 | 4 | Divide `a` by `b` and save result into `dest` and modulo into `mod` | `dest`: addr | `mod`: addr | `a`: addr | `b`: addr |
-| `JMP` | 12 | 1 | Jump at `addr`. | `addr`: addr | 
-| `JEQ` | 13 | 3 | Jump at `addr` if `agr0` == `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `JGE` | 14 | 3 | Jump at `addr` if `agr0` >= `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `JLE` | 15 | 3 | Jump at `addr` if `agr0` <= `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `JG` | 16 | 3 | Jump at `addr` if `agr0` > `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `JL` | 17 | 3 | Jump at `addr` if `agr0` < `arg1` | `arg0`: addr | `arg1`: addr | `addr`: addr |
-| `CALL` | 18 | 1... | Call method at `addr` with `args` and return back from where method was called. | `addr`: addr | `args`: addresses of arguments of method |
-| `RET` | 19 | 1 | Return from method back where it was called |
-| `OFL` | - | 3 | Open file at `addr` with `mode` and return `ptr` to opened file. | `ptr`: addr (4bytes space) | `addr`: addr of memory  with string path | `mode`: `0`-r, `1`-w, `2`-a, `3`-w+ |
-| `CFL` | - | 1 | Close file at `ptr` | `ptr`: addr |
- 
+| `CALL` | 12 | 1... | Call method at `addr` with `args` and return back from where method was called. | `addr`: addr | `args`: addresses of arguments of method |
+| `RET` | 13 | 1 | Return from method back where it was called |
+| `JMP` | 14 | 2 | Jump `n` bytes in `direction` in source code. | `direction`: 0-forwards, 1-backwards | `n`: count of bytes (2bytes) | 
+| `JMC` | 16 | 4 | Jump `n` bytes in `direction` in source code if `agr0` with `arg1` fullfill `condition` | `condition`: first 1. bit is `direction`(0-forwards, 1-backwards), other bits are `condition type` | `n`: count of bytes (2bytes) | `arg0`: addr | `arg1`: addr |
+
 ## Examples
 
 DEPRACATED

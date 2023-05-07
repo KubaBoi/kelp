@@ -16,14 +16,20 @@ INSTRUCTION_SET = [
     "SUB",
     "MUL",
     "DIV",
-    "JMP",
-    "JEQ",
-    "JGE",
-    "JLE",
-    "JG",
-    "JL",
     "CALL",
-    "RET"
+    "RET",
+    "JMPF",
+    "JMPB",
+    "JEQF",
+    "JEQB",
+    "JGEF",
+    "JGEB",
+    "JLEF",
+    "JLEB",
+    "JGF",
+    "JGB",
+    "JLF",
+    "JLB"
 ]
 
 def build_alloc(var_name: str, size: int, sym_map: dict) -> list:

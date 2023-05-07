@@ -78,42 +78,6 @@ public:
     k_ptr_t run(byte_t *ptr, k_ptr_t *iter, memory *mem);
 };
 
-class JMP : instruction
-{
-public:
-    k_ptr_t run(byte_t *ptr, k_ptr_t *iter, memory *mem);
-};
-
-class JEQ : instruction
-{
-public:
-    k_ptr_t run(byte_t *ptr, k_ptr_t *iter, memory *mem);
-};
-
-class JGE : instruction
-{
-public:
-    k_ptr_t run(byte_t *ptr, k_ptr_t *iter, memory *mem);
-};
-
-class JLE : instruction
-{
-public:
-    k_ptr_t run(byte_t *ptr, k_ptr_t *iter, memory *mem);
-};
-
-class JG : instruction
-{
-public:
-    k_ptr_t run(byte_t *ptr, k_ptr_t *iter, memory *mem);
-};
-
-class JL : instruction
-{
-public:
-    k_ptr_t run(byte_t *ptr, k_ptr_t *iter, memory *mem);
-};
-
 class CALL : instruction
 {
 public:
@@ -125,5 +89,17 @@ class RET : instruction
 public:
     k_ptr_t run(byte_t *ptr, k_ptr_t *iter, memory *mem);
 };
+
+class JMP : instruction
+{
+public:
+    k_ptr_t run(byte_t *ptr, k_ptr_t *iter, memory *mem);
+};  
+
+class JMC : instruction
+{
+public:
+    k_ptr_t run(byte_t *ptr, k_ptr_t *iter, memory *mem);
+};  
 
 #endif

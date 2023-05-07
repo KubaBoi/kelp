@@ -10,8 +10,8 @@ CRL_BRACK_1_REG = re.compile(r"\}")
 METHOD_SPLIT_REG = re.compile(r"(method\s+[\w\d_]+\s*\([\w\d_,\s]+\)\s*\{)")
 METHOD_REG = re.compile(r"method\s+(?P<name>[\w\d_]+)\s*\((?P<args_str>[\w\d_,\s]+)\)\s*\{")
 
-FOR_CYCLE_SPLIT_REG = re.compile(r"for\s*\(.*\)\s*\{")
-FOR_CYCLE_REG = re.compile(r"^for\s*\((?P<commands>.*)\)\s*\{")
+FOR_CYCLE_SPLIT_REG = re.compile(r"(for\s*\(.*\)\s*\{)")
+FOR_CYCLE_REG = re.compile(r"^for\s*\((?P<args_str>.*)\)\s*\{")
 
 DEC_REG = re.compile(r"^(?P<value>[\d]+)$")
 CHAR_REG = re.compile(r"^'(?P<value>\\[\\'\"\{\}0nrtfbv]{1}|.)'$")
