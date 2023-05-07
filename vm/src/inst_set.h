@@ -1,6 +1,6 @@
 #ifndef INST_SET_H
 #define INST_SET_H
-#define INST_SET_SIZE 15
+#define INST_SET_SIZE 16
 
 #include "instructions.h"
 
