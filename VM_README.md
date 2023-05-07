@@ -4,6 +4,10 @@ First two bytes are count of needed variables inside program. Those two bytes de
 
 This array will be filled with 0s for signalization that addresses are not allocated yet and those addresses will be considered as `nullptr`.
 
+Next 4 bytes are `CALL` instruction to call `main` method of program and to `KILL` instruction after `main` return. 
+
+`main` is not called with arguments, because those arguments are in static address `0 0` and VM will fills them.
+
 ## Addreses
 
 Addreses are 2 bytes integers of 256-decimal number system (as every number in this system) as little endian.
@@ -61,7 +65,7 @@ Condition type is one byte, first 1 bit is direction and the other 7 bits are ty
 | `CALL` | 12 | 1... | Call method at `addr` with `args` and return back from where method was called. | `addr`: addr | `args`: addresses of arguments of method |
 | `RET` | 13 | 1 | Return from method back where it was called |
 | `JMP` | 14 | 2 | Jump `n` bytes in `direction` in source code. | `direction`: 0-forwards, 1-backwards | `n`: count of bytes (2bytes) | 
-| `JMC` | 16 | 4 | Jump `n` bytes in `direction` in source code if `agr0` with `arg1` fullfill `condition` | `condition`: first 1. bit is `direction`(0-forwards, 1-backwards), other bits are `condition type` | `n`: count of bytes (2bytes) | `arg0`: addr | `arg1`: addr |
+| `JMC` | 15 | 4 | Jump `n` bytes in `direction` in source code if `agr0` with `arg1` fullfill `condition` | `condition`: first 1. bit is `direction`(0-forwards, 1-backwards), other bits are `condition type` | `n`: count of bytes (2bytes) | `arg0`: addr | `arg1`: addr |
 
 ## Examples
 

@@ -127,6 +127,34 @@ def prepare_blocks(code: str) -> list:
         commands.remove("")
     return commands
 
+def custom_command(command: dict, method: dict, sym_map: dict) -> list:
+    """
+    Resucrsion
+    """
+    asm_code = []
+    args = command["args"]
+    if (command["type"] == 0): # for cycle
+        asm_code += translate_cmd(args[0], method, sym_map) # iterator init
+        before_size = len(asm_code)
+        asm_code += translate_commands(command["commands"], method, sym_map) # code inside
+        asm_code += translate_cmd(args[2], method, sym_map) # iterator change
+        asm_code += build_jump(1, len(asm_code) - before_size + 4)
+    return asm_code
+
+
+def translate_commands(commands: list, method: dict, sym_map: dict) -> list:
+    """
+    From list of commands (str | dict) creates `asm_code`
+    and return it
+    """
+    asm_code = []
+    for cmd in commands:
+        if (isinstance(cmd, str)):
+            asm_code += translate_cmd(cmd, method, sym_map)
+            continue
+        asm_code += custom_command(cmd, method, sym_map)
+    return asm_code
+
 def prepare_commands(sym_map: dict) -> None:
     """
     Split "code" of each method by ';' and build arg_header
@@ -141,30 +169,6 @@ def prepare_commands(sym_map: dict) -> None:
         # build method header
         build_method_args(method, sym_map)
 
-def custom_command(command: dict, method: dict, sym_map: dict) -> list:
-    asm_code = []
-    args = command["args"]
-    if (command["type"] == 0): # for cycle
-        asm_code += translate_cmd(args[0], method, sym_map) # iterator init
-        # jmp instrukce na konec pokud podminka neni splnena
-
-def translate_commands(commands: list, method: dict, sym_map: dict) -> list:
-    """
-    From list of commands (str | dict) creates `asm_code`
-    and return it
-    """
-    asm_code = []
-    for cmd in commands:
-        if (isinstance(cmd, str)):
-            asm_code += translate_cmd(cmd, method, sym_map)
-            continue
-        
-        debug("TYPE:", cmd["type"])
-        debug("ARGS:", cmd["args"])
-        debug("COMMS:", cmd["commands"])
-        asm_code += translate_commands(cmd["commands"], method, sym_map)
-    return asm_code
-
 def translate_methods(sym_map: dict) -> None:
     """
     Go throught all commands of every method and translate
@@ -174,6 +178,6 @@ def translate_methods(sym_map: dict) -> None:
     for key in methods.keys():
         method = methods[key]
         debug(f"{key} ({method['args_str']}):")
-        method["commands"] = translate_commands(method["commands"], method, sym_map)
+        method["asm_code"] += translate_commands(method["commands"], method, sym_map)
         debug(f"ASM: {method['asm_code']}")
     

@@ -49,8 +49,9 @@ def assemble(sym_map: dict) -> bytes:
     """
     asm_code = join_asm_code(sym_map)
     asm_code = replace_place_holders(asm_code, sym_map)
+    debug("[byte, index]")
     for i, byte in enumerate(asm_code):
-        debug(f"[{i}, {byte}] ", end="")
+        debug(f"[{byte}, {i}] ", end="")
     debug()
 
     byte_code = b""

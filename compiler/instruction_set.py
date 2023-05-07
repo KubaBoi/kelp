@@ -18,18 +18,8 @@ INSTRUCTION_SET = [
     "DIV",
     "CALL",
     "RET",
-    "JMPF",
-    "JMPB",
-    "JEQF",
-    "JEQB",
-    "JGEF",
-    "JGEB",
-    "JLEF",
-    "JLEB",
-    "JGF",
-    "JGB",
-    "JLF",
-    "JLB"
+    "JMP",
+    "JMC"
 ]
 
 def build_alloc(var_name: str, size: int, sym_map: dict) -> list:
@@ -97,3 +87,20 @@ def build_call(method_key: str, args: list, method: dict, sym_map: dict) -> list
 
 def build_return() -> list:
     return [INSTRUCTION_SET.index("RET")]
+
+def build_jump(direction: bool, byte_count: int) -> list:
+    """
+    Build JMP instruction and return array of asm_code
+
+    Args:
+        `direction` - False-forwards, True-backwards
+
+        `byte_count` - size of jump
+
+        `method` - method object from where is call performed
+    """
+    asm_code = []
+    asm_code.append(INSTRUCTION_SET.index("JMP"))
+    asm_code += to_256(direction, 1)
+    asm_code += to_256(byte_count, SIZE_RANGE)
+    return asm_code
