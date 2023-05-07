@@ -164,12 +164,7 @@ k_ptr_t JMC::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
     truth = truth || (condition == 4 && v0 > v1);
     truth = truth || (condition == 5 && v0 < v1);
     
-    printf("%d\n", *iter);
     *iter += jump_size * truth;
-    printf("%d < %d = %d\n", v0, v1, jump_size * truth);
-    printBits(1, &truth);
-    printf("%d\n", *iter);
-        
     return 1;
 }
 
