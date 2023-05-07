@@ -31,7 +31,7 @@ def create_input_ptr(method: dict, sym_map: dict) -> str:
 def create_name(data: dict, method: dict) -> str:
     return f"{method['name']}.{data['var_name']}"
 
-def create_name_by_name(var_name: dict, method: dict) -> str:
+def create_name_by_name(var_name: str, method: dict) -> str:
     return f"{method['name']}.{var_name}"
 
 def create_variable(data: dict, method: dict, sym_map: dict) -> str:

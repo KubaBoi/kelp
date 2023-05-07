@@ -22,6 +22,8 @@ INSTRUCTION_SET = [
     "JMC"
 ]
 
+CONDITION_SET = ["==", "!=", ">=", "<=", ">", "<"]
+
 def build_alloc(var_name: str, size: int, sym_map: dict) -> list:
     """Build ALC instruction and return array of asm_code"""
     asm_code = []
@@ -104,3 +106,27 @@ def build_jump(direction: bool, byte_count: int) -> list:
     asm_code += to_256(direction, 1)
     asm_code += to_256(byte_count, SIZE_RANGE)
     return asm_code
+
+def build_jump_conditional(condition_type: int, byte_count: int, arg0_var_name: str, arg1_var_name: str, sym_map: dict) -> list:
+    """
+    Build JMC instruction and return array of asm_code
+
+    Args:
+        `condition_type` - condition type, like a number <0, 11>
+
+        `byte_count` - size of jump
+
+        `arg0_var_name` - first tested variable
+
+        `arg1_var_name` - second tested variable
+
+        `method` - method object from where is call performed
+    """
+    asm_code = []
+    asm_code.append(INSTRUCTION_SET.index("JMC"))
+    asm_code += to_256(condition_type, 1)
+    asm_code += to_256(byte_count, 2)
+    asm_code += get_variable_addr(arg0_var_name, sym_map)
+    asm_code += get_variable_addr(arg1_var_name, sym_map)
+    return asm_code
+    

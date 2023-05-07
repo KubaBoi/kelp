@@ -22,6 +22,8 @@ SPLIT_TO_CHARS_REG = re.compile(r"\\[\\'\"\{\}0nrtfbv]{1}|.")
 ONE_LINE_COM_REG = re.compile(r"//.+\n")
 MULTI_LINE_COM_REG = re.compile(r"\/\*[\w\W\s]*?\*\/")
 
+CONDITION_REG = re.compile(r"(?P<arg0>[\w\d_]+)\s*(?P<operator>[\=\<\>]{1,2})\s*(?P<arg1>[\w\d_]+)")
+
 # COMMANDS
 RAW_INST_REG = re.compile(r"^\$(?P<inst_name>[\w]{2,4})\s+(?P<args>.*)")
 ALLOC_REG = re.compile(r"^byte(?P<size>[1-9]*)\s+(?P<var_name>[\w\d_]+)")

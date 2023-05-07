@@ -127,6 +127,34 @@ def prepare_blocks(code: str) -> list:
         commands.remove("")
     return commands
 
+def translate_condition(cmd: str, method: dict) -> dict:
+    """
+    Translate condition
+
+    Args:
+        `cmd` - string of condition, for example `arg0 < arg1`
+
+    Return:
+        dictionary with `arg0` and `arg1` (var_name) and `operator` (number)
+        
+        for completing condition type, `operator` need to be multiplied
+        by 2 and add 0 or 1 (0-forwards, 1-backwards)
+    """
+    mtch = re.match(CONDITION_REG, cmd)
+    if (mtch == None):
+        raise SyntaxError(f"There need to be proper condition in '{method['name']}'")
+    arg0_var_name = create_name_by_name(mtch["arg0"], method)
+    arg1_var_name = create_name_by_name(mtch["arg1"], method)
+    operator = CONDITION_SET.index(mtch["operator"])
+    if (operator < 0):
+        raise SyntaxError(f"Invalid operator '{mtch['operator']}'")
+    return {
+        "arg0": arg0_var_name,
+        "arg1": arg1_var_name,
+        "operator": operator
+    }
+    
+
 def custom_command(command: dict, method: dict, sym_map: dict) -> list:
     """
     Resucrsion
@@ -138,7 +166,15 @@ def custom_command(command: dict, method: dict, sym_map: dict) -> list:
         before_size = len(asm_code)
         asm_code += translate_commands(command["commands"], method, sym_map) # code inside
         asm_code += translate_cmd(args[2], method, sym_map) # iterator change
-        asm_code += build_jump(1, len(asm_code) - before_size + 4)
+        condition = translate_condition(args[1], method)
+        cond_type = condition["operator"] * 2 + 1
+        asm_code += build_jump_conditional(
+            cond_type, 
+            len(asm_code) - before_size + 4, 
+            condition["arg0"],
+            condition["arg1"],
+            sym_map
+        )
     return asm_code
 
 

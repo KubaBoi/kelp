@@ -53,8 +53,9 @@ method main(byte args)
 
     byte1 brk = '\n';
     byte1 one = 1;
+    byte1 five = 5;
     // for cyklus
-    for (byte1 i = 0; i < 5; $SUM i i one;)
+    for (byte1 i = 0; i < five; $SUM i i one;)
     {
         $OUT 2 i;
         $OUT 1 brk;
