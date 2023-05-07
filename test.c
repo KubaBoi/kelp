@@ -9,10 +9,10 @@ method print_char(byte message){ $OUT 1 message; }
 method print_dec(byte message){ $OUT 2 message; }
 method free(byte var) { $FRE var; }
 */
-method sum(byte1 dest, byte1 a1, byte1 a2)
+/*method sum(byte1 dest, byte1 a1, byte1 a2)
 {
     $SUM dest a1 a2;
-}
+}*/
 // ahoj
 /*method sumis(byte1 dest, byte1 a1, byte1 a2)
 {
@@ -54,7 +54,7 @@ method main(byte args)
     byte1 brk = '\n';
     byte1 one = 1;
     // for cyklus
-    for (byte1 i = 0; i < 5; sum(i, i, one))
+    for (byte1 i = 0; i < 5; $SUM i i one;)
     {
         $OUT 2 i;
         $OUT 1 brk;
@@ -68,5 +68,4 @@ method main(byte args)
             byte1 dkfjnslkdjfgnlksndf = 0;
         }*/
     }
-    byte2 a = 0;
 }
