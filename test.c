@@ -1,15 +1,20 @@
+typedef void method;
+typedef int byte;
+typedef int byte1;
+typedef int byte2;
+
 
 method print_str(byte message){ $OUT 0 message; }
 method print_char(byte message){ $OUT 1 message; }
 method print_dec(byte message){ $OUT 2 message; }
 method free(byte var) { $FRE var; }
-/*
+
 method sum(byte1 dest, byte1 a1, byte1 a2)
 {
     $SUM dest a1 a2;
 }
 // ahoj
-method sumis(byte1 dest, byte1 a1, byte1 a2)
+/*method sumis(byte1 dest, byte1 a1, byte1 a2)
 {
     sum(dest, a1, a2);
 }*/
@@ -46,12 +51,12 @@ method main(byte args)
     print_dec(result);
     print_char(break);*/
 
-    byte1 break = '\n';
+    byte1 brk = '\n';
     byte1 one = 1;
     byte1 five = 5;
     // for cyklus
-    for (byte1 i = 0, i < 5, i++);
+    for (byte1 i = 0; i < 5; sum(i, i, one));
     print_dec(i);
-    print_char(break);
-    block_end;
+    print_char(brk);
+    continue;
 }

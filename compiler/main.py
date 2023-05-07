@@ -10,7 +10,7 @@ from methods import *
 from cmd_regs import *
 from assembly import *
 
-script_path = "test.k"
+script_path = "test.c"
 byte_code_path = ".".join(script_path.split(".")[:-1])
 
 with open(script_path, "r", encoding="utf-8") as f:
@@ -36,8 +36,10 @@ methods has `key`,
 
 sym_map = {
     "variable_count": 1, # because addr 0 is reserved for programm input
+    "mark_count": 0,
     "variables": {},
-    "methods": methods
+    "methods": methods,
+    "marks": []
 }
 """
 variables has `method_name.name` (key)  
@@ -45,14 +47,22 @@ variables has `method_name.name` (key)
 - `size` integer
 """
 
+prepare_methods(source, methods)
+prepare_commands(sym_map)
+translate_methods(sym_map)
+
+debug()
+byte_code = assemble(sym_map)
+debug()
+
 try:
-    prepare_methods(source, methods)
+    """prepare_methods(source, methods)
     prepare_commands(sym_map)
     translate_methods(sym_map)
 
     debug()
     byte_code = assemble(sym_map)
-    debug()
+    debug()"""
 except Exception as e:
     error(e)
     log("Aborting compilation.")

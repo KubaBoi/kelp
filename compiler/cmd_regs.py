@@ -23,6 +23,24 @@ from variables import *
 from methods import *
 from chars import *
 
+def translate_cmd(cmd: str, method: dict, sym_map: dict) -> list:
+    """
+    Translate one command into bytes
+    """
+    asm_code = []
+    for key in CMD_REGEXES.keys():
+        inst_obj = CMD_REGEXES[key]
+        new_asm_code = inst_obj.find(cmd, method, sym_map) 
+        if (isinstance(new_asm_code, tuple)):
+
+        if (len(new_asm_code) > 0):
+            asm_code += new_asm_code
+            if (key != "alloc"):
+                break
+    if (len(asm_code) == 0):
+        raise SyntaxError(f"Cannot translate command: '{cmd}'")
+    return asm_code
+
 class cmd_regex:
     def __init__(self, reg: str) -> None:
         self.reg = re.compile(reg)
@@ -39,15 +57,14 @@ class alloc(cmd_regex):
     def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
         data = self.find_match(cmd)
         if (data == None):
-            return False
+            return []
 
         var_name = create_variable(data, method, sym_map)
         if (data["size"] == "0"):
             # should be array/string and then allocation is done there
             # or with ALC instruction
-            return 
-        method["asm_code"] += build_alloc(var_name, int(data["size"]), sym_map)
-        return True
+            return []
+        return build_alloc(var_name, int(data["size"]), sym_map)
     
 class raw_inst(cmd_regex):
     def __init__(self) -> None:
@@ -56,15 +73,15 @@ class raw_inst(cmd_regex):
     def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
         data = self.find_match(cmd)
         if (data == None):
-            return False
+            return []
     
-        method["asm_code"].append(INSTRUCTION_SET.index(data["inst_name"].upper()))
+        asm_code = [INSTRUCTION_SET.index(data["inst_name"].upper())]
         for arg in data["args"].split(" "):
             if (arg.isnumeric()):
-                method["asm_code"] += to_256(int(arg))
+                asm_code += to_256(int(arg))
             else:
-                method["asm_code"] += get_variable_by_obj({"var_name": arg}, method, sym_map)["addr"]   
-        return True
+                asm_code += get_variable_by_obj({"var_name": arg}, method, sym_map)["addr"]   
+        return asm_code
 
 class set_dec(cmd_regex):
     def __init__(self) -> None:
@@ -73,13 +90,12 @@ class set_dec(cmd_regex):
     def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
         data = self.find_match(cmd)
         if (data == None):
-            return False
+            return []
         
         var_name = create_name(data, method)
         var = get_variable_by_obj(data, method, sym_map)
         asm_bytes = to_256(int(data["value"]), var["size"])
-        method["asm_code"] += build_set(var_name, asm_bytes, sym_map)
-        return True
+        return build_set(var_name, asm_bytes, sym_map)
 
 class set_char(cmd_regex):
     def __init__(self) -> None:
@@ -88,12 +104,11 @@ class set_char(cmd_regex):
     def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
         data = self.find_match(cmd)
         if (data == None):
-            return False
+            return []
         
         var_name = create_name(data, method)
         asm_bytes = [get_ord(data["value"])]
-        method["asm_code"] += build_set(var_name, asm_bytes, sym_map)
-        return True
+        return build_set(var_name, asm_bytes, sym_map)
 
 class set_str(cmd_regex):
     def __init__(self) -> None:
@@ -102,18 +117,19 @@ class set_str(cmd_regex):
     def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
         data = self.find_match(cmd)
         if (data == None):
-            return False
+            return []
         
         var_name = create_name(data, method)
         var = get_variable(var_name, sym_map)
         asm_bytes = str_to_asm_bytes(data["value"])
+        asm_code = []
         if (var["size"] == 0):
             var["size"] = len(asm_bytes)
-            method["asm_code"] += build_alloc(var_name, len(asm_bytes), sym_map)
+            asm_code += build_alloc(var_name, len(asm_bytes), sym_map)
         elif (var["size"] < len(asm_bytes)):
             raise SyntaxError(f"Invalid size of string. Variable '{var_name}' is defined as {var['size']} byte(s) but set value is {len(asm_bytes)} characters long.")
-        method["asm_code"] += build_set(var_name, asm_bytes, sym_map)
-        return True
+        asm_code += build_set(var_name, asm_bytes, sym_map)
+        return asm_code
         
 class set_bytes(cmd_regex):
     def __init__(self) -> None:
@@ -122,18 +138,19 @@ class set_bytes(cmd_regex):
     def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
         data = self.find_match(cmd)
         if (data == None):
-            return False
+            return []
         
         var_name = create_name(data, method)
         var = get_variable(var_name, sym_map)
         asm_bytes = to_asm_bytes(data["value"].split(","))
+        asm_code = []
         if (var["size"] == 0):
             var["size"] = len(asm_bytes)
-            method["asm_code"] += build_alloc(var_name, len(asm_bytes), sym_map)
+            asm_code = build_alloc(var_name, len(asm_bytes), sym_map)
         elif (var["size"] < len(asm_bytes)):
             raise SyntaxError(f"Invalid size of array. Variable '{var_name}' is defined as {var['size']} byte(s) but set value is {len(asm_bytes)} characters long.")
-        method["asm_code"] += build_set(var_name, asm_bytes, sym_map)
-        return True
+        asm_code = build_set(var_name, asm_bytes, sym_map)
+        return asm_code
 
 class cpt(cmd_regex):
     def __init__(self) -> None:
@@ -142,15 +159,14 @@ class cpt(cmd_regex):
     def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
         data = self.find_match(cmd)
         if (data == None):
-            return False
+            return []
         
         dest_name = create_name({"var_name": data["dest"]}, method)
         targ_name = create_name({"var_name": data["targ"]}, method)
         dest = get_variable(dest_name, sym_map)
         targ = get_variable(targ_name, sym_map)
         dest["size"] = targ["size"]
-        method["asm_code"] += build_cpt(dest_name, targ_name, sym_map)
-        return True
+        return build_cpt(dest_name, targ_name, sym_map)
         
 class cpy(cmd_regex):
     def __init__(self) -> None:
@@ -159,7 +175,7 @@ class cpy(cmd_regex):
     def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
         data = self.find_match(cmd)
         if (data == None):
-            return False
+            return []
         dest_name = create_name({"var_name": data["dest"]}, method)
         targ_name = create_name({"var_name": data["targ"]}, method)
         dest = get_variable(dest_name, sym_map)
@@ -170,8 +186,44 @@ class cpy(cmd_regex):
             warn(f"Destination '{dest_name}' ({dest['size']}B) and target '{targ_name}' ({targ['size']}B) are not the same size. May loss precision.")
             if byte_count > targ["size"]:
                 byte_count = targ["size"] 
-        method["asm_code"] += build_cpy(dest_name, targ_name, byte_count, sym_map)
-        return True
+        return build_cpy(dest_name, targ_name, byte_count, sym_map)
+    
+class for_cycle(cmd_regex):
+    def __init__(self) -> None:
+        super().__init__(FOR_CYCLE_REG)
+
+    def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
+        data = self.find_match(cmd)
+        if (data == None):
+            return []
+        
+        commands = [commd.strip() for commd in data["commands"].split(";")]
+        asm_code_prep = translate_cmd(commands[0], method, sym_map) # command
+        asm_code_prep += [] # condition
+        asm_code_prep += translate_cmd(commands[2], method, sym_map) # command
+        return (asm_code_prep, "nvm")
+
+class cnt(cmd_regex):
+    def __init__(self) -> None:
+        super().__init__(CONTINUE_REG)
+
+    def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
+        data = self.find_match(cmd)
+        if (data == None):
+            return []
+        
+        return [0]    
+
+class brk(cmd_regex):
+    def __init__(self) -> None:
+        super().__init__(BREAK_REG)
+
+    def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
+        data = self.find_match(cmd)
+        if (data == None):
+            return []
+        
+        return [0]
         
 class call(cmd_regex):
     def __init__(self) -> None:
@@ -180,7 +232,7 @@ class call(cmd_regex):
     def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
         data = self.find_match(cmd)
         if (data == None):
-            return False
+            return []
         
         called_method = get_method(data, sym_map)
         args = [create_name_by_name(arg.strip(), method) for arg in data["args_str"].split(",")]
@@ -191,8 +243,7 @@ class call(cmd_regex):
                 warn(f"Call of method '{get_method_key_formatted(data)}' has different var size of {i}. arg - '{arg}':" +
                       f" Expected size is {size}B but provided is {var['size']}B")
 
-        method["asm_code"] += build_call(called_method["key"], args, method, sym_map)
-        return True
+        return build_call(called_method["key"], args, method, sym_map)
 
 class rtrn(cmd_regex):
     def __init__(self) -> None:
@@ -201,11 +252,9 @@ class rtrn(cmd_regex):
     def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
         data = self.find_match(cmd)
         if (data == None):
-            return False
+            return []
         
-        method["asm_code"] += build_return()
-        return True
-    
+        return build_return()
 
 CMD_REGEXES = {
     "alloc": alloc(),
@@ -216,6 +265,9 @@ CMD_REGEXES = {
     "set_bytes": set_bytes(),
     "cpt": cpt(),
     "cpy": cpy(),
+    "for_cycle": for_cycle(),
+    "cnt": cnt(),
+    "brk": brk(),
     "call": call(),
     "return": rtrn()
 }

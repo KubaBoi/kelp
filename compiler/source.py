@@ -6,6 +6,7 @@ from printer import *
 from regexes import *
 from methods import *
 from method_header import *
+from cmd_regs import *
 
 def remove_comments(source):
     source = re.sub(ONE_LINE_COM_REG, "\n", source)
@@ -58,9 +59,12 @@ def prepare_commands(sym_map: dict) -> None:
     methods = sym_map["methods"]
     for key in methods.keys():
         method = methods[key]
-        method["commands"] = [i.strip() for i in method["code"].split(";")]
+        method["commands"] = [i.strip() for i in re.split(r";\s*\n|\Z", method["code"])]
         while ("" in method["commands"]):
             method["commands"].remove("")
+        for i, cmd in enumerate(method["commands"]):
+            if (cmd.endswith(";")):
+                method["commands"][i] = cmd[:-1]
         method["commands"].append("return")
         # build method header
         build_method_args(method, sym_map)
@@ -76,13 +80,6 @@ def translate_methods(sym_map: dict) -> None:
         debug(f"{key} ({method['args_str']}):")
         
         for cmd in method["commands"]:
-            found = False
-            for key in CMD_REGEXES.keys():
-                inst_obj = CMD_REGEXES[key]
-                if (inst_obj.find(cmd, method, sym_map)):
-                    found = True
-                    if (key != "alloc"):
-                        break
-            if (not found):
-                raise SyntaxError(f"Cannot translate command: '{cmd}'")
+            method["asm_code"] += translate_cmd(cmd, method, sym_map)
         debug(f"ASM: {method['asm_code']}")
+    
