@@ -13,43 +13,66 @@ def remove_comments(source):
     source = re.sub(MULTI_LINE_COM_REG, "\n", source)
     return source
 
-def get_code_of_method(name: str, source: str, source_len: int, endpos: int) -> str:
-    """
-    Find whole block of with potencial curly brackets inside 
-    """
+def get_block_code(grp_dict: dict, index: int, matches: list):
     depth = 1
-    code = ""
-    for i in range(endpos, source_len):
-        c = source[i]
-        if (c == "{"): depth += 1
-        elif (c == "}"): depth -= 1
-        if (depth > 0): code += c
-        else: break
+    index += 1
+    grp_dict["code"] = ""
+    while (depth > 0 and index < len(matches)):
+        grp_dict["code"] += matches[index]
+        depth += len(re.findall(CRL_BRACK_0_REG, matches[index]))
+        depth -= len(re.findall(CRL_BRACK_1_REG, matches[index]))
+        index += 1
     if (depth > 0):
-        raise SyntaxError(f"Invalid block brackets in method '{name}'")
-    return code
-
+        raise SyntaxError("Missing block's code")            
+    grp_dict["code"] = grp_dict["code"].strip()[:-1] # remove last }
 
 def prepare_methods(source: str, methods: dict) -> None:
     """
     Find all methods in source code and fill their
     code with respect to curly brackets inside
     """
-    source_len = len(source)
-    matches = re.findall(METHOD_FIND_REG, source)
-
-    for match in matches:
+    matches = ["" if s == None else s.strip() for s in re.split(METHOD_SPLIT_REG, source)]
+    while ("" in matches):
+        matches.remove("")
+    for m in matches:
+        print(m.replace("\n", "\\n"))
+    for i, match in enumerate(matches):
         mtch = re.match(METHOD_REG, match)
+        if (mtch == None):
+            continue
         grp_dict = mtch.groupdict()
-
-        endpos = source.find(match) + len(match)
-        grp_dict["code"] = get_code_of_method(grp_dict["name"], source, source_len, endpos)
-
+        
+        try:
+            get_block_code(grp_dict, i, matches)
+        except Exception as e:
+            raise SyntaxError(e, f" at '{grp_dict['name']}({grp_dict['args_str']})'")
+        print(grp_dict)
+    
         key = generate_method_key(grp_dict)
         if (key in methods.keys()):
             raise SyntaxError(f"Duplicate method definition {key}({grp_dict['args_str']})")
         methods[key] = grp_dict
         methods[key]["key"] = key
+        
+def prepare_for_cycles(source: str):
+    matches = ["" if s == None else s.strip() for s in re.split(FOR_CYCLE_SPLIT_REG, source)]
+    while ("" in matches):
+        matches.remove("")
+    for m in matches:
+        print(m.replace("\n", "\\n"))
+    
+    for i, match in enumerate(matches):
+        mtch = re.match(METHOD_REG, match)
+        if (mtch == None):
+            continue
+        grp_dict = mtch.groupdict()
+        
+        try:
+            get_block_code(grp_dict, i, matches)
+        except Exception as e:
+            raise SyntaxError(e, f" at '{grp_dict['name']}({grp_dict['args_str']})'")
+        
+    
 
 def prepare_commands(sym_map: dict) -> None:
     """

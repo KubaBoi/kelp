@@ -55,8 +55,10 @@ method main(byte args)
     byte1 one = 1;
     byte1 five = 5;
     // for cyklus
-    for (byte1 i = 0; i < 5; sum(i, i, one));
+    for (byte1 i = 0; i < 5; sum(i, i, one))
+    {
     print_dec(i);
     print_char(brk);
-    continue;
+    }
+    byte2 a = 0;
 }

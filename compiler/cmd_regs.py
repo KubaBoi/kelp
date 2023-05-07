@@ -32,7 +32,7 @@ def translate_cmd(cmd: str, method: dict, sym_map: dict) -> list:
         inst_obj = CMD_REGEXES[key]
         new_asm_code = inst_obj.find(cmd, method, sym_map) 
         if (isinstance(new_asm_code, tuple)):
-
+            pass
         if (len(new_asm_code) > 0):
             asm_code += new_asm_code
             if (key != "alloc"):
