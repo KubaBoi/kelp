@@ -139,17 +139,8 @@ k_ptr_t DIV::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 k_ptr_t JMP::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 {
     byte_t direction = getByte(ptr, iter) << 7 >> 7;
-    printf("%d\n", direction);
-    printBits(1, &direction);
-    word_t js = getWord(ptr, iter);
-    printf("%d\n", js);
-    printf("%d\n", (-1 * (char)direction));
-    short jump_size = (short)js * (-1 * (char)direction);
-    printf("%d\n", jump_size);
-
-    printf("%d\n", *iter);
+    short jump_size = (short)getWord(ptr, iter) * (-1 * (char)direction);
     *iter += jump_size;
-    printf("%d\n", *iter);
     return 1;
 }
 
