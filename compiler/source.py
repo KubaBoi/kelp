@@ -170,7 +170,7 @@ def custom_command(command: dict, method: dict, sym_map: dict) -> list:
         cond_type = condition["operator"] * 2 + 1
         asm_code += build_jump_conditional(
             cond_type, 
-            len(asm_code) - before_size + 7, 
+            len(asm_code) - before_size + 8, 
             condition["arg0"],
             condition["arg1"],
             sym_map
