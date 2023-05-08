@@ -147,7 +147,7 @@ def translate_condition(cmd: str, method: dict, neg = False) -> dict:
     if (neg):
         operator = CONDITION_SET[mtch["operator"]]
     else:
-        operator = CONDITION_SET.get(mtch["operator"])
+        operator = list(CONDITION_SET.keys()).index(mtch["operator"])
     
     if (operator < 0):
         raise SyntaxError(f"Invalid operator '{mtch['operator']}'")
@@ -184,7 +184,7 @@ def custom_command(command: dict, method: dict, sym_map: dict) -> list:
         cond_type = condition["operator"] * 2 # + 0 because jump is forwards
         asm_code = build_jump_conditional(
             cond_type,
-            len(asm_code),
+            len(asm_code) - 1,
             condition["arg0"],
             condition["arg1"],
             sym_map
