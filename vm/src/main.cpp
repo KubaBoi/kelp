@@ -93,7 +93,7 @@ int main(int argc, char *args[])
 
     pipe(byte_code, iter, mem);
 
-    mem->prnt_mem();
+    //mem->prnt_mem();
     //delete mem;
     delete byte_code;
 }
