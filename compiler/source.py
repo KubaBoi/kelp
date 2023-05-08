@@ -170,7 +170,7 @@ def custom_command(command: dict, method: dict, sym_map: dict) -> list:
         asm_code += translate_commands(command["commands"], method, sym_map) # code inside
         asm_code += translate_cmd(args[2], method, sym_map) # iterator change
         condition = translate_condition(args[1], method)
-        cond_type = condition["operator"] * 2 + 1
+        cond_type = condition["operator"] * 2 + 1 # +1 because jump is backwards
         asm_code += build_jump_conditional(
             cond_type, 
             len(asm_code) - before_size + 8, 
@@ -181,7 +181,7 @@ def custom_command(command: dict, method: dict, sym_map: dict) -> list:
     elif (command["type"] == "if"):
         asm_code += translate_commands(command["commands"], method, sym_map)
         condition = translate_condition(args[0], method, True)
-        cond_type = condition["operator"] * 2 + 1
+        cond_type = condition["operator"] * 2 # + 0 because jump is forwards
         asm_code = build_jump_conditional(
             cond_type,
             len(asm_code),
