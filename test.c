@@ -56,7 +56,7 @@ method main(byte args)
     byte1 one = 1;
     byte1 five = 5;
     
-    for (byte1 i = 0; i <= five; $SUM i i one)
+    /*for (byte1 i = 0; i <= five; $SUM i i one)
     {
         $OUT 2 i;
         if (i == five) 
@@ -65,21 +65,16 @@ method main(byte args)
             $OUT 2 five; 
         }
         $OUT 1 brk;
-    }
+    }*/
     
     // for cyklus
-    /*for (byte1 i = 0; i <= five; $SUM i i one;)
+    for (byte1 i = 0; i <= five; $SUM i i one;)
     {
         $OUT 2 i;
         $OUT 1 brk;
         for (byte1 o = 0; o < five; sum(o, o, one))
         {
             $OUT 1 spc;
-            if (i == 1) 
-            {
-                $our 1 spc;
-                $our 1 spc;
-            }
         }
-    }*/
+    }
 }
