@@ -187,21 +187,6 @@ class cpy(cmd_regex):
             if byte_count > targ["size"]:
                 byte_count = targ["size"] 
         return build_cpy(dest_name, targ_name, byte_count, sym_map)
-    
-class for_cycle(cmd_regex):
-    def __init__(self) -> None:
-        super().__init__(FOR_CYCLE_REG)
-
-    def find(self, cmd: str, method: dict, sym_map: dict) -> bool:
-        data = self.find_match(cmd)
-        if (data == None):
-            return []
-        
-        commands = [commd.strip() for commd in data["commands"].split(";")]
-        asm_code_prep = translate_cmd(commands[0], method, sym_map) # command
-        asm_code_prep += [] # condition
-        asm_code_prep += translate_cmd(commands[2], method, sym_map) # command
-        return (asm_code_prep, "nvm")
 
 class cnt(cmd_regex):
     def __init__(self) -> None:
@@ -265,7 +250,6 @@ CMD_REGEXES = {
     "set_bytes": set_bytes(),
     "cpt": cpt(),
     "cpy": cpy(),
-    "for_cycle": for_cycle(),
     "cnt": cnt(),
     "brk": brk(),
     "call": call(),

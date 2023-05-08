@@ -22,7 +22,9 @@ INSTRUCTION_SET = [
     "JMC"
 ]
 
-CONDITION_SET = ["==", "!=", ">=", "<=", ">", "<"]
+CONDITION_SET = {
+    "==": 1, "!=": 0, ">=": 5, "<=": 4, ">": 3, "<": 2
+}
 
 def build_alloc(var_name: str, size: int, sym_map: dict) -> list:
     """Build ALC instruction and return array of asm_code"""

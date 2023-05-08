@@ -78,7 +78,7 @@ def prepare_methods(source: str, methods: dict) -> None:
         methods[key] = grp_dict
         methods[key]["key"] = key
         
-def prepare_block(source: str, type: str, split_reg, match_reg) -> dict:
+def prepare_block(source: str, split_reg, match_reg) -> dict:
     """
     Prepare one block (it will take all commands and other blocks)
     and return it as dictionary with "code", "type", "args_str" and "args"
@@ -97,12 +97,11 @@ def prepare_block(source: str, type: str, split_reg, match_reg) -> dict:
             i += 1
             continue
         grp_dict = mtch.groupdict()
-        grp_dict["type"] = type
         
         try:
             i = get_block_code(grp_dict, i, matches)
         except Exception as e:
-            raise SyntaxError(e, f" at 'for cycle'")
+            raise SyntaxError(e, f" at '{grp_dict['type']}'")
         data.append(grp_dict)
     return data 
 
@@ -111,7 +110,7 @@ def prepare_blocks(code: str) -> list:
     Prepare all inside blocks of one block recursively
     and return list of commands
     """
-    block_data = prepare_block(code, 0, FOR_CYCLE_SPLIT_REG, FOR_CYCLE_REG) 
+    block_data = prepare_block(code, BLOCK_SPLIT_REG, BLOCK_REG) 
         
     commands = []
     for block in block_data:
@@ -127,7 +126,7 @@ def prepare_blocks(code: str) -> list:
         commands.remove("")
     return commands
 
-def translate_condition(cmd: str, method: dict) -> dict:
+def translate_condition(cmd: str, method: dict, neg = False) -> dict:
     """
     Translate condition
 
@@ -145,7 +144,11 @@ def translate_condition(cmd: str, method: dict) -> dict:
         raise SyntaxError(f"There need to be proper condition in '{method['name']}'")
     arg0_var_name = create_name_by_name(mtch["arg0"], method)
     arg1_var_name = create_name_by_name(mtch["arg1"], method)
-    operator = CONDITION_SET.index(mtch["operator"])
+    if (neg):
+        operator = CONDITION_SET[mtch["operator"]]
+    else:
+        operator = CONDITION_SET.get(mtch["operator"])
+    
     if (operator < 0):
         raise SyntaxError(f"Invalid operator '{mtch['operator']}'")
     return {
@@ -161,7 +164,7 @@ def custom_command(command: dict, method: dict, sym_map: dict) -> list:
     """
     asm_code = []
     args = command["args"]
-    if (command["type"] == 0): # for cycle
+    if (command["type"] == "for"): # for cycle
         asm_code += translate_cmd(args[0], method, sym_map) # iterator init
         before_size = len(asm_code)
         asm_code += translate_commands(command["commands"], method, sym_map) # code inside
@@ -175,6 +178,19 @@ def custom_command(command: dict, method: dict, sym_map: dict) -> list:
             condition["arg1"],
             sym_map
         )
+    elif (command["type"] == "if"):
+        asm_code += translate_commands(command["commands"], method, sym_map)
+        condition = translate_condition(args[0], method, True)
+        cond_type = condition["operator"] * 2 + 1
+        asm_code = build_jump_conditional(
+            cond_type,
+            len(asm_code),
+            condition["arg0"],
+            condition["arg1"],
+            sym_map
+        ) + asm_code
+
+
     return asm_code
 
 

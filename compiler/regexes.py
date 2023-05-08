@@ -10,8 +10,8 @@ CRL_BRACK_1_REG = re.compile(r"\}")
 METHOD_SPLIT_REG = re.compile(r"(method\s+[\w\d_]+\s*\([\w\d_,\s]+\)\s*\{)")
 METHOD_REG = re.compile(r"method\s+(?P<name>[\w\d_]+)\s*\((?P<args_str>[\w\d_,\s]+)\)\s*\{")
 
-FOR_CYCLE_SPLIT_REG = re.compile(r"(for\s*\(.*\)\s*\{)")
-FOR_CYCLE_REG = re.compile(r"^for\s*\((?P<args_str>.*)\)\s*\{")
+BLOCK_SPLIT_REG = re.compile(r"(for\s*\(.*\)\s*\{)|(if\s*\(.*\)\s*\{)")
+BLOCK_REG = re.compile(r"^(?P<type>for|if)\s*\((?P<args_str>.*)\)\s*\{")
 
 DEC_REG = re.compile(r"^(?P<value>[\d]+)$")
 CHAR_REG = re.compile(r"^'(?P<value>\\[\\'\"\{\}0nrtfbv]{1}|.)'$")
@@ -33,7 +33,6 @@ SET_STR_REG = re.compile(r"(?P<var_name>[\w\d_]+)\s*=\s*\"(?P<value>[\s\w\W]*)\"
 SET_BYTES_REG = re.compile(r"(?P<var_name>[\w\d_]+)\s*=\s*\[(?P<value>[\s\w\W]*)\]$")
 CPT_REG = re.compile(r"(?P<dest>[\w\d_]+)\s*=\s*(?P<targ>[\w\d_]+)$")
 CPY_REG = re.compile(r"(?P<dest>[\w\d_]+)\s*=\s*\*\s*(?P<targ>[\w\d_]+)$")
-#FOR_CYCLE_REG = re.compile(r"^for\s*\((?P<commands>.*)\)$")
 CONTINUE_REG = re.compile(r"^continue$")
 BREAK_REG = re.compile(r"^break$")
 CALL_REG = re.compile(r"^(?P<method>[\w\d_]+)\((?P<args_str>[\w\d_,\s]+)\)$")
