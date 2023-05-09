@@ -5,6 +5,7 @@ def from_256(arr: list) -> int:
     res = arr[0]
     for i, a in enumerate(arr):
         res += a * (BASE * i)
+    return res
 
 def to_256(value: int, byte_size = None) -> list:
     """

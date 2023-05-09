@@ -7,6 +7,7 @@ from printer import *
 from calc_256 import *
 from methods import *
 from instruction_set import INSTRUCTION_SET
+from dissasembly import *
 
 def join_asm_code(sym_map: dict) -> list:
     """
@@ -50,11 +51,34 @@ def assemble(sym_map: dict) -> bytes:
     asm_code = join_asm_code(sym_map)
     asm_code = replace_place_holders(asm_code, sym_map)
     debug("[byte, index]")
+    jumps = []
     for i, byte in enumerate(asm_code):
-        debug(f"[{byte}, {i}] ", end="")
-    debug()
+        if (byte == INSTRUCTION_SET.index("CALL")):
+            jumps.append(asm_code[i+1])
+
+    for i, byte in enumerate(asm_code):
+        if (i in jumps):
+            debug(f"\n[{byte}, {i}] ", end="")
+        else:
+            debug(f"{byte} ", end="")
+    debug("\n")
 
     byte_code = b""
     for byte in asm_code:
         byte_code += byte.to_bytes(1, ENDIAN)
+
+    disass = dissasemble(byte_code, None)
+    debug("*Skipping first 6 bytes")
+    for d in disass:
+        values = ""
+        legend = ""
+        for key in d.keys():
+            if (key in ["index", "name", "size"]):
+                continue
+            values += f"{d[key]} "
+            legend += f"{key}, "
+        debug(f"{d['index']} - {d['name']} ({d['size']}B): {values} = {legend}")
+    
     return byte_code
+    
+        

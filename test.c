@@ -21,51 +21,10 @@ method sum(byte1 dest, byte1 a1, byte1 a2)
 
 method main(byte args)
 {
-    /*byte string = "Hello fakin world!!!!!!!!\n";
-    print_str(string);
-
-    byte1 num1 = 2; // jj
-    byte1 num2 = 4; //d asdasd
-    byte2 num3 = 16;
-
-    byte1 result;
-    byte1 break = '\n'; //dasaf
-    byte plus = " + ";
-    byte eq = " = ";
-    byte arr = [0, 5, 45, '\n', 'n'];
-    sumis(result, num1, num2);
-    print_dec(num1);
-    print_str(plus);
-    print_dec(num2);
-    print_str(eq);
-    print_dec(result);
-    print_char(break);
-
-    //free(num1); // should be here in case "num1 = num3;"
-    num1 = *num3;
-    sumis(result, num1, num2);
-    print_dec(num1);
-    print_str(plus);
-    print_dec(num2);
-    print_str(eq);
-    print_dec(result);
-    print_char(break);*/
-
     byte1 brk = '\n';
     byte1 spc = ' ';
     byte1 one = 1;
     byte1 five = 5;
-    
-    /*for (byte1 i = 0; i <= five; $SUM i i one)
-    {
-        $OUT 2 i;
-        if (i == five) 
-        {
-            $OUT 1 spc;
-            $OUT 2 five; 
-        }
-        $OUT 1 brk;
-    }*/
     
     // for cyklus
     for (byte1 i = 0; i <= five; $SUM i i one;)
