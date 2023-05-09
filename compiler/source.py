@@ -178,7 +178,6 @@ def custom_command(command: dict, method: dict, sym_map: dict) -> list:
             condition["arg1"],
             sym_map
         )
-        print(asm_code)
     elif (command["type"] == "if"):
         asm_code += translate_commands(command["commands"], method, sym_map)
         condition = translate_condition(args[0], method, True)

@@ -31,7 +31,7 @@ method main(byte args)
     {
         $OUT 2 i;
         $OUT 1 brk;
-        for (byte1 o = 0; o < five; sum(o, o, one))
+        if (i == one) 
         {
             $OUT 1 spc;
         }
