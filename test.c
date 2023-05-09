@@ -36,4 +36,5 @@ method main(byte args)
             $OUT 1 spc;
         }
     }
+    $OUT 1 brk;
 }

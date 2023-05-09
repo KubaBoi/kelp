@@ -63,7 +63,7 @@ Condition type is one byte, first 1 bit is direction and the other 7 bits are ty
 | `MUL` | 10 | 3 | Multiply `a` by `b` and save result into `dest` | `dest`: addr | `a`: addr | `b`: addr |
 | `DIV` | 11 | 4 | Divide `a` by `b` and save result into `dest` and modulo into `mod` | `dest`: addr | `mod`: addr | `a`: addr | `b`: addr |
 | `CALL` | 12 | 1... | Call method at `addr` with `args` and return back from where method was called. | `addr`: addr | `args`: addresses of arguments of method |
-| `RET` | 13 | 1 | Return from method back where it was called |
+| `RET` | 13 | 0 | Return from method back where it was called |
 | `JMP` | 14 | 2 | Jump `n` bytes in `direction` in source code. | `direction`: 0-forwards, 1-backwards | `n`: count of bytes (2bytes) | 
 | `JMC` | 15 | 4 | Jump `n` bytes in `direction` in source code if `agr0` with `arg1` fullfill `condition` | `condition`: first 1. bit is `direction`(0-forwards, 1-backwards), other bits are `condition type` | `n`: count of bytes (2bytes) | `arg0`: addr | `arg1`: addr |
 

@@ -195,7 +195,7 @@ class JMC:
         """
         index, vals = get_byte_sequence(byte_code, [1, SIZE_RANGE, ADDR_RANGE, ADDR_RANGE], index)
         return (index, build_dict(vals, "direction", "jump_size", "arg0", "arg1"))    
-    
+
 DISSASEMBLE_INSTRUCTIONS = [KILL(), OUT(), SET(), CPT(), CPY(), ALC(), FRE(), RLC(),
                             SUM(), SUB(), MUL(), DIV(), CALL(), RET(), JMP(), JMC()]
 
@@ -215,7 +215,7 @@ def dissasemble(byte_code: bytes, method_addresses = None) -> list:
 
     index = 6
     dcts = []
-    while index < len(byte_code) - 1:
+    while index < len(byte_code):
         index_old = index
         if (index in method_addresses): # method
             dct = [index]
