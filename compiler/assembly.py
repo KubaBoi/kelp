@@ -67,7 +67,15 @@ def assemble(sym_map: dict) -> bytes:
     for byte in asm_code:
         byte_code += byte.to_bytes(1, ENDIAN)
 
-    disass = dissasemble(byte_code, None)
+    if (not DEBUG):
+        return byte_code
+    
+    method_addresses = []
+    for method_key in sym_map["methods"].keys():
+        method = sym_map["methods"][method_key]
+        method_addresses.append(method["addr"])
+
+    disass = dissasemble(byte_code, method_addresses)
     debug("*Skipping first 6 bytes")
     for d in disass:
         values = ""
@@ -78,7 +86,7 @@ def assemble(sym_map: dict) -> bytes:
             values += f"{d[key]} "
             legend += f"{key}, "
         debug(f"{d['index']} - {d['name']} ({d['size']}B): {values} = {legend}")
-    
+        
     return byte_code
     
         
