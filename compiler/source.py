@@ -189,10 +189,20 @@ def custom_command(command: dict, method: dict, sym_map: dict) -> list:
             condition["arg1"],
             sym_map
         ) + asm_code
+    elif (command["type"] == "else"):
+        asm_code += translate_commands(command["commands"], method, sym_map)
+        condition = translate_condition(args[0], method, True)
+        cond_type = condition["operator"] * 2 + 1 # + 1 because jump is forwards
+        asm_code = build_jump_conditional(
+            cond_type,
+            len(asm_code),
+            condition["arg0"],
+            condition["arg1"],
+            sym_map
+        ) + asm_code
 
 
     return asm_code
-
 
 def translate_commands(commands: list, method: dict, sym_map: dict) -> list:
     """

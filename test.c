@@ -34,6 +34,10 @@ method main(byte args)
         if (i == one) 
         {
             $OUT 1 spc;
+            $OUT 2 i;
+        }
+        else () {
+
         }
     }
     $OUT 1 brk;

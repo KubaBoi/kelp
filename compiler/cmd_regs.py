@@ -32,7 +32,9 @@ def translate_cmd(cmd: str, method: dict, sym_map: dict) -> list:
         inst_obj = CMD_REGEXES[key]
         new_asm_code = inst_obj.find(cmd, method, sym_map) 
         if (isinstance(new_asm_code, tuple)):
-            pass
+            pass # tohle nevim proc tu je, ale nejspis sem to tu k necemu
+            # pripravil a nepamatuju se k cemu, ale mozna uz jsem udelal nejaky zmeny 
+            # v kodu a tak na to nebudu proste sahat, protoze mi to tu nevadi
         if (len(new_asm_code) > 0):
             asm_code += new_asm_code
             if (key != "alloc"):

@@ -36,10 +36,8 @@ methods has `key`,
 
 sym_map = {
     "variable_count": 1, # because addr 0 is reserved for programm input
-    "mark_count": 0,
     "variables": {},
-    "methods": methods,
-    "marks": []
+    "methods": methods
 }
 """
 variables has `method_name.name` (key)  
