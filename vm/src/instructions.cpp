@@ -138,8 +138,9 @@ k_ptr_t DIV::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 
 k_ptr_t JMP::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 {
-    byte_t direction = getByte(ptr, iter) << 7 - 128;
-    short jump_size = (short)getWord(ptr, iter) * (-1 * (char)direction);
+    byte_t direction = (getByte(ptr, iter) << 7) - 128;
+    short direct = (short)(direction - 1) + direction;
+    short jump_size = (short)getWord(ptr, iter) * direct;
     *iter += jump_size;
     return 1;
 }
@@ -148,9 +149,10 @@ k_ptr_t JMC::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 {
     byte_t condition = getByte(ptr, iter);
     byte_t direction = ((bool)condition << 7) - 128;
+    short direct = (short)(direction - 1) + direction;
     condition = condition >> 1;
 
-    short jump_size = (short)getWord(ptr, iter) * (-1 * (char)direction);
+    short jump_size = (short)getWord(ptr, iter) * direct;
     k_ptr_t arg0 = getPtr(ptr, iter);
     k_ptr_t arg1 = getPtr(ptr, iter);
     uint128_t v0 = mem->get_dec(arg0, mem->get_size(arg0));
@@ -164,10 +166,7 @@ k_ptr_t JMC::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
     truth = truth || (condition == 4 && v0 > v1);
     truth = truth || (condition == 5 && v0 < v1);
     
-    printf("- %d %d\n", direction, condition);
-    printf("- %d %d %d\n", *iter, truth, jump_size);
     *iter += jump_size * truth;
-    printf("- %d\n===\n", *iter);
     return 1;
 }
 
