@@ -33,18 +33,18 @@ Condition type is one byte, first 1 bit is direction and the other 7 bits are ty
 
 | Code | Bits | Name | Description |
 | --- | --- | --- | --- |
-| 0 | 0000000 0 | `FEQ` | forwards if equal `==` |
-| 1 | 0000000 1 | `BEQ` | backwards if equal `==` |
-| 2 | 0000001 0 | `FNQ` | forwards if NOT equal `!=` |
-| 3 | 0000001 1 | `BNQ` | backwards if NOT equal `!=` |
-| 4 | 0000010 0 | `FGE` | forwards if equal `>=` |
-| 5 | 0000010 1 | `BGE` | backwards if equal `>=` |
-| 6 | 0000011 0 | `FLE` | forwards if equal `<=` |
-| 7 | 0000011 1 | `BLE` | backwards if equal `<=` |
-| 8 | 0000100 0 | `FG` | forwards if equal `>` |
-| 9 | 0000100 1 | `BG` | backwards if equal `>` |
-| 10 | 0000101 0 | `FL` | forwards if equal `<` |
-| 11 | 0000101 1 | `BL` | backwards if equal `<` |
+| 0 | 0000000 0 | `BEQ` | backwards if equal `==` |
+| 1 | 0000000 1 | `FEQ` | forwards if equal `==` |
+| 2 | 0000001 0 | `BNQ` | backwards if NOT equal `!=` |
+| 3 | 0000001 1 | `FNQ` | forwards if NOT equal `!=` |
+| 4 | 0000010 0 | `BGE` | backwards if equal `>=` |
+| 5 | 0000010 1 | `FGE` | forwards if equal `>=` |
+| 6 | 0000011 0 | `BLE` | backwards if equal `<=` |
+| 7 | 0000011 1 | `FLE` | forwards if equal `<=` |
+| 8 | 0000100 0 | `BG` | backwards if equal `>` |
+| 9 | 0000100 1 | `FG` | forwards if equal `>` |
+| 10 | 0000101 0 | `BL` | backwards if equal `<` |
+| 11 | 0000101 1 | `FL` | forwards if equal `<` |
 
 ## Instructions
 
@@ -65,7 +65,7 @@ Condition type is one byte, first 1 bit is direction and the other 7 bits are ty
 | `CALL` | 12 | 1... | Call method at `addr` with `args` and return back from where method was called. | `addr`: addr | `args`: addresses of arguments of method |
 | `RET` | 13 | 0 | Return from method back where it was called |
 | `JMP` | 14 | 2 | Jump `n` bytes in `direction` in source code. | `direction`: 0-forwards, 1-backwards | `n`: count of bytes (2bytes) | 
-| `JMC` | 15 | 4 | Jump `n` bytes in `direction` in source code if `agr0` with `arg1` fullfill `condition` | `condition`: first 1. bit is `direction`(0-forwards, 1-backwards), other bits are `condition type` | `n`: count of bytes (2bytes) | `arg0`: addr | `arg1`: addr |
+| `JMC` | 15 | 4 | Jump `n` bytes in `direction` in source code if `agr0` with `arg1` fullfill `condition` | `condition`: first 1. bit is `direction`(0-backwards, 1-forwards), other bits are `condition type` | `n`: count of bytes (2bytes) | `arg0`: addr | `arg1`: addr |
 
 ## Examples
 
