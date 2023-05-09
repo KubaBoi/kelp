@@ -31,3 +31,9 @@ void toCharArray(size_t size, ptr_t ptr, byte_t *trg)
     for (size_t i = 0; i < size; i++)
         trg[i] = (byte_t)(ptr >> (8 * i));
 }
+
+void moduloByTwo(byte_t num, byte_t *modulo, byte_t *div)
+{
+    *modulo = (num & ( 1 << 7) >> 7);
+    *div = num >> 1;
+}
