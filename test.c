@@ -33,12 +33,12 @@ method main(byte args)
         $OUT 1 brk;
         if (i == one) 
         {
-            $OUT 1 spc;
             $OUT 2 i;
+            $OUT 1 spc;
         }
-        else () {
+        /*else () {
 
-        }
+        }*/
     }
     $OUT 1 brk;
 }
