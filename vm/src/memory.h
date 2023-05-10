@@ -58,6 +58,7 @@ public:
     void prnt_mem_adv();
 
 private:
+    byte_t last_truth; // value of last conditional jump
     k_ptr_t mem_sz; // count of used pointers
     uintptr_t *mem;
     word_t *sizes;

@@ -66,6 +66,7 @@ Condition type is one byte, first 1 bit is direction and the other 7 bits are ty
 | `RET` | 13 | 0 | Return from method back where it was called |
 | `JMP` | 14 | 2 | Jump `n` bytes in `direction` in source code. | `direction`: 0-forwards, 1-backwards | `n`: count of bytes (2bytes) | 
 | `JMC` | 15 | 4 | Jump `n` bytes in `direction` in source code if `agr0` with `arg1` fullfill `condition` | `condition`: first 1. bit is `direction`(0-backwards, 1-forwards), other bits are `condition type` | `n`: count of bytes (2bytes) | `arg0`: addr | `arg1`: addr |
+| `JPC` | 16 |  Jump `n` bytes in `direction` in source code if previous `JMC` fullfill `condition`. | `condition`: jumps if `condition type` is   |
 
 ## Examples
 

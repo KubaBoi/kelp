@@ -11,7 +11,7 @@ METHOD_SPLIT_REG = re.compile(r"(method\s+[\w\d_]+\s*\([\w\d_,\s]+\)\s*\{)")
 METHOD_REG = re.compile(r"method\s+(?P<name>[\w\d_]+)\s*\((?P<args_str>[\w\d_,\s]+)\)\s*\{")
 
 BLOCK_SPLIT_REG = re.compile(r"(for\s*\(.*\)\s*\{)|(if\s*\(.*\)\s*\{)|(else\s*\{)")
-BLOCK_REG = re.compile(r"^(?P<type>for|if|else)\s*\((?P<args_str>.*)\)\s*\{")
+BLOCK_REG = re.compile(r"^(?P<type>for|if|else)\s*\({0,1}(?P<args_str>.*)\){0,1}\s*\{")
 #BLOCK_SPLIT_REG = re.compile(r"(for\s*\(.*\)\s*\{)|(if\s*\(.*\)\s*\{)|(else\s*\{)")
 #BLOCK_REG = re.compile(r"(^(?P<type>for|if|else)\s*\(?(?P<args_str>.*)\)?{\s*\{)")
 

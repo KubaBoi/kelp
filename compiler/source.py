@@ -91,6 +91,9 @@ def prepare_block(source: str, split_reg, match_reg) -> dict:
     
     i = 0
     while i < len(matches):
+        if (matches[i] == ""):
+            i += 1
+            continue
         mtch = re.match(match_reg, matches[i])
         if (mtch == None):
             data.append(matches[i])
