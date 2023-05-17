@@ -25,13 +25,9 @@ k_ptr_t SET::run(byte_t *ptr, k_ptr_t *iter, memory *mem)
 {
     k_ptr_t addr = getPtr(ptr, iter);
     word_t offset = getPtr(ptr, iter);
-    word_t sz = getPtr(ptr, iter);
-    sz += *iter;
-    while (*iter < sz)
-    {
+    word_t sz = getPtr(ptr, iter) + *iter;
+    for (*iter; *iter < sz; *iter += 1)
         mem->set_byte(addr, ptr[*iter], offset++);
-        *iter += 1;
-    }
     return 1;
 }
 

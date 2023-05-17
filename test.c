@@ -36,9 +36,9 @@ method main(byte args)
             $OUT 2 i;
             $OUT 1 spc;
         }
-        else {
+        /*else {
 
-        }
+        }*/
     }
     $OUT 1 brk;
 }
